@@ -1,5 +1,9 @@
+// Import necessary modules and libraries
 import mongoose from "mongoose";
-import JWT from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
+// Define the user schema
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -36,16 +40,31 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Define user schema methods
 userSchema.methods = {
   jwtToken() {
-    return JWT.sign(
-      {
-        id: this.id,
-      },
-      process.env.SECRET,
-      { expiresIn: "24h" }
-    );
+    // Use the secure secret key from environment variables
+    const secretKey = process.env.SECRET;
+
+    if (!secretKey) {
+      throw new Error("Missing JWT secret key");
+    }
+
+    // Create a payload with a unique identifier (e.g., user ID or email)
+    const payload = {
+      userId: this._id,
+    };
+
+    return jwt.sign(payload, secretKey, { expiresIn: process.env.JWT_EXPIRY });
+  },
+  comparePassword: async function (password, userPassword) {
+    return await bcrypt.compare(password, userPassword);
   },
 };
+
+// Create user model
 let userModel = mongoose.model("user", userSchema);
+
+// Export the user model
 export default userModel;
