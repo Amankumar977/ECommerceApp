@@ -1,18 +1,13 @@
-import { useEffect } from "react";
-import axios from "axios";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { LoginPage } from "./Routes";
 function App() {
-  useEffect(() => {
-    async function getData() {
-      try {
-        const response = await axios.get("http://localhost:5000/check");
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-    getData();
-  }, []);
-  return <></>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
