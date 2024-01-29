@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Please enter the name"],
+      required: [true, "Please enter Your name"],
     },
     email: {
       type: String,
@@ -27,16 +27,50 @@ const userSchema = new mongoose.Schema(
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
         "Please enter a valid password",
       ],
+      minLength: [4, "Password should be greater than 4 characters"],
+      select: false,
     },
-    firstName: {
+    phoneNumber: {
+      type: Number,
+    },
+    address: [
+      {
+        country: {
+          type: String,
+        },
+        city: {
+          type: String,
+        },
+        address1: {
+          type: String,
+        },
+        address2: {
+          type: String,
+        },
+        zipCode: {
+          type: String,
+        },
+        addressTpe: {
+          type: String,
+        },
+      },
+    ],
+    role: {
       type: String,
+      default: "user",
     },
-    lastName: {
-      type: String,
+    avatar: {
+      public_id: {
+        type: String,
+        required: true,
+      },
+      url: {
+        type: String,
+        required: true,
+      },
     },
-    address: {
-      type: String,
-    },
+    resetPasswordToken: String,
+    resetPasswordTime: Date,
   },
   { timestamps: true }
 );
@@ -62,9 +96,14 @@ userSchema.methods = {
     return await bcrypt.compare(password, userPassword);
   },
 };
-
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
+  this.password = await bcrypt.hash(this.password, 10);
+});
 // Create user model
-let userModel = mongoose.model("user", userSchema);
+let userModel = mongoose.model("User", userSchema);
 
 // Export the user model
 export default userModel;

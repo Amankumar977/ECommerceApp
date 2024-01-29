@@ -1,32 +1,30 @@
-import express from "express";
-import "dotenv/config";
+import app from "./app.js";
 import connectToDb from "./database/config.js";
-import cors from "cors";
-import userRouter from "./routes/user.route.js";
-const app = express();
 const PORT = process.env.PORT;
-app.use(express.json());
-app.use(
-  cors({
-    origin: [process.env.FRONTEND_URL],
-    credentials: true,
-  })
-);
-app.use(express.urlencoded({ extended: true }));
-app.disable("x-powered-by");
+// Handling Uncaught exception
+process.on("uncaughtException", (err) => {
+  console.log("Error", err.message);
+  console.log("Shutting down the server due to uncaught exception");
+  process.exit(1);
+});
+
+// Server healthCheckUp Route
 app.get("/ping", (req, res) => {
   return res.status(201).json({
     success: true,
     msg: "Pong",
   });
 });
-app.get("/check", (req, res) => {
-  return res.status(201).json({
-    msg: "Hello",
-  });
-});
-app.use("/api/v1/user", userRouter);
+// Connecting to MongoDB
 connectToDb();
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log("The server has started at", PORT);
+});
+// Handling Unhandled Promise Rejection
+process.on("unhandledRejection", (err) => {
+  console.log("Error", err.message);
+  console.log("Shutting down the server due to unhandled Promise Rejection");
+  server.close(() => {
+    process.exit(1);
+  });
 });

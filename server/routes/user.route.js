@@ -5,7 +5,7 @@ import {
 } from "../controllers/userController.js";
 const router = express.Router();
 /** POST request */
-router.post("/register", handleRegisterUser);
-router.post("/login", handleLoginUser);
+router.route("/create-user").post(handleRegisterUser);
+router.route("/login-user").post(handleLoginUser);
 /** GET request */
 export default router;

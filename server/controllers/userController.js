@@ -1,7 +1,7 @@
 // Import necessary modules and libraries
 import userModel from "../model/userModel.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken"; // Import jwt library
+import multer from "multer";
 
 export async function handleRegisterUser(req, res) {
   try {

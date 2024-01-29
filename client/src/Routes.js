@@ -1,2 +1,3 @@
 import LoginPage from "./pages/LoginPage.jsx";
-export { LoginPage };
+import SingupPage from "./pages/SingupPage.jsx";
+export { LoginPage, SingupPage };
