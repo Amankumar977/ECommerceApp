@@ -4,17 +4,58 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import styles from "../../styles/styles";
 import { RxAvatar } from "react-icons/rx";
+import axios from "axios";
+import { toast } from "react-toastify";
 const Singup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [avatar, setAvatar] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
-  const handleSubmit = () => {};
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     setAvatar(file);
   };
+  const handleSubmit = async (e) => {
+    if (!avatar) {
+      toast.error(
+        "Please select a beautiful picture of yours as it is required 😊"
+      );
+    }
+    e.preventDefault();
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+      },
+    };
+    // Fix: change "Headers" to "headers"
+    const newForm = new FormData();
+    newForm.append("file", avatar);
+    newForm.append("name", fullName);
+    newForm.append("email", email);
+    newForm.append("password", password);
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER}/user/create-user`,
+        newForm,
+        config
+      );
+      toast.success(response.data.message);
+      setAvatar(null);
+      setEmail("");
+      setFullName("");
+      setPassword("");
+    } catch (error) {
+      if (error.response && error.response.data) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An error occurred while processing your request");
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-Poppins">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -24,7 +65,7 @@ const Singup = () => {
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {/** Full Name Input */}
             <div>
               <Label

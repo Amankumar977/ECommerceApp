@@ -59,16 +59,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
-    avatar: {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      url: {
-        type: String,
-        required: true,
-      },
-    },
+    avatar: { type: String, required: true },
     resetPasswordToken: String,
     resetPasswordTime: Date,
   },
@@ -77,7 +68,7 @@ const userSchema = new mongoose.Schema(
 
 // Define user schema methods
 userSchema.methods = {
-  jwtToken() {
+  getJwtToken() {
     // Use the secure secret key from environment variables
     const secretKey = process.env.SECRET;
 
@@ -87,7 +78,7 @@ userSchema.methods = {
 
     // Create a payload with a unique identifier (e.g., user ID or email)
     const payload = {
-      userId: this._id,
+      id: this._id,
     };
 
     return jwt.sign(payload, secretKey, { expiresIn: process.env.JWT_EXPIRY });
@@ -98,9 +89,15 @@ userSchema.methods = {
 };
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
-    next();
+    return next();
   }
-  this.password = await bcrypt.hash(this.password, 10);
+  try {
+    // Hash the password with a salt factor of 10
+    this.password = await bcrypt.hash(this.password, 10);
+    return next();
+  } catch (error) {
+    return next(error);
+  }
 });
 // Create user model
 let userModel = mongoose.model("User", userSchema);
