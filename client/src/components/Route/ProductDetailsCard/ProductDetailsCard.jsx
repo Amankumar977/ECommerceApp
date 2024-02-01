@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import styles from "../../../styles/styles";
-import { AiOutlineMessage } from "react-icons/ai";
+import {
+  AiOutlineHeart,
+  AiOutlineMessage,
+  AiFillHeart,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
 const ProductDetailsCard = ({ setOpen, data }) => {
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
@@ -18,7 +23,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
               onClick={() => setOpen(false)}
             />
             <div className="block w-full 800px:flex">
-              <div className="w-full 800px:w-1/2">
+              <div className="w-full 800px:w-[50%]">
                 <img src={data.image_Url[0].url} alt={data.title} />
                 <div className="flex">
                   <img
@@ -48,8 +53,72 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                   ({data.total_sell}) Sold out
                 </h5>
               </div>
+              <div className="w-full 800px:w-[50%] mr-5 mt-4">
+                <h1 className={`${styles.productTitle} text-[20px]`}>
+                  {data.name}
+                </h1>
+                <p>{data.description}</p>
+                <div className="flex pt-6">
+                  <h4 className={`${styles.productDiscountPrice}`}>
+                    {data.discount_price}
+                  </h4>
+                  <h3 className={`${styles.price}`}>
+                    {data.price ? data.price + " $" : null}
+                  </h3>
+                </div>
+                <div className="flex items-center mt-12 justify-between pr-3">
+                  <div>
+                    <button
+                      disabled={count === 1}
+                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l hover:opacity-75 transition px-4 py-2 shadow-lg duration-300 ease-in-out"
+                      onClick={() => {
+                        setCount(count - 1);
+                      }}>
+                      -
+                    </button>
+                    <span className="bg-gray-200 text-gray-800 font-medium px-4 py-[9.5px]">
+                      {count}
+                    </span>
+                    <button
+                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-r hover:opacity-75 transition px-4 py-2 shadow-lg duration-300 ease-in-out"
+                      onClick={() => {
+                        setCount(count + 1);
+                      }}>
+                      +
+                    </button>
+                  </div>
+                  <div>
+                    {click ? (
+                      <AiFillHeart
+                        size={22}
+                        className="cursor-pointer"
+                        onClick={() => {
+                          setClick(!click);
+                        }}
+                        color={click ? "red" : "#333"}
+                        title="Remove from wishlist"
+                      />
+                    ) : (
+                      <AiOutlineHeart
+                        size={22}
+                        className="cursor-pointer"
+                        onClick={() => {
+                          setClick(!click);
+                        }}
+                        color={click ? "red" : "#333"}
+                        title="Add to wishlist"
+                      />
+                    )}
+                  </div>
+                </div>
+                <div
+                  className={`${styles.button} mt-6 rounded-[4px] h-11 flex items-center`}>
+                  <span className="text-[#fff] flex items-center justify-center">
+                    Add to cart <AiOutlineShoppingCart className="ml-1" />
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className="w-full 800px:w-[50%]"></div>
           </div>
         </div>
       ) : null}

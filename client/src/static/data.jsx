@@ -249,7 +249,7 @@ export const productData = [
     category: "Computers and Laptops",
     name: "MacBook pro M2 chipset 256gb ssd 8gb ram space-gray color with apple 1 year warranty",
     description:
-      "Product details are a crucial part of any eCommerce website or online marketplace...",
+      "Product details are a crucial part of any eCommerce website or online marketplace.Product details are a crucial part of Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace.Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace.",
     image_Url: [
       {
         public_id: "test",
@@ -279,7 +279,7 @@ export const productData = [
     category: "Mobile and Tablets",
     name: "Iphone 14 pro max 256 gb ssd and 8 gb ram silver colour",
     description:
-      "Product details are a crucial part of any eCommerce website or online marketplace...",
+      "Product details are a crucial part of any eCommerce website or online marketplace.Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace.",
     image_Url: [
       {
         public_id: "test",
@@ -308,7 +308,7 @@ export const productData = [
     category: "Computers and Laptops",
     name: "MacBook pro M2 chipset 256gb ssd 8gb ram space gray color with apple 1 year warranty",
     description:
-      "Product details are a crucial part of any eCommerce website or online marketplace...",
+      "Product details are a crucial part of any eCommerce website or online marketplace.Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace.",
     image_Url: [
       {
         public_id: "test",
@@ -330,7 +330,7 @@ export const productData = [
     price: 1099,
     discount_price: 1049,
     rating: 4,
-    total_sell: 75,
+    total_sell: 500,
     stock: 10,
   },
   {
@@ -338,7 +338,7 @@ export const productData = [
     category: "Others",
     name: "New Fashionable Watch for men 2023 with multiple colors",
     description:
-      "Product details are a crucial part of any eCommerce website or online marketplace...",
+      "Product details are a crucial part of any eCommerce website or online marketplace.Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace.",
     image_Url: [
       {
         public_id: "test",
@@ -368,7 +368,7 @@ export const productData = [
     category: "Shoes",
     name: "New Trend shoes for gents with all sizes",
     description:
-      "Product details are a crucial part of any eCommerce website or online marketplace...",
+      "Product details are a crucial part of any eCommerce website or online marketplace.Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace.",
     image_Url: [
       {
         public_id: "test",
@@ -398,7 +398,7 @@ export const productData = [
     category: "Music and Gaming",
     name: "Gaming Headphone Asus with mutiple color and free delivery",
     description:
-      "Product details are a crucial part of any eCommerce website or online marketplace...",
+      "Product details are a crucial part of any eCommerce website or online marketplace.Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace.",
     image_Url: [
       {
         public_id: "test",
@@ -437,7 +437,7 @@ export const productData = [
     category: "Others", // Add a unique category
     name: "New Fashionable Watch for men 2023 with multiple colors",
     description:
-      "Product details are a crucial part of any eCommerce website or online marketplace...",
+      "Product details are a crucial part of any eCommerce website or online marketplace.Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace.",
     image_Url: [
       {
         public_id: "test",
@@ -467,7 +467,7 @@ export const productData = [
     category: "Mobile and Tablets", // Add a unique category
     name: "Iphone 14 pro max 256 gb ssd and 8 gb ram silver colour",
     description:
-      "Product details are a crucial part of any eCommerce website or online marketplace...",
+      "Product details are a crucial part of any eCommerce website or online marketplace.Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace.",
     image_Url: [
       {
         public_id: "test",
@@ -496,7 +496,7 @@ export const productData = [
     category: "Music and Gaming",
     name: "Gaming Headphone Asus with mutiple color and free delivery",
     description:
-      "Product details are a crucial part of any eCommerce website or online marketplace...",
+      "Product details are a crucial part of any eCommerce website or online marketplace.Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace.",
     image_Url: [
       {
         public_id: "test",
@@ -528,6 +528,36 @@ export const productData = [
       },
     ],
     total_sell: 20,
+    stock: 10,
+  },
+  {
+    id: 10,
+    category: "Computers and Laptops",
+    name: "MacBook pro M2 chipset 256gb ssd 8gb ram space-gray color with apple 1 year warranty",
+    description:
+      "Product details are a crucial part of any eCommerce website or online marketplace.Product details are a crucial part of Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace.Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace.",
+    image_Url: [
+      {
+        public_id: "test",
+        url: "https://imgs.search.brave.com/x1UEpGd024Fm-esJhlJjEDs4ZeJHgnVv0AaJR-Ok2FQ/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/ODFVRkhlLWhINUwu/anBn",
+      },
+      {
+        public_id: "test",
+        url: "https://imgs.search.brave.com/x1UEpGd024Fm-esJhlJjEDs4ZeJHgnVv0AaJR-Ok2FQ/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/ODFVRkhlLWhINUwu/anBn",
+      },
+    ],
+    shop: {
+      name: "Apple inc.",
+      shop_avatar: {
+        public_id: "test",
+        url: "https://www.hatchwise.com/wp-content/uploads/2022/05/amazon-logo-1024x683.png",
+      },
+      ratings: 4.2,
+    },
+    price: 1099,
+    discount_price: 1049,
+    rating: 4,
+    total_sell: 35,
     stock: 10,
   },
 ];
@@ -573,6 +603,7 @@ export const footercompanyLinks = [
 export const footerSupportLinks = [
   {
     name: "FAQ",
+    link: "/faq",
   },
   {
     name: "Reviews",
