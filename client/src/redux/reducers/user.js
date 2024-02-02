@@ -19,8 +19,9 @@ export const userReducer = createReducer(initialState, (builder) => {
       state.error = null;
     })
     .addCase("LoadUserFail", (state, action) => {
-      state.isAuthenticated = false;
+      state.isAuthenticated = false; // Set isAuthenticated to false when the API call fails
       state.loading = false;
+      state.user = null; // Reset the user information
       state.error = action.payload;
     })
     .addCase("clearError", (state) => {

@@ -186,7 +186,7 @@ export async function handleGetuser(req, res) {
       user,
     });
   } catch (error) {
-    return res.status(404).json({
+    return res.status(500).json({
       success: false,
       message: error.message,
     });

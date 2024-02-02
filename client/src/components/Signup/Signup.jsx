@@ -17,12 +17,12 @@ const Singup = () => {
     setAvatar(file);
   };
   const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!avatar) {
-      toast.error(
+      return toast.error(
         "Please select a beautiful picture of yours as it is required 😊"
       );
     }
-    e.preventDefault();
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",

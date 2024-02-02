@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "../../styles/styles";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +26,7 @@ const Login = () => {
         .then((res) => {
           toast.success("Login Sucessfull");
           navigate("/");
+          window.location.reload(true);
         })
         .catch((error) => {
           toast.error(error.response.data.message);

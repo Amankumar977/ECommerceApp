@@ -14,11 +14,17 @@ import { CgProfile } from "react-icons/cg";
 import { BiMenuAltLeft } from "react-icons/bi";
 import DropDown from "./DropDown.jsx";
 import Navbar from "./Navbar.jsx";
+import { useSelector } from "react-redux";
+import Cart from "../../components/Cart/Cart";
+import Wishlist from "../../components/Wishlist/Wishlist";
 const Header = ({ activeHeading }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState(null);
   const [active, setActive] = useState(false);
   const [dropDown, setDropDown] = useState(false);
+  const [openCart, setOpenCart] = useState(false);
+  const [openWishlist, setOpenWishList] = useState(false);
+  const { isAuthenticated, user } = useSelector((state) => state.user);
   const handleSearchChange = (data) => {
     setSearchTerm(data);
     if (searchTerm) {
@@ -41,12 +47,12 @@ const Header = ({ activeHeading }) => {
       setActive(false);
     }
   });
-
   return (
     <div>
-      <div className={`${styles.section} z-10  `}>
+      <div className={`${styles.section} z-10   `}>
         {/**Top part */}
-        <div className={`flex  items-center justify-between `}>
+        <div
+          className={` hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between   `}>
           <div>
             <Link to="/">
               <img src={Logo} className="w-20" alt="peopelyLogo" />
@@ -66,7 +72,7 @@ const Header = ({ activeHeading }) => {
             />
             <AiOutlineSearch
               size={30}
-              className="absolute right-2 top-1 cursor-pointer hidden 800px:h-[50px] 800px:my-[20px] 800px:flex "
+              className="absolute right-2 top-8 cursor-pointer"
             />
             {searchTerm && searchData && searchData.length !== 0 ? (
               <div className="absolute min-h-[30vh] bg-slate-50 shadow-sm-2 z-[9] p-4">
@@ -93,7 +99,7 @@ const Header = ({ activeHeading }) => {
           {/** become a seller button */}
           <div className={`${styles.button}`}>
             <Link to="/seller">
-              <h1 className="text-white  flex items-center justify-evenly px-2 md:px-0 ">
+              <h1 className="text-white  flex items-center justify-center px-3  ">
                 Become a seller
                 <IoIosArrowForward className="ml-2" />
               </h1>
@@ -137,31 +143,63 @@ const Header = ({ activeHeading }) => {
           {/**Other links */}
           <div className="flex">
             <div className={`${styles.normalFlex} cursor-pointer mr-[15px]`}>
-              <div className="relative cursor-pointer mr-[15px]">
+              <div
+                className="relative cursor-pointer mr-[15px]"
+                onClick={() => {
+                  setOpenWishList(!openWishlist);
+                }}>
                 <AiOutlineHeart size={30} color="rgb(255 255 255 / 83%)" />
                 <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                  0
+                  1
                 </span>
               </div>
             </div>
             <div className={`${styles.normalFlex} cursor-pointer mr-[15px]`}>
-              <div className="relative cursor-pointer mr-[15px]">
+              <div
+                className="relative cursor-pointer mr-[15px]"
+                onClick={() => {
+                  setOpenCart(!openCart);
+                }}>
                 <AiOutlineShoppingCart
                   size={30}
                   color="rgb(255 255 255 / 83%)"
                 />
                 <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                  0
+                  1
                 </span>
               </div>
             </div>
             <div className={`${styles.normalFlex} cursor-pointer mr-[15px]`}>
-              <Link to="/login">
-                <div className="relative cursor-pointer mr-[15px]">
-                  <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
-                </div>
-              </Link>
+              {isAuthenticated ? (
+                <Link to="/profile">
+                  <div className="relative cursor-pointer mr-[15px]">
+                    <img
+                      src={`${import.meta.env.VITE_BACKEND_LINK}/${
+                        user.avatar
+                      }`}
+                      alt={`${import.meta.env.VITE_BACKEND_LINK}/${
+                        user.avatar
+                      }`}
+                      className="w-[40px] h-[40px] rounded-full"
+                    />
+                  </div>
+                </Link>
+              ) : (
+                <Link to="/login">
+                  <div className="relative cursor-pointer mr-[15px]">
+                    <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
+                  </div>
+                </Link>
+              )}
             </div>
+            {/**Cart popup */}
+            {!openWishlist && openCart ? (
+              <Cart setOpenCart={setOpenCart} />
+            ) : null}
+            {/**WishList popup */}
+            {!openCart && openWishlist ? (
+              <Wishlist setOpenWishList={setOpenWishList} />
+            ) : null}
           </div>
         </div>
       </div>
