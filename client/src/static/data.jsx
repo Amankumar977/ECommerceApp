@@ -406,7 +406,7 @@ export const productData = [
       },
       {
         public_id: "test",
-        url: "https://eratablet.com/wp-content/uploads/2022/08/H51ba6537405f4948972e293927673546u.jpg",
+        url: "https://imgs.search.brave.com/TYEyUqXjIFMNMA-F4cCR0q7Imyx5vnXnXD5lUEEu4_M/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9oZWFk/cGhvbmVzdXBlcnN0/b3JlLmNvbS5hdS9j/ZG4vc2hvcC9wcm9k/dWN0cy9TT0RPTUg1/UkVEX1NwZWFrZXJN/b2RlXzFfMjAwMHgu/anBnP3Y9MTYyNjM1/NTY2OA",
       },
     ],
     shop: {
@@ -504,7 +504,7 @@ export const productData = [
       },
       {
         public_id: "test",
-        url: "https://eratablet.com/wp-content/uploads/2022/08/H51ba6537405f4948972e293927673546u.jpg",
+        url: "https://imgs.search.brave.com/TYEyUqXjIFMNMA-F4cCR0q7Imyx5vnXnXD5lUEEu4_M/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9oZWFk/cGhvbmVzdXBlcnN0/b3JlLmNvbS5hdS9j/ZG4vc2hvcC9wcm9k/dWN0cy9TT0RPTUg1/UkVEX1NwZWFrZXJN/b2RlXzFfMjAwMHgu/anBnP3Y9MTYyNjM1/NTY2OA",
       },
     ],
     shop: {

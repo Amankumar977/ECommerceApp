@@ -34,7 +34,6 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                   <div>
                     <h3 className={`${styles.shop_name}`}>{data.shop.name}</h3>
                     <h5 className="pb-3 text-[15px] font-bold">
-                      {" "}
                       {data.shop.ratings} / 5.0 Ratings
                     </h5>
                   </div>
@@ -45,7 +44,6 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                     handleMessageSubmit;
                   }}>
                   <span className="text-white flex items-center">
-                    {" "}
                     Send Message <AiOutlineMessage className="ml-1" />
                   </span>
                 </div>
@@ -60,10 +58,10 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                 <p>{data.description}</p>
                 <div className="flex pt-6">
                   <h4 className={`${styles.productDiscountPrice}`}>
-                    {data.discount_price}
+                    ₹ {data.discount_price}
                   </h4>
                   <h3 className={`${styles.price}`}>
-                    {data.price ? data.price + " $" : null}
+                    {data.price ? data.price + " ₹" : null}
                   </h3>
                 </div>
                 <div className="flex items-center mt-12 justify-between pr-3">

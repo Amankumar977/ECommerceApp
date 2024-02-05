@@ -4,6 +4,8 @@ import path from "path";
 import fs from "fs";
 import jwt from "jsonwebtoken";
 import sendMail from "../utils/sendMail.js";
+import ErrorHandler from "../utils/ErrorHandler.js";
+
 import sendToken from "../utils/jwtToken.js";
 let createActivationToken = (user) => {
   return jwt.sign(user, process.env.ACTIVATION_SECRET, {
@@ -33,10 +35,7 @@ export async function handleRegisterUser(req, res, next) {
           );
         }
       });
-      return res.status(400).json({
-        success: false,
-        message: "user already exists with this email",
-      });
+      return next(new ErrorHandler("user email already register", 400));
     }
     const filename = req.file.filename;
     const fileUrl = path.join(filename);

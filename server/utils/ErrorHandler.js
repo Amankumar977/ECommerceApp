@@ -5,13 +5,6 @@ class ErrorHandler extends Error {
     this.statusCode = statusCode;
     Error.captureStackTrace(this, this.constructor);
   }
-
-  handleError(res) {
-    res.status(this.statusCode).json({
-      success: false,
-      message: this.message,
-    });
-  }
 }
 
 export default ErrorHandler;

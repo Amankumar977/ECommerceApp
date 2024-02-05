@@ -49,7 +49,8 @@ const Singup = () => {
       setPassword("");
     } catch (error) {
       if (error.response && error.response.data) {
-        toast.error(error.response.data.message);
+        console.log(error.response.data);
+        toast.error(error.response.data);
       } else {
         toast.error("An error occurred while processing your request");
       }
