@@ -15,7 +15,6 @@ const Input = ({
   const handleChanges = (event) => {
     handleChange(event.target.value);
   };
-
   return (
     <div>
       <input

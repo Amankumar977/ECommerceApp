@@ -61,8 +61,8 @@ const Cart = ({ setOpenCart }) => {
   ];
 
   return (
-    <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-10 overflow-auto">
-      <div className="fixed top-0 right-0 min-h-full w-[25%] bg-white flex flex-col justify-between shadow-sm overflow-auto">
+    <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen  overflow-auto z-40">
+      <div className="fixed top-0 right-0 min-h-full w-[80%] 800px:w-[25%] bg-white flex flex-col justify-between shadow-sm overflow-auto z-40">
         <div>
           {/* Close button */}
           <div className="flex w-full justify-end pt-5 pr-5">

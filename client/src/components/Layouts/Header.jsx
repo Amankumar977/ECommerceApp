@@ -17,12 +17,14 @@ import Navbar from "./Navbar.jsx";
 import { useSelector } from "react-redux";
 import Cart from "../../components/Cart/Cart";
 import Wishlist from "../../components/Wishlist/Wishlist";
+import HeaderSidebar from "../Layouts/HeaderSidebar.jsx";
 const Header = ({ activeHeading }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState(null);
   const [active, setActive] = useState(false);
   const [dropDown, setDropDown] = useState(false);
   const [openCart, setOpenCart] = useState(false);
+  const [openSidebar, setOpenSideBar] = useState(false);
   const [openWishlist, setOpenWishList] = useState(false);
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const handleSearchChange = (data) => {
@@ -203,6 +205,79 @@ const Header = ({ activeHeading }) => {
           </div>
         </div>
       </div>
+      {/**Mobile header */}
+      <div className="w-full h-[70px] fixed bg-[#ffffff] z-40 top-0 left-0 shadow-sm 800px:hidden">
+        <div
+          className={`${styles.section} flex items-center justify-between p-3`}>
+          <div
+            onClick={() => {
+              setOpenSideBar(!openSidebar);
+            }}>
+            <BiMenuAltLeft size={50} />
+          </div>
+          <div>
+            <Link to="/" className="hidden 400px:block">
+              <img src={Logo} alt={Logo} className="w-[68px] h-[66px]" />
+            </Link>
+          </div>
+          <div className="flex justify-between">
+            <div className={`${styles.normalFlex} cursor-pointer mr-[15px]`}>
+              <div
+                className="relative cursor-pointer mr-[15px]"
+                onClick={() => {
+                  setOpenCart(!openCart);
+                }}>
+                <AiOutlineShoppingCart size={30} color="rgb(0 0 0 / 83%)" />
+                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                  1
+                </span>
+              </div>
+            </div>
+            <div className={`${styles.normalFlex} cursor-pointer mr-[15px]`}>
+              <div
+                className="relative cursor-pointer mr-[15px]"
+                onClick={() => {
+                  setOpenWishList(!openWishlist);
+                }}>
+                <AiOutlineHeart size={30} color="rgb(0 0 0 / 83%)" />
+                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                  1
+                </span>
+              </div>
+            </div>
+            <div className={`${styles.normalFlex} cursor-pointer mr-[15px]`}>
+              {isAuthenticated ? (
+                <Link to="/profile">
+                  <div className="relative cursor-pointer mr-[15px]">
+                    <img
+                      src={`${import.meta.env.VITE_BACKEND_LINK}/${
+                        user.avatar
+                      }`}
+                      alt={`${import.meta.env.VITE_BACKEND_LINK}/${
+                        user.avatar
+                      }`}
+                      className="w-[40px] h-[40px] rounded-full"
+                    />
+                  </div>
+                </Link>
+              ) : (
+                <Link to="/login">
+                  <div className="relative cursor-pointer mr-[15px]">
+                    <Link to="/login">Login</Link> /
+                    <Link to="sing-up">singup</Link>
+                  </div>
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      {/** Open cart logic */}
+      {!openWishlist && openCart ? <Cart setOpenCart={setOpenCart} /> : null}
+      {!openCart && openWishlist ? (
+        <Wishlist setOpenWishList={setOpenWishList} />
+      ) : null}
+      {/* {openSidebar && <HeaderSidebar />} */}
     </div>
   );
 };

@@ -4,6 +4,7 @@ import {
   handleLoginUser,
   handleActivateUser,
   handleGetuser,
+  handleLogoutUser,
 } from "../controllers/userController.js";
 import catchAsyncError from "../middleware/catchAsyncError.js";
 import isAuthenticated from "../middleware/auth.js"; // Corrected the spelling
@@ -19,6 +20,7 @@ router.route("/activation").post(catchAsyncError(handleActivateUser));
 router.route("/login-user").post(catchAsyncError(handleLoginUser));
 
 // GET request
-router.route("/getuser").get(isAuthenticated, catchAsyncError(handleGetuser)); // Fixed the middleware name
+router.route("/getuser").get(isAuthenticated, catchAsyncError(handleGetuser));
+router.route("/logout").get(isAuthenticated, catchAsyncError(handleLogoutUser));
 
 export default router;

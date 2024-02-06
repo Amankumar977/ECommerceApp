@@ -21,8 +21,8 @@ const Wishlist = ({ setOpenWishList }) => {
   ];
 
   return (
-    <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-10 overflow-auto">
-      <div className="fixed top-0 right-0 min-h-full w-[25%] bg-white flex flex-col justify-between shadow-sm overflow-auto">
+    <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-40 overflow-auto">
+      <div className="fixed top-0 right-0 min-h-full w-[75%] 800px:w-[25%] bg-white flex flex-col justify-between shadow-sm overflow-auto">
         <div>
           <div className="flex w-full justify-between pt-5 pr-5 text-2xl font-mono p-4">
             <span>Dream List</span>

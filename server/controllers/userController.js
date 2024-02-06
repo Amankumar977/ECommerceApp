@@ -191,3 +191,20 @@ export async function handleGetuser(req, res) {
     });
   }
 }
+export async function handleLogoutUser(req, res) {
+  try {
+    res.cookie("token", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    });
+    res.status(200).json({
+      success: true,
+      message: "Logout Successful",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error in logout",
+    });
+  }
+}

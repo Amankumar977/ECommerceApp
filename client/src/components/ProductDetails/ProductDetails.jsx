@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../../styles/styles";
 import {
   AiFillHeart,
@@ -161,11 +161,12 @@ const ProductDetails = ({ data }) => {
     </div>
   );
 };
-const ProductDetailsInfo = () => {
+const ProductDetailsInfo = ({ data }) => {
+  // console.log(data);
   const [active, setActive] = useState(1);
   return (
     <div className="bg-[#f5f6fb] px-3 800px:px-10 py-2 rounded ">
-      <div className="w-full justify-between border-b pt-10 pb-2 ">
+      <div className="w-full  flex justify-between border-b pt-10 pb-2 ">
         <div className="relative">
           <h5
             className="text-[#000] text-[10px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
@@ -176,7 +177,125 @@ const ProductDetailsInfo = () => {
             <div className={`${styles.active_indicator}`}> </div>
           ) : null}
         </div>
+        <div className="relative">
+          <h5
+            className="text-[#000] text-[10px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
+            onClick={() => setActive(2)}>
+            Product Reviews
+          </h5>
+          {active === 2 ? (
+            <div className={`${styles.active_indicator}`}> </div>
+          ) : null}
+        </div>
+        <div className="relative">
+          <h5
+            className="text-[#000] text-[10px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
+            onClick={() => setActive(3)}>
+            Seller Information
+          </h5>
+          {active === 3 ? (
+            <div className={`${styles.active_indicator}`}> </div>
+          ) : null}
+        </div>
       </div>
+      {active == 1 ? (
+        <>
+          <p className="py-2 text-[18px] leading-8 pb-10 whitespace-pre-line">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
+            impedit ullam id accusamus tempore, molestias neque facere iusto
+            minus ea corporis adipisci, quo, excepturi blanditiis similique
+            laborum earum aspernatur beatae odit nostrum. Non quas placeat
+            possimus velit. Neque ipsa aut modi, temporibus culpa nostrum ipsam
+            reprehenderit sit ipsum vitae nisi quisquam quos alias laborum
+            numquam iure dolore est aliquid similique hic ratione quasi
+            exercitationem. Error tenetur id explicabo deleniti possimus. Quia
+            magnam debitis corrupti, cupiditate dicta labore dignissimos
+            accusamus vero iste aut! At deserunt nobis quis, est hic fugiat aut!
+            Deleniti vel facere voluptatem provident, eaque voluptas explicabo
+            modi natus?
+          </p>
+          <p className="py-2 text-[18px] leading-8 pb-10 whitespace-pre-line">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
+            impedit ullam id accusamus tempore, molestias neque facere iusto
+            minus ea corporis adipisci, quo, excepturi blanditiis similique
+            laborum earum aspernatur beatae odit nostrum. Non quas placeat
+            possimus velit. Neque ipsa aut modi, temporibus culpa nostrum ipsam
+            reprehenderit sit ipsum vitae nisi quisquam quos alias laborum
+            numquam iure dolore est aliquid similique hic ratione quasi
+            exercitationem. Error tenetur id explicabo deleniti possimus. Quia
+            magnam debitis corrupti, cupiditate dicta labore dignissimos
+            accusamus vero iste aut! At deserunt nobis quis, est hic fugiat aut!
+            Deleniti vel facere voluptatem provident, eaque voluptas explicabo
+            modi natus?
+          </p>
+          <p className="py-2 text-[18px] leading-8 pb-10 whitespace-pre-line">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
+            impedit ullam id accusamus tempore, molestias neque facere iusto
+            minus ea corporis adipisci, quo, excepturi blanditiis similique
+            laborum earum aspernatur beatae odit nostrum. Non quas placeat
+            possimus velit. Neque ipsa aut modi, temporibus culpa nostrum ipsam
+            reprehenderit sit ipsum vitae nisi quisquam quos alias laborum
+            numquam iure dolore est aliquid similique hic ratione quasi
+            exercitationem. Error tenetur id explicabo deleniti possimus. Quia
+            magnam debitis corrupti, cupiditate dicta labore dignissimos
+            accusamus vero iste aut! At deserunt nobis quis, est hic fugiat aut!
+            Deleniti vel facere voluptatem provident, eaque voluptas explicabo
+            modi natus?
+          </p>
+        </>
+      ) : null}
+
+      {active == 2 ? (
+        <div className="w-full flex justify-center min-h-[40vh] items-center">
+          <p>No reviews yet!</p>
+        </div>
+      ) : null}
+      {active === 3 && (
+        <div className="w-full block 800px:flex p-5 ">
+          <div className="w-full 800px:w-[50%]">
+            <div>
+              <div className={`${styles.normalFlex}`}>
+                <img
+                  src={data.shop.shop_avatar.url}
+                  alt={data.description}
+                  className="w-[55px] h-[55px] rounded-full "
+                />
+                <div className="pl-3">
+                  <h3 className={`${styles.shop_name}`}> {data.shop.name}</h3>
+                  <h5 className="pb-3 text-[15px]">
+                    ({data.shop.ratings}) Ratings
+                  </h5>
+                </div>
+              </div>
+              <p className="pt-2">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia
+                dolorum iusto minima consequatur voluptate nam consequuntur
+                magnam architecto, minus illum similique nisi eius quia neque
+                alias dignissimos, eveniet eaque libero.
+              </p>
+            </div>
+          </div>
+          <div className="w-full 800px:w-[50%] mt-5 800px:mt-0 800px:flex flex-col items-end">
+            <div className="text-left">
+              <h5 className="font-[600] ">
+                Total Reviews: <span className="font-[500]">32</span>
+              </h5>
+              <h5 className="font-[600] pt-3">
+                Total Products : <span className="font-[500]">1021</span>
+              </h5>
+              <h5 className="font-[600] pt-3">
+                Joined on : <span className="font-[500]">5 Feb 2024</span>
+              </h5>
+              <Link to="/">
+                <div
+                  className={`${styles.button} !rounded-[4px] !h-[39.5px] mt-3`}>
+                  <h4 className="text-white">Visit shop</h4>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
