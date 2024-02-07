@@ -18,7 +18,7 @@ export async function handleRegisterUser(req, res, next) {
     const { name, email, password } = req.body;
     // Check for required fields
     if (!body || !body.email || !body.password || !body.name) {
-      return res.status(500).json({
+      return res.status(400).json({
         success: false,
         msg: "Please Enter the required field",
       });
@@ -96,7 +96,6 @@ export async function handleActivateUser(req, res, next) {
     }
 
     const { name, email, password, avatar } = newUser;
-
     // Check if user already exists
     let user = await userModel.findOne({ email });
     if (user) {

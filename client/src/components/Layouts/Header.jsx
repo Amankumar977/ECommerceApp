@@ -100,7 +100,7 @@ const Header = ({ activeHeading }) => {
           </div>
           {/** become a seller button */}
           <div className={`${styles.button}`}>
-            <Link to="/seller">
+            <Link to="/shop-create">
               <h1 className="text-white  flex items-center justify-center px-3  ">
                 Become a seller
                 <IoIosArrowForward className="ml-2" />
@@ -206,7 +206,7 @@ const Header = ({ activeHeading }) => {
         </div>
       </div>
       {/**Mobile header */}
-      <div className="w-full h-[70px] fixed bg-[#ffffff] z-40 top-0 left-0 shadow-sm 800px:hidden">
+      <div className="w-full h-[77px] fixed bg-[#ffffff] z-40 top-0 left-0 shadow-sm 800px:hidden">
         <div
           className={`${styles.section} flex items-center justify-between p-3`}>
           <div
@@ -261,12 +261,10 @@ const Header = ({ activeHeading }) => {
                   </div>
                 </Link>
               ) : (
-                <Link to="/login">
-                  <div className="relative cursor-pointer mr-[15px]">
-                    <Link to="/login">Login</Link> /
-                    <Link to="sing-up">singup</Link>
-                  </div>
-                </Link>
+                <div className="relative cursor-pointer mr-[15px]">
+                  <Link to="/login">Login</Link> /
+                  <Link to="sing-up">singup</Link>
+                </div>
               )}
             </div>
           </div>

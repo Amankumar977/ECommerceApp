@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "../../styles/styles";
 import axios from "axios";
 import { toast } from "react-toastify";
-const Login = () => {
+const ShopLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -15,7 +15,7 @@ const Login = () => {
     try {
       await axios
         .post(
-          `${import.meta.env.VITE_SERVER}/user/login-user`,
+          `${import.meta.env.VITE_SERVER}/shop/login-shop`,
           {
             email,
             password,
@@ -38,7 +38,7 @@ const Login = () => {
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-Poppins">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Login to your account
+          Login to your Shop
         </h2>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -132,7 +132,7 @@ const Login = () => {
             </div>
             <div className={`${styles.normalFlex} w-full`}>
               <h4>Not Have an account ? </h4>
-              <Link to="/sing-up" className="text-blue-600 pl-2">
+              <Link to="/shop-create" className="text-blue-600 pl-2">
                 SingUp
               </Link>
             </div>
@@ -143,4 +143,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ShopLogin;

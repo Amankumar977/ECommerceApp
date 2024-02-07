@@ -4,6 +4,7 @@ import cors from "cors";
 import ErrorHandler from "./middleware/error.js";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.route.js";
+import shopRoute from "./routes/shopRoutes.js";
 import morgan from "morgan";
 const app = express();
 // App Middlewares
@@ -35,5 +36,6 @@ app.use((err, req, res, next) => {
   }
 });
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/shop", shopRoute);
 
 export default app;
