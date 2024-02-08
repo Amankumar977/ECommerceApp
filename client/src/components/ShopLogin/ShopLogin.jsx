@@ -6,8 +6,8 @@ import styles from "../../styles/styles";
 import axios from "axios";
 import { toast } from "react-toastify";
 const ShopLogin = () => {
-  const [email, setEmail] = useState("ak9330674@gmail.com");
-  const [password, setPassword] = useState("Aman@13579#");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
