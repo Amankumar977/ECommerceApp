@@ -11,6 +11,7 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 import ShopCreatePage from "./pages/ShopCreatePage.jsx";
 import ShopActivationPage from "./pages/ShopActivationPage.jsx";
 import ShopLoginPage from "./pages/ShopLoginPage.jsx";
+import ShopHomePage from "./pages/ShopHomePage.jsx";
 export {
   LoginPage,
   SingupPage,
@@ -20,6 +21,7 @@ export {
   BestSellingPage,
   EventPage,
   FaqPage,
+  ShopHomePage,
   ProductDetailsPage,
   ProfilePage,
   ShopCreatePage,

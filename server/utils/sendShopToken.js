@@ -13,6 +13,7 @@ function sendShopToken(user, statuscode, res) {
   res.status(statuscode).cookie("ShopToken", token, cookieoption).json({
     success: true,
     token,
+    userId: user._id,
   });
 }
 export default sendShopToken;

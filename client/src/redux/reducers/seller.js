@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  isSelLoading: false,
+  isSelLoading: true,
   isSellerAuthenticated: false,
   seller: null,
 };
@@ -11,37 +11,37 @@ const sellerSlice = createSlice({
   name: "seller",
   initialState,
   reducers: {
-    setSeller: (state, action) => {
-      state.seller = action.payload;
-    },
-    setLoading: (state, action) => {
+    setIsSelLoading: (state, action) => {
       state.isSelLoading = action.payload;
     },
-    setAuthenticated: (state, action) => {
+    setIsSellerAuthenticated: (state, action) => {
       state.isSellerAuthenticated = action.payload;
+    },
+    setSeller: (state, action) => {
+      state.seller = action.payload;
     },
   },
 });
 
 export const fetchShop = () => async (dispatch) => {
-  dispatch(setLoading(true));
+  dispatch(setIsSelLoading(true));
   try {
-    const response = await axios.get(
+    let response = await axios.get(
       `${import.meta.env.VITE_SERVER}/shop/getShop`,
       {
         withCredentials: true,
       }
     );
+    dispatch(setIsSelLoading(false));
     dispatch(setSeller(response.data));
-    dispatch(setAuthenticated(true));
+    dispatch(setIsSellerAuthenticated(true));
   } catch (error) {
-    console.error("Error fetching shop:", error.message);
-    dispatch(setAuthenticated(false));
-  } finally {
-    dispatch(setLoading(false));
+    dispatch(setIsSelLoading(false));
+    console.log(error.message);
+    dispatch(setIsSellerAuthenticated(false));
   }
 };
-
-export const { setSeller, setLoading, setAuthenticated } = sellerSlice.actions;
-
+// Export the action creators and reducer separately
+export const { setIsSelLoading, setIsSellerAuthenticated, setSeller } =
+  sellerSlice.actions;
 export default sellerSlice.reducer;

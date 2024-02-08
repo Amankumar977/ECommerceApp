@@ -130,7 +130,6 @@ export async function handleLoginShop(req, res) {
           message: "Shop Email not found please give a correct email",
         });
       }
-      console.log(shop);
       let comparePassword = await shop.comparePassword(password);
       if (!comparePassword) {
         return res.status(400).json({
@@ -138,6 +137,7 @@ export async function handleLoginShop(req, res) {
           message: "Password is not correct, please enter the correct password",
         });
       }
+      console.log("here i'm", shop._id);
       sendShopToken(shop, 200, res);
     } catch (error) {
       return res.status(500).json({
@@ -162,7 +162,6 @@ export async function handleGetShop(req, res) {
       });
     }
     let shop = await shopModel.findById(id);
-    console.log(shop);
     if (!shop) {
       return res.status(400).json({
         success: false,
