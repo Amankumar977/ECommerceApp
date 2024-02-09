@@ -8,7 +8,6 @@ function sendShopToken(user, statuscode, res) {
   let token = user.getJwtToken();
   let cookieoption = {
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-    httpOnly: true,
   };
   res.status(statuscode).cookie("ShopToken", token, cookieoption).json({
     success: true,

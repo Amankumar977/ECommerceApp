@@ -9,7 +9,7 @@ import { BiMessageSquareDetail } from "react-icons/bi";
 import { MdOutlineLocalOffer } from "react-icons/md";
 import { CiMoneyBill, CiSettings } from "react-icons/ci";
 import { HiOutlineReceiptRefund } from "react-icons/hi";
-const DashBoardSideBar = ({ active, setActive }) => {
+const DashBoardSideBar = ({ active }) => {
   return (
     <div className="w-full h-[89vh] bg-white shadow-sm overflow-y-scroll sticky top-0 left-0 z-10">
       <div className={`${styles.normalFlex} w-full p-4`}>
@@ -17,13 +17,11 @@ const DashBoardSideBar = ({ active, setActive }) => {
           <RxDashboard
             size={30}
             color={`${active == 1 ? "#f13f3f" : "#555"}`}
-            onClick={() => setActive(1)}
           />
           <h5
             className={`${
               active == 1 ? "text-[red]" : "text-[#555]"
-            } pl-2 text-lg foont-[400] 800px:block hidden `}
-            onClick={() => setActive(1)}>
+            } pl-2 text-lg foont-[400] 800px:block hidden `}>
             Dashboard
           </h5>
         </Link>
@@ -32,16 +30,11 @@ const DashBoardSideBar = ({ active, setActive }) => {
         <Link
           to={"/dashboard/orders"}
           className={`${styles.normalFlex} w-full`}>
-          <FiPackage
-            size={30}
-            color={`${active == 2 ? "#f13f3f" : "#555"}`}
-            onClick={() => setActive(2)}
-          />
+          <FiPackage size={30} color={`${active == 2 ? "#f13f3f" : "#555"}`} />
           <h5
             className={`${
               active == 2 ? "text-[red]" : "text-[#555]"
-            } pl-2 text-lg foont-[400] 800px:block hidden `}
-            onClick={() => setActive(2)}>
+            } pl-2 text-lg foont-[400] 800px:block hidden `}>
             All Orders
           </h5>
         </Link>
@@ -53,13 +46,11 @@ const DashBoardSideBar = ({ active, setActive }) => {
           <FiShoppingBag
             size={30}
             color={`${active == 3 ? "#f13f3f" : "#555"}`}
-            onClick={() => setActive(3)}
           />
           <h5
             className={`${
               active == 3 ? "text-[red]" : "text-[#555]"
-            } pl-2 text-lg foont-[400] 800px:block hidden `}
-            onClick={() => setActive(3)}>
+            } pl-2 text-lg foont-[400] 800px:block hidden `}>
             All Products
           </h5>
         </Link>
@@ -71,13 +62,11 @@ const DashBoardSideBar = ({ active, setActive }) => {
           <AiOutlineFolderAdd
             size={30}
             color={`${active == 4 ? "#f13f3f" : "#555"}`}
-            onClick={() => setActive(4)}
           />
           <h5
             className={`${
               active == 4 ? "text-[red]" : "text-[#555]"
-            } pl-2 text-lg foont-[400] 800px:block hidden `}
-            onClick={() => setActive(4)}>
+            } pl-2 text-lg foont-[400] 800px:block hidden `}>
             Create Product
           </h5>
         </Link>
@@ -89,13 +78,11 @@ const DashBoardSideBar = ({ active, setActive }) => {
           <MdOutlineLocalOffer
             size={30}
             color={`${active == 5 ? "#f13f3f" : "#555"}`}
-            onClick={() => setActive(5)}
           />
           <h5
             className={`${
               active == 5 ? "text-[red]" : "text-[#555]"
-            } pl-2 text-lg foont-[400] 800px:block hidden `}
-            onClick={() => setActive(5)}>
+            } pl-2 text-lg foont-[400] 800px:block hidden `}>
             All Events
           </h5>
         </Link>
@@ -104,16 +91,11 @@ const DashBoardSideBar = ({ active, setActive }) => {
         <Link
           to={"/dashboard/create-events"}
           className={`${styles.normalFlex} w-full`}>
-          <VscNewFile
-            size={30}
-            color={`${active == 6 ? "#f13f3f" : "#555"}`}
-            onClick={() => setActive(6)}
-          />
+          <VscNewFile size={30} color={`${active == 6 ? "#f13f3f" : "#555"}`} />
           <h5
             className={`${
               active == 6 ? "text-[red]" : "text-[#555]"
-            } pl-2 text-lg foont-[400] 800px:block hidden`}
-            onClick={() => setActive(6)}>
+            } pl-2 text-lg foont-[400] 800px:block hidden`}>
             Create Events
           </h5>
         </Link>
@@ -125,13 +107,11 @@ const DashBoardSideBar = ({ active, setActive }) => {
           <CiMoneyBill
             size={30}
             color={`${active == 7 ? "#f13f3f" : "#555"}`}
-            onClick={() => setActive(7)}
           />
           <h5
             className={`${
               active == 7 ? "text-[red]" : "text-[#555]"
-            } pl-2 text-lg foont-[400] 800px:block hidden`}
-            onClick={() => setActive(7)}>
+            } pl-2 text-lg foont-[400] 800px:block hidden`}>
             Withdraw Money
           </h5>
         </Link>
@@ -143,13 +123,11 @@ const DashBoardSideBar = ({ active, setActive }) => {
           <BiMessageSquareDetail
             size={30}
             color={`${active == 8 ? "#f13f3f" : "#555"}`}
-            onClick={() => setActive(8)}
           />
           <h5
             className={`${
               active == 8 ? "text-[red]" : "text-[#555]"
-            } pl-2 text-lg foont-[400] 800px:block hidden `}
-            onClick={() => setActive(8)}>
+            } pl-2 text-lg foont-[400] 800px:block hidden `}>
             All Mesages
           </h5>
         </Link>
@@ -161,13 +139,11 @@ const DashBoardSideBar = ({ active, setActive }) => {
           <AiOutlineGift
             size={30}
             color={`${active == 9 ? "#f13f3f" : "#555"}`}
-            onClick={() => setActive(9)}
           />
           <h5
             className={`${
               active == 9 ? "text-[red]" : "text-[#555]"
-            } pl-2 text-lg foont-[400] 800px:block hidden `}
-            onClick={() => setActive(9)}>
+            } pl-2 text-lg foont-[400] 800px:block hidden `}>
             Coupon Codes
           </h5>
         </Link>
@@ -179,13 +155,11 @@ const DashBoardSideBar = ({ active, setActive }) => {
           <HiOutlineReceiptRefund
             size={30}
             color={`${active == 10 ? "#f13f3f" : "#555"}`}
-            onClick={() => setActive(10)}
           />
           <h5
             className={`${
               active == 10 ? "text-[red]" : "text-[#555]"
-            } pl-2 text-lg foont-[400] 800px:block hidden`}
-            onClick={() => setActive(10)}>
+            } pl-2 text-lg foont-[400] 800px:block hidden`}>
             Refunds
           </h5>
         </Link>
@@ -197,13 +171,11 @@ const DashBoardSideBar = ({ active, setActive }) => {
           <CiSettings
             size={30}
             color={`${active == 11 ? "#f13f3f" : "#555"}`}
-            onClick={() => setActive(11)}
           />
           <h5
             className={`${
               active == 11 ? "text-[red]" : "text-[#555]"
-            } pl-2 text-lg foont-[400] 800px:block hidden `}
-            onClick={() => setActive(11)}>
+            } pl-2 text-lg foont-[400] 800px:block hidden `}>
             Settings
           </h5>
         </Link>

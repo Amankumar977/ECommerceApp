@@ -1,10 +1,17 @@
 import React from "react";
 import styles from "../../styles/styles.js";
+import ShopInfo from "../ShopInfo/ShopInfo";
+import ShopProfileData from "../ShopProfileData/ShopProfileData";
 const ShopHome = () => {
   return (
     <div className={`${styles.section} bg-[#f5f5f5]`}>
-      <div className="w-full lex-py-10 justify-between">
-        <div className="w-[25%] bg-white rounded-[4px] shadow-sm overflow-y-scroll h-screen sticky top-2 left-0 z-10"></div>
+      <div className="w-full flex py-10 justify-between">
+        <div className="w-[35%] 800px:w-[25%] bg-white rounded-[4px] shadow-sm overflow-y-scroll h-[90vh] sticky top-10 left-0 z-10">
+          <ShopInfo isOwner={true} />
+        </div>
+        <div className="w-[65%] 800px:w-[75%] rounded-md">
+          <ShopProfileData isOwner={true} />
+        </div>
       </div>
     </div>
   );

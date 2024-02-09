@@ -6,7 +6,7 @@ const SellerProtectedRoute = ({ children }) => {
   const { seller, isSellerAuthenticated, isSelLoading } = useSelector(
     (state) => state.seller
   );
-  if (isSelLoading) {
+  if (isSelLoading === true) {
     <Loader />;
   } else {
     if (!isSelLoading && !isSellerAuthenticated) {
