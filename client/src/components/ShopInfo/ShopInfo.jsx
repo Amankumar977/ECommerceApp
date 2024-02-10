@@ -20,7 +20,7 @@ const ShopInfo = ({ isOwner }) => {
     <div className="w-full py-5 px-3">
       <div className={`${styles.normalFlex} w-full justify-center`}>
         <img
-          src={`${import.meta.env.VITE_BACKEND_LINK}/${seller.shop.avatar}`}
+          src={`${seller.shop.avatar}`}
           alt={seller.shop.name}
           className="w-[140px] h-[140px] object-contain rounded-full"
         />

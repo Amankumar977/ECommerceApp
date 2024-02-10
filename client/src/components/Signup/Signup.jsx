@@ -31,7 +31,7 @@ const Singup = () => {
     };
     // Fix: change "Headers" to "headers"
     const newForm = new FormData();
-    newForm.append("file", avatar);
+    newForm.append("avatar", avatar);
     newForm.append("name", fullName);
     newForm.append("email", email);
     newForm.append("password", password);

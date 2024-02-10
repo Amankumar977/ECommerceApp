@@ -15,7 +15,7 @@ const router = express.Router();
 // POST request
 router
   .route("/create-user")
-  .post(upload.single("file"), catchAsyncError(handleRegisterUser)); // Fixed the order of middlewares
+  .post(upload.single("avatar"), catchAsyncError(handleRegisterUser)); // Fixed the order of middlewares
 router.route("/activation").post(catchAsyncError(handleActivateUser));
 router.route("/login-user").post(catchAsyncError(handleLoginUser));
 

@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import path from "path";
 import sendMail from "../utils/sendMail.js";
 import sendShopToken from "../utils/sendShopToken.js";
+import uploadOnCloudinary from "../utils/cloudinary.js";
 import fs from "fs";
 const createActivationToken = (seller) => {
   let token = jwt.sign(seller, process.env.ACTIVATION_SECRET, {
@@ -14,9 +15,8 @@ const createActivationToken = (seller) => {
 export async function handleRegisterShop(req, res) {
   try {
     const { phone, name, email, address, zip, password } = req.body;
-    const { file } = req;
-
-    if (!phone || !name || !email || !address || !zip || !password || !file) {
+    const avatar = req.file;
+    if (!phone || !name || !email || !address || !zip || !password || !avatar) {
       return res.status(400).json({
         success: false,
         message: "Please enter all the required fields including the file",
@@ -36,20 +36,18 @@ export async function handleRegisterShop(req, res) {
       $or: [{ email }, { phone }],
     });
     if (existingUser) {
-      const filename = file.filename;
-      const filePath = `uploads/${filename}`;
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          console.log("Error deleting file:", err.message);
-        }
-      });
       return res.status(400).json({
         success: false,
         message: "User email or phone is already registered",
       });
     }
 
-    const fileUrl = path.join(file.filename);
+    const fileUrl = req.file.path;
+    if (!fileUrl) {
+      console.log("error in uploading the file");
+      return;
+    }
+    const imageUrl = await uploadOnCloudinary(fileUrl);
     const realSeller = {
       phone,
       name,
@@ -57,7 +55,7 @@ export async function handleRegisterShop(req, res) {
       address,
       zip,
       password,
-      avatar: fileUrl,
+      avatar: imageUrl,
     };
 
     const activationToken = createActivationToken(realSeller);

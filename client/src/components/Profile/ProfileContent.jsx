@@ -32,8 +32,8 @@ const ProfileContent = ({ active }) => {
               {user && (
                 <img
                   className="w-[150px] h-[150px] rounded-full object-cover  border-[3px] border-[#dfa0a0]"
-                  src={`${import.meta.env.VITE_BACKEND_LINK}/${user.avatar}`}
-                  alt={`${import.meta.env.VITE_BACKEND_LINK}/${user.avatar}`}
+                  src={`${user.avatar}`}
+                  alt={`${user.avatar}`}
                 />
               )}
               <div className="w-[30px] h-[30px] bg-[#ead7d7] rounded-full flex items-center justify-center cursor-pointer absolute bottom-[5px] right-[5px]">

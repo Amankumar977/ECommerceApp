@@ -40,7 +40,7 @@ const ShopCreate = () => {
           name,
           email,
           password,
-          file: avatar,
+          avatar,
           zip,
           address,
           phone,

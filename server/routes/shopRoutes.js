@@ -12,7 +12,7 @@ let router = express.Router();
 /**POST Request */
 router
   .route("/create-shop")
-  .post(upload.single("file"), catchAsyncError(handleRegisterShop));
+  .post(upload.single("avatar"), catchAsyncError(handleRegisterShop));
 router.route("/activation").post(catchAsyncError(handleActivateShop));
 router.route("/login-shop").post(catchAsyncError(handleLoginShop));
 /**GET Request */

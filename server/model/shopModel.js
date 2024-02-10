@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import Jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-let shopSchema = mongoose.Schema(
+let shopSchema = new mongoose.Schema(
   {
     name: {
       type: String,

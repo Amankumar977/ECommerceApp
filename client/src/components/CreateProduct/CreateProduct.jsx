@@ -19,9 +19,7 @@ const CreateProduct = () => {
   const [discountPercentage, setDiscountPercentage] = useState();
   const [stock, setStock] = useState();
   const [discountedPrice, setDiscountedPrice] = useState();
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+
   useEffect(() => {
     // Calculate the discounted price whenever discountPercentage changes
     let discount_price = (originalPrice * discountPercentage) / 100;
@@ -33,6 +31,12 @@ const CreateProduct = () => {
     }
     const files = Array.from(e.target.files);
     setImages((prevImages) => [...prevImages, ...files]);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (images.length < 4) {
+      toast.error;
+    }
   };
   return (
     <div className=" w-[90%] 800px:w-[50%] bg-white h-[80vh] rounded p-3 overflow-y-scroll">
@@ -149,15 +153,14 @@ const CreateProduct = () => {
         </div>
         {/**Discount price */}
         <br />
-        <div className="flex gap-20">
+        <div className="flex gap-20 items-center ">
           <div>
             <Label
               htmlFor={"discountPercentage"}
               className={"pb-2"}
               label={
                 <div>
-                  Discount Percentage
-                  <span className="text-red-500">*</span>
+                  Discount %<span className="text-red-500">*</span>
                 </div>
               }
             />

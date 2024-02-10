@@ -9,6 +9,7 @@ import { BiMessageSquareDetail } from "react-icons/bi";
 import Logo from "../../assets/peopely.png";
 const DashBoardHeader = () => {
   const { seller } = useSelector((state) => state.seller);
+
   return (
     <div className="w-full h-[80px] bg-white shadow sticky top-0 left-0 z-30 flex items-center justify-between px-4">
       <div>
@@ -62,7 +63,7 @@ const DashBoardHeader = () => {
           </div>
           <Link to={`/shopHome/${seller.shop._id}`}>
             <img
-              src={`${import.meta.env.VITE_BACKEND_LINK}/${seller.shop.avatar}`}
+              src={`${seller.shop.avatar}`}
               alt={seller.shop.name}
               className="w-12 h-12 rounded-full object-contain"
             />

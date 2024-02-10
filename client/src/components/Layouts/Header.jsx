@@ -27,6 +27,7 @@ const Header = ({ activeHeading }) => {
   const [openSidebar, setOpenSideBar] = useState(false);
   const [openWishlist, setOpenWishList] = useState(false);
   const { isAuthenticated, user } = useSelector((state) => state.user);
+  console.log(user);
   const handleSearchChange = (data) => {
     setSearchTerm(data);
     if (searchTerm) {
@@ -176,12 +177,8 @@ const Header = ({ activeHeading }) => {
                 <Link to="/profile">
                   <div className="relative cursor-pointer mr-[15px]">
                     <img
-                      src={`${import.meta.env.VITE_BACKEND_LINK}/${
-                        user.avatar
-                      }`}
-                      alt={`${import.meta.env.VITE_BACKEND_LINK}/${
-                        user.avatar
-                      }`}
+                      src={`${user.avatar}`}
+                      alt={`${user.avatar}`}
                       className="w-[40px] h-[40px] rounded-full"
                     />
                   </div>
@@ -250,12 +247,8 @@ const Header = ({ activeHeading }) => {
                 <Link to="/profile">
                   <div className="relative cursor-pointer mr-[15px]">
                     <img
-                      src={`${import.meta.env.VITE_BACKEND_LINK}/${
-                        user.avatar
-                      }`}
-                      alt={`${import.meta.env.VITE_BACKEND_LINK}/${
-                        user.avatar
-                      }`}
+                      src={`${user.avatar}`}
+                      alt={`${user.avatar}`}
                       className="w-[40px] h-[40px] rounded-full"
                     />
                   </div>
