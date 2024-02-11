@@ -28,10 +28,7 @@ const ShopInfo = ({ isOwner }) => {
       <h3 className="text-center py-2 text-3xl font-[600] mt-3">
         {seller.shop.name}
       </h3>
-      <p className="text-[16px] text-black ">
-        {seller.shop.description ||
-          "The Shop Details provide a better a way to understand the shop, Please write it."}
-      </p>
+      <p className="text-[16px] text-black ">{seller.shop.description || ""}</p>
       <div className="mt-2">
         <p className="font-[600] py-[2px] text-[15px] ">Address</p>
         <h4>

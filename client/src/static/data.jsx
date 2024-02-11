@@ -279,7 +279,7 @@ export const productData = [
     category: "Mobile and Tablets",
     name: "Iphone 14 pro max 256 gb ssd and 8 gb ram silver colour",
     description:
-      "Product details are a crucial part of any eCommerce website or online marketplace.Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace...Product details are a crucial part of any eCommerce website or online marketplace.",
+      "All-new 48MP Main camera. For breathtaking, smile-making picture taking. Now the Main camera shoots in super-high resolution. So its easier than ever to take standout photos with amazing detail — from snapshots to stunning landscapes.",
     image_Url: [
       {
         public_id: "test",

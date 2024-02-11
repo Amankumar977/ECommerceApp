@@ -27,7 +27,6 @@ const Header = ({ activeHeading }) => {
   const [openSidebar, setOpenSideBar] = useState(false);
   const [openWishlist, setOpenWishList] = useState(false);
   const { isAuthenticated, user } = useSelector((state) => state.user);
-  console.log(user);
   const handleSearchChange = (data) => {
     setSearchTerm(data);
     if (searchTerm) {

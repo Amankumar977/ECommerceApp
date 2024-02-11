@@ -6,6 +6,9 @@ import Input from "../../components/form/Input";
 import { categoriesData } from "../../static/data";
 import { toast } from "react-toastify";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import axios from "axios";
+import { Button } from "../form";
+import Loader from "../Layouts/Loader";
 const CreateProduct = () => {
   const { seller } = useSelector((state) => state.seller);
   const navigate = useNavigate();
@@ -15,11 +18,11 @@ const CreateProduct = () => {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [tags, setTags] = useState("");
-  const [originalPrice, setOriginalPrice] = useState();
-  const [discountPercentage, setDiscountPercentage] = useState();
-  const [stock, setStock] = useState();
-  const [discountedPrice, setDiscountedPrice] = useState();
-
+  const [originalPrice, setOriginalPrice] = useState(0);
+  const [discountPercentage, setDiscountPercentage] = useState(0);
+  const [stock, setStock] = useState(0);
+  const [discountedPrice, setDiscountedPrice] = useState(0);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     // Calculate the discounted price whenever discountPercentage changes
     let discount_price = (originalPrice * discountPercentage) / 100;
@@ -32,13 +35,67 @@ const CreateProduct = () => {
     const files = Array.from(e.target.files);
     setImages((prevImages) => [...prevImages, ...files]);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (images.length < 4) {
-      toast.error;
+    if (images.length <= 1) {
+      return toast.error("Images needs to be atleast 2.");
+    }
+    if (!seller) {
+      return toast.error("Seller information is missing.");
+    }
+
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      images.forEach((files) => {
+        formData.append("images", files);
+      });
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("category", category);
+      formData.append("tags", tags);
+      formData.append("originalPrice", originalPrice);
+      formData.append("stock", stock);
+      formData.append("discountedPrice", discountedPrice);
+      formData.append("discountPercentage", discountPercentage);
+      formData.append("shopId", seller.shop._id);
+      await axios
+        .post(
+          `${import.meta.env.VITE_SERVER}/products/create-product`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((response) => {
+          toast.success(response.data.message);
+          setCategory("");
+          setDescription("");
+          setDiscountPercentage("");
+          setDiscountedPrice("");
+          setImages("");
+          setLoading("");
+          setName("");
+          setOriginalPrice("");
+          setStock("");
+          setTags("");
+        })
+        .catch((error) => {
+          toast.error(error.response.data.mesage);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } catch (error) {
+      toast.error(error.response.data.mesage);
     }
   };
-  return (
+
+  return loading ? (
+    <Loader />
+  ) : (
     <div className=" w-[90%] 800px:w-[50%] bg-white h-[80vh] rounded p-3 overflow-y-scroll">
       <h5 className="text-[30px] font-Poppins text-center">Create product</h5>
       <form onSubmit={handleSubmit}>
@@ -57,6 +114,7 @@ const CreateProduct = () => {
             id={"name"}
             required={true}
             type={"text"}
+            value={name}
             placeholder={"cycle, bag etc..."}
             handleChange={(newValue) => setName(newValue)}
           />
@@ -65,7 +123,7 @@ const CreateProduct = () => {
         <div>
           <Label
             htmlFor={"description"}
-            className={"pb-2"}
+            className={"pb-2 mb-1"}
             label={
               <div>
                 description Of the product{" "}
@@ -73,12 +131,15 @@ const CreateProduct = () => {
               </div>
             }
           />
-          <Input
+          <textarea
             id={"description"}
+            rows={4}
             required={true}
             type={"text"}
-            placeholder={"Cycle with 5 colours and many shades"}
-            handleChange={(newValue) => setDescription(newValue)}
+            value={description}
+            className=" px-2 mt-1 border border-[#555] rounded-md outline-none w-full"
+            placeholder={"Description are very essential for product visibilty"}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
         <br />
@@ -102,6 +163,7 @@ const CreateProduct = () => {
             required
             value={category}
             className="bg-gray-400 px-3 py-3 mt-1 rounded-md w-full text-[#000000]">
+            <option value={"Select"}>Select the category.....</option>
             {categoriesData.map((data) => (
               <option key={data.id} value={data.value}>
                 {data.title}
@@ -126,6 +188,7 @@ const CreateProduct = () => {
             required={true}
             className={"mt-1"}
             type={"text"}
+            value={tags}
             placeholder={"#cycle , #bike"}
             handleChange={(newValue) => setTags(newValue)}
           />
@@ -148,6 +211,7 @@ const CreateProduct = () => {
             className={"mt-1"}
             type={"number"}
             placeholder={"₹1000...."}
+            value={originalPrice}
             handleChange={(newValue) => setOriginalPrice(newValue)}
           />
         </div>
@@ -170,6 +234,7 @@ const CreateProduct = () => {
               className={"mt-1"}
               type={"number"}
               placeholder={"10%"}
+              value={discountPercentage}
               handleChange={(newValue) => {
                 setDiscountPercentage(newValue);
               }}
@@ -213,6 +278,7 @@ const CreateProduct = () => {
             required={true}
             className={"mt-1"}
             type={"number"}
+            value={stock}
             placeholder={"10000"}
             handleChange={(newValue) => setStock(newValue)}
           />
@@ -231,27 +297,34 @@ const CreateProduct = () => {
           />
           <input
             type="file"
-            id={"upload"}
+            id={"images"}
+            name="images"
             className={"hidden"}
             multiple={true}
             onChange={(e) => handleImageChange(e)}
           />
-          <label htmlFor="upload">
+          <label htmlFor="images">
             <AiOutlinePlusCircle size={30} className="mt-3" color="#555" />
           </label>
           {images && (
-            <div className="flex mt-4 gap-3 border mix-blend-multiply">
+            <div className="flex mt-4 gap-3 border mix-blend-multiply w-full  ">
               {images.map((imga, i) => (
-                <img
-                  src={URL.createObjectURL(imga)}
-                  key={i}
-                  alt={imga}
-                  className="h-[120px] w-[120px] object-contain rounded-sm m-2 "
-                />
+                <div key={i}>
+                  <img
+                    src={URL.createObjectURL(imga)}
+                    alt={imga}
+                    className="h-[80px] w-[80px] 800px:h-[110px] 800px:w-[110px] object-contain rounded-sm m-2 "
+                  />
+                </div>
               ))}
             </div>
           )}
         </div>
+        <Button
+          className={"!bg-black text-white font-[300] text-[18px]"}
+          text={"Create product"}
+          type={"submit"}
+        />
       </form>
     </div>
   );

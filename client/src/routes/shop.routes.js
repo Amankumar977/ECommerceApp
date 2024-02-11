@@ -4,6 +4,7 @@ import ShopLoginPage from "../pages/ShopLoginPage.jsx";
 import ShopHomePage from "../pages/ShopHomePage.jsx";
 import DashBoardPage from "../pages/DashBoardPage.jsx";
 import CreateProductPage from "../pages/CreateProductPage.jsx";
+import AllProductsPage from "../pages/AllProductsPage.jsx";
 export {
   ShopCreatePage,
   ShopActivationPage,
@@ -11,4 +12,5 @@ export {
   ShopLoginPage,
   DashBoardPage,
   CreateProductPage,
+  AllProductsPage,
 };
