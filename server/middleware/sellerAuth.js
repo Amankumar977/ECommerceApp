@@ -6,7 +6,7 @@ let isSellerAuthenticated = (req, res, next) => {
     if (!ShopToken) {
       return res.status(401).json({
         success: false,
-        message: "Please Login to continue as the token is not present",
+        message: "Please Login to continue.",
       });
     }
 

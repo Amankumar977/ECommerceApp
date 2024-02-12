@@ -8,6 +8,7 @@ import shopRoute from "./routes/shopRoutes.js";
 import morgan from "morgan";
 import productRoute from "./routes/productsRoute.js";
 import eventRoute from "./routes/eventRoute.js";
+import couponRoute from "./routes/couponRoute.js";
 const app = express();
 // App Middlewares
 app.use(express.json());
@@ -42,4 +43,5 @@ app.use("/api/v1/user", userRouter);
 app.use("/api/v1/shop", shopRoute);
 app.use("/api/v1/products", productRoute);
 app.use("/api/v1/events", eventRoute);
+app.use("/api/v1/coupon", couponRoute);
 export default app;

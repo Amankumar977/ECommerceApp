@@ -18,8 +18,9 @@ const Events = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (getEventSuccessMessage) {
-      toast.success(getEventSuccessMessage);
-      window.location.reload(true);
+      if (toast.success(getEventSuccessMessage)) {
+        window.location.reload(true);
+      }
     } else {
       toast.error(getEventFailMessage);
     }
@@ -96,7 +97,7 @@ const Events = () => {
   return isEventLoading ? (
     <Loader />
   ) : (
-    <div className="w-full mt-4 px-4 bg-white">
+    <div className="w-full pt-4 px-4 bg-white">
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={rows}
