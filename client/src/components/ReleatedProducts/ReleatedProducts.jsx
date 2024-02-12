@@ -12,7 +12,6 @@ const ReleatedProducts = ({ data }) => {
       setProducts(relatedData);
     }
   }, [data]);
-  console.log(products);
   return (
     <div>
       {data ? (

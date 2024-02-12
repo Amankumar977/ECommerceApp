@@ -5,6 +5,8 @@ import ShopHomePage from "../pages/ShopHomePage.jsx";
 import DashBoardPage from "../pages/DashBoardPage.jsx";
 import CreateProductPage from "../pages/CreateProductPage.jsx";
 import AllProductsPage from "../pages/AllProductsPage.jsx";
+import CreateEventPage from "../pages/CreateEventPage.jsx";
+import EventsPage from "../pages/EventsPage.jsx";
 export {
   ShopCreatePage,
   ShopActivationPage,
@@ -13,4 +15,6 @@ export {
   DashBoardPage,
   CreateProductPage,
   AllProductsPage,
+  CreateEventPage,
+  EventsPage,
 };

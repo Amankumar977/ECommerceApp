@@ -75,7 +75,6 @@ export async function handleAllProducts(req, res) {
         message: "No Products found.",
       });
     }
-
     return res.status(200).json({
       success: true,
       products: products,

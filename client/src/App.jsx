@@ -21,6 +21,8 @@ import {
   DashBoardPage,
   CreateProductPage,
   AllProductsPage,
+  CreateEventPage,
+  EventsPage,
 } from "./routes/shop.routes";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -84,6 +86,22 @@ function App() {
               element={
                 <SellerProtectedRoute>
                   <CreateProductPage />
+                </SellerProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/create-events"
+              element={
+                <SellerProtectedRoute>
+                  <CreateEventPage />
+                </SellerProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/events"
+              element={
+                <SellerProtectedRoute>
+                  <EventsPage />
                 </SellerProtectedRoute>
               }
             />

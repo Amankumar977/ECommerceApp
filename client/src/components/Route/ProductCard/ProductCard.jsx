@@ -21,7 +21,7 @@ const ProductCard = ({ data, alt }) => {
       <div className="flex justify-end"></div>
       <Link to={`/products/${product_name}`}>
         <img
-          src={data.images[0]}
+          src={data.image_Url[0].url}
           alt={alt}
           className="w-full h-[170px] object-contain"
         />
@@ -58,13 +58,10 @@ const ProductCard = ({ data, alt }) => {
         <div className="py-2 flex items-center justify-between">
           <div className="flex">
             <h5 className={`${styles.productDiscountPrice}`}>
-              ₹{" "}
-              {data.originalPrice == 0
-                ? data.originalPrice
-                : data.discountedPrice}
+              ₹ {data.price == 0 ? data.price : data.discount_price}
             </h5>
             <h4 className={`${styles.price}`}>
-              {data.originalPrice ? data.originalPrice + " ₹" : null}
+              {data.price ? data.price + " ₹" : null}
             </h4>
           </div>
           <span className="font-400 text-[17px] text-[#68d284]">

@@ -15,7 +15,6 @@ const AllProducts = () => {
   const { products, isProductLoading, message, deleteErrorMessage } =
     useSelector((state) => state.products);
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getAllProductsShop(seller.shop._id));
   }, [dispatch]);
