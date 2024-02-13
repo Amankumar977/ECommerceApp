@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "../../styles/styles";
 import Button from "../form/Button";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 const ShopInfo = ({ isOwner }) => {
-  const { isSellerAuthenticated, seller } = useSelector(
-    (state) => state.seller
-  );
+  const { seller } = useSelector((state) => state.seller);
+  const { products } = useSelector((state) => state.products);
+
   let handleLogout = () => {
     if (!Cookies.remove("ShopToken")) {
       toast.success("Logout succesful");
@@ -41,7 +41,7 @@ const ShopInfo = ({ isOwner }) => {
       </div>
       <div className="mt-2">
         <p className="font-[600] py-[2px] text-[15px] ">Total Products</p>
-        <p>10</p>
+        <p>{products?.length}</p>
       </div>
       <div className="mt-2">
         <p className="font-[600] py-[2px] text-[15px] ">Shop rating</p>

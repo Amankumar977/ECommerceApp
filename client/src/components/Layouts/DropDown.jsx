@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Updated import statement
 import styles from "../../styles/styles";
 
 const DropDown = ({ categoriesData, setDropDown }) => {
@@ -7,7 +7,6 @@ const DropDown = ({ categoriesData, setDropDown }) => {
   const handleSubmit = (i) => {
     navigate(`/products?category=${i.title}`);
     setDropDown(false);
-    window.location.reload();
   };
 
   return (

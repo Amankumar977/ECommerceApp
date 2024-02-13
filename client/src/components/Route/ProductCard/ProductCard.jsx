@@ -12,6 +12,7 @@ import {
 } from "react-icons/ai";
 
 const ProductCard = ({ data, alt }) => {
+  console.log(data);
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
   const d = data.name;
@@ -21,15 +22,15 @@ const ProductCard = ({ data, alt }) => {
       <div className="flex justify-end"></div>
       <Link to={`/products/${product_name}`}>
         <img
-          src={data.image_Url[0].url}
+          src={data.images[0]}
           alt={alt}
           className="w-full h-[170px] object-contain"
         />
       </Link>
-      <Link to="/">
+      <Link to={`/shopHome/${data._id}`}>
         <h5 className={`${styles.shop_name}`}>{data.shop.name}</h5>
       </Link>
-      <Link to={`/products/${product_name}`}>
+      <Link to={`/products/${product_name}`} onClick={() => alert("hi")}>
         <h4 className="pb-3 font-[500]">
           {data.name.length > 40 ? data.name.slice(0, 40) + "..." : data.name}
         </h4>
@@ -58,14 +59,17 @@ const ProductCard = ({ data, alt }) => {
         <div className="py-2 flex items-center justify-between">
           <div className="flex">
             <h5 className={`${styles.productDiscountPrice}`}>
-              ₹ {data.price == 0 ? data.price : data.discount_price}
+              ₹{" "}
+              {data.originalPrice == 0
+                ? data.originalPrice
+                : data.discountedPrice}
             </h5>
             <h4 className={`${styles.price}`}>
-              {data.price ? data.price + " ₹" : null}
+              {data.originalPrice ? data.originalPrice + " ₹" : null}
             </h4>
           </div>
           <span className="font-400 text-[17px] text-[#68d284]">
-            {data.total_sell} sold
+            {data.sold_out} sold
           </span>
         </div>
       </Link>

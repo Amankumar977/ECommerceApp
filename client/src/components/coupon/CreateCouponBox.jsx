@@ -64,7 +64,7 @@ const CreateCouponBox = ({ setOpenCreateBox }) => {
   };
   return (
     <div className="flex w-full h-screen justify-center items-center bg-[#00000049] fixed top-0 left-0 z-[2000] ">
-      <div className="bg-white h-[80vh] overflow-y-scroll 800px:w-[50%] w-[70%] fixed mt-10 rounded-lg">
+      <div className="bg-white h-[80vh] overflow-y-scroll 800px:w-[40%] w-[70%] fixed mt-10 rounded-lg">
         <div className="mt-2 pr-4 flex justify-end w-full">
           <IoClose
             size={30}

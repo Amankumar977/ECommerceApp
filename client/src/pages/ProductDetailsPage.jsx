@@ -5,12 +5,15 @@ import Header from "../components/Layouts/Header";
 import Footer from "../components/Layouts/Footer/Footer";
 import { useParams } from "react-router-dom";
 import { productData } from "../static/data";
+import { useSelector } from "react-redux";
 const ProductDetailsPage = () => {
   const { name } = useParams();
+  const { allProducts } = useSelector((state) => state.allProducts);
   const [data, setData] = useState(null);
   const productName = name.replace(/-/g, " ");
   useEffect(() => {
-    const data = productData.find((i) => i.name == productName);
+    const data =
+      allProducts && [...allProducts].find((i) => i.name == productName);
     setData(data);
   }, []);
 

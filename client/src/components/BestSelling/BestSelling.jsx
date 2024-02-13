@@ -3,11 +3,14 @@ import Header from "../Layouts/Header";
 import styles from "../../styles/styles";
 import { productData } from "../../static/data";
 import ProductCard from "../Route/ProductCard/ProductCard";
+import { useSelector } from "react-redux";
 
 const BestSelling = () => {
+  const { allProducts } = useSelector((state) => state.allProducts);
   const [data, setData] = useState([]);
   useEffect(() => {
-    const sortedData = productData.sort((a, b) => b.total_sell - a.total_sell);
+    const sortedData =
+      allProducts && [...allProducts].sort((a, b) => b.sold_out - a.sold_out);
     setData(sortedData);
   }, []);
 

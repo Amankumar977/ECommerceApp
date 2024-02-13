@@ -7,6 +7,7 @@ const Categories = () => {
   const navigate = useNavigate();
   return (
     <div>
+      {/**Branding section */}
       <div className={`${styles.section} hidden sm:block`}>
         <div
           className={`branding my-12 flex justify-between w-full shadow-sm bg-white rounded-md px-2 py-2 `}>
@@ -31,8 +32,8 @@ const Categories = () => {
         <div className="grid grid-cols-1 gap-[5px] md:grid-cols-2 md:gap-[10px] lg:grid-cols-4 lg:gap-[20px] xl:grid-cols-5 xl:gap-[30px]">
           {categoriesData &&
             categoriesData.map((data) => {
-              const handleSubmit = (i) => {
-                navigate(`/products?categories=${data.title}`);
+              const handleSubmit = (category) => {
+                navigate(`/products?category=${category.title}`);
               };
               return (
                 <div

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styles from "../../styles/styles";
 import Logo from "../../assets/peopely.png";
 import Input from "../form/Input.jsx";
-import { categoriesData, productData } from "../../static/data.jsx";
+import { categoriesData } from "../../static/data.jsx";
 import {
   AiOutlineHeart,
   AiOutlineSearch,
@@ -27,12 +27,15 @@ const Header = ({ activeHeading }) => {
   const [openSidebar, setOpenSideBar] = useState(false);
   const [openWishlist, setOpenWishList] = useState(false);
   const { isAuthenticated, user } = useSelector((state) => state.user);
+  const { isProductLoading, allProducts, errorMessage } = useSelector(
+    (state) => state.allProducts
+  );
   const handleSearchChange = (data) => {
     setSearchTerm(data);
     if (searchTerm) {
       const filteredProducts =
-        productData &&
-        productData.filter((product) => {
+        allProducts &&
+        allProducts.filter((product) => {
           // Make sure product.name is a string before calling toLowerCase
           return (
             typeof product.name === "string" &&
@@ -83,10 +86,10 @@ const Header = ({ activeHeading }) => {
                     const d = i.name;
                     const product_name = d.replace(/\s+/g, "-");
                     return (
-                      <Link to={`/productss/${product_name}`} key={i.id}>
-                        <div className="w-full flex items-start-py-3 hover:bg-gray-200">
+                      <Link to={`/products/${product_name}`} key={i._id}>
+                        <div className="w-full flex items-start py-2 hover:bg-gray-200">
                           <img
-                            src={i.image_Url[0].url}
+                            src={i.images[0]}
                             alt="productImage"
                             className="w-[40px] h-[40px] mr-[10px]"
                           />
@@ -108,9 +111,8 @@ const Header = ({ activeHeading }) => {
             </Link>
           </div>
         </div>
-        {/**Categories part */}
       </div>
-
+      {/**Categories part */}
       <div
         className={`${
           active ? "shadow-sm  fixed top-0 left-0 z-10" : null

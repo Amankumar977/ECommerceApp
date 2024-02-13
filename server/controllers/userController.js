@@ -5,6 +5,7 @@ import sendMail from "../utils/sendMail.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import uploadOnCloudinary from "../utils/cloudinary.js";
 import sendToken from "../utils/jwtToken.js";
+import productModel from "../model/productModel.js";
 let createActivationToken = (user) => {
   return jwt.sign(user, process.env.ACTIVATION_SECRET, {
     expiresIn: "5m",
@@ -195,6 +196,27 @@ export async function handleLogoutUser(req, res) {
     return res.status(500).json({
       success: false,
       message: "Error in logout",
+    });
+  }
+}
+export async function handleGetAllProducts(req, res) {
+  try {
+    let allProducts = await productModel.find({});
+    if (!allProducts) {
+      return res.status(404).json({
+        success: false,
+        message: "No Products found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      allProducts: allProducts,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+      message: "Internal server error please try again later",
     });
   }
 }

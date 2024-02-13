@@ -6,6 +6,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Loader from "../Layouts/Loader";
+
 const Coupon = () => {
   const [loading, setLoading] = useState(false);
   const [coupons, setCoupons] = useState([]);
@@ -40,7 +41,6 @@ const Coupon = () => {
         { withCredentials: true }
       );
       toast.success(response.data.message);
-      // Filter out the deleted coupon from the current list of coupons
       setCoupons((prevCoupons) =>
         prevCoupons.filter((coupon) => coupon._id !== id)
       );
@@ -52,31 +52,31 @@ const Coupon = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "Coupon Id", minWidth: 80, flex: 0.5 },
-    { field: "name", headerName: "Coupon Name", minWidth: 80, flex: 0.5 },
+    { field: "id", headerName: "Coupon Id", minWidth: 10, flex: 0.7 },
+    { field: "name", headerName: "Coupon Name", minWidth: 80, flex: 0.4 },
     {
       field: "percentDiscount",
       headerName: "Percent Discount",
-      minWidth: 50,
-      flex: 0.3,
+      minWidth: 30,
+      flex: 0.2,
     },
     {
       field: "startDate",
       headerName: "Start date",
-      minWidth: 80,
-      flex: 0.3,
+      minWidth: 60,
+      flex: 0.5,
     },
     {
       field: "endDate",
       headerName: "End date",
-      minWidth: 80,
-      flex: 0.3,
+      minWidth: 60,
+      flex: 0.5,
     },
     {
       field: "deleteCoupon",
       headerName: "",
-      minWidth: 40,
-      flex: 0.3,
+      minWidth: 50,
+      flex: 0.5,
       renderCell: (params) => (
         <Button
           onClick={() => {
@@ -87,26 +87,29 @@ const Coupon = () => {
       ),
     },
   ];
-  const row = [];
-  coupons &&
-    coupons.map((details) => {
-      row.push({
-        id: details._id,
-        name: details.name,
-        percentDiscount: details.percentDiscount,
-        startDate:
-          details.startDate &&
-          new Date(details.startDate).toISOString().slice(0, 10),
-        endDate:
-          details.endDate &&
-          new Date(details.endDate).toISOString().slice(0, 10),
-      });
-    });
+
+  const rows = coupons.map((details) => ({
+    id: details._id,
+    name: details.name,
+    percentDiscount: `${details.percentDiscount} %`,
+    startDate:
+      details.startDate &&
+      new Date(details.startDate).toISOString().slice(0, 10),
+    endDate:
+      details.endDate && new Date(details.endDate).toISOString().slice(0, 10),
+  }));
+
   return loading ? (
     <Loader />
   ) : (
-    <div className="w-full">
-      <DataGrid rows={row} columns={columns} />
+    <div className="p-4">
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        pageSize={10}
+        autoHeight
+        disableSelectionOnClick
+      />
     </div>
   );
 };

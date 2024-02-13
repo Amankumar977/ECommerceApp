@@ -34,19 +34,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchShop } from "./redux/reducers/seller";
 import { ProtectedRoute, SellerProtectedRoute } from "./ProtectedRoutes/index";
 import Loader from "./components/Layouts/Loader";
+import { getAllProducts } from "./redux/reducers/allProducts";
 function App() {
-  const { isAuthenticated, loading } = useSelector((state) => state.user);
+  const { loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const { seller, isSellerAuthenticated, isSelLoading } = useSelector(
-    (state) => state.seller
-  );
+  const { isSelLoading } = useSelector((state) => state.seller);
+  const { isProductLoading } = useSelector((state) => state.allProducts);
   useEffect(() => {
     Store.dispatch(loadUser());
     dispatch(fetchShop());
+    dispatch(getAllProducts());
   }, []);
   return (
     <div className="font-Poppins">
-      {loading || isSelLoading ? (
+      {loading || isSelLoading || isProductLoading ? (
         <Loader />
       ) : (
         <BrowserRouter>

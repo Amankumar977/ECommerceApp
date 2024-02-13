@@ -23,7 +23,7 @@ const ProductDetails = ({ data }) => {
             <div className="block w-full 800px:flex">
               <div className="w-full 800px:w-[50%]">
                 <img
-                  src={data.image_Url[select].url}
+                  src={data.images.length > select && data.images[select]}
                   alt={data.title}
                   className="w-[80%]"
                 />
@@ -33,7 +33,7 @@ const ProductDetails = ({ data }) => {
                       select == 0 ? "border" : null
                     } cursor-pointer`}>
                     <img
-                      src={data?.image_Url[0].url}
+                      src={data?.images[0]}
                       alt=""
                       className="h-[200px]"
                       onClick={() => {
@@ -46,7 +46,7 @@ const ProductDetails = ({ data }) => {
                       select == 1 ? "border" : null
                     } cursor-pointer`}>
                     <img
-                      src={data?.image_Url[1].url}
+                      src={data?.images[1]}
                       alt=""
                       className="h-[200px]"
                       onClick={() => {
@@ -61,11 +61,11 @@ const ProductDetails = ({ data }) => {
                 <p className="mt-4">{data.description}</p>
                 <div className="flex pt-3">
                   <h4 className={`${styles.productDiscountPrice}`}>
-                    &#8377; {data.discount_price}
+                    &#8377; {data.discountedPrice}
                   </h4>{" "}
                   {data.price ? (
-                    <h3 className={`${styles.price}`}>
-                      &#8377; {data.price ? data.price : null}
+                    <h3 className={`${styles.originalPrice}`}>
+                      &#8377; {data.originalPrice ? data.originalPrice : null}
                     </h3>
                   ) : null}
                 </div>
@@ -124,7 +124,7 @@ const ProductDetails = ({ data }) => {
                 <div className="w-full mt-16 flex justify-between items-center">
                   <div className="flex">
                     <img
-                      src={data.shop.shop_avatar.url}
+                      src={data.shop.avatar}
                       alt={data.title}
                       className="w-[55px] h-[55px] rounded-full mr-2"
                     />
@@ -133,7 +133,7 @@ const ProductDetails = ({ data }) => {
                         {data.shop.name}
                       </h3>
                       <h5 className="pb-3 text-[15px] font-bold">
-                        {data.shop.ratings} / 5.0 Ratings
+                        4.5 / 5.0 Ratings
                       </h5>
                     </div>
                   </div>
@@ -147,7 +147,7 @@ const ProductDetails = ({ data }) => {
                     </span>
                   </div>
                   <h5 className="text-[16px] text-red-600 ">
-                    ({data.total_sell}) items Sold
+                    ({data.sold_out}) items Sold
                   </h5>
                 </div>
               </div>
@@ -162,7 +162,6 @@ const ProductDetails = ({ data }) => {
   );
 };
 const ProductDetailsInfo = ({ data }) => {
-  // console.log(data);
   const [active, setActive] = useState(1);
   return (
     <div className="bg-[#f5f6fb] px-3 800px:px-10 py-2 rounded ">
@@ -201,46 +200,13 @@ const ProductDetailsInfo = ({ data }) => {
       {active == 1 ? (
         <>
           <p className="py-2 text-[18px] leading-8 pb-10 whitespace-pre-line">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-            impedit ullam id accusamus tempore, molestias neque facere iusto
-            minus ea corporis adipisci, quo, excepturi blanditiis similique
-            laborum earum aspernatur beatae odit nostrum. Non quas placeat
-            possimus velit. Neque ipsa aut modi, temporibus culpa nostrum ipsam
-            reprehenderit sit ipsum vitae nisi quisquam quos alias laborum
-            numquam iure dolore est aliquid similique hic ratione quasi
-            exercitationem. Error tenetur id explicabo deleniti possimus. Quia
-            magnam debitis corrupti, cupiditate dicta labore dignissimos
-            accusamus vero iste aut! At deserunt nobis quis, est hic fugiat aut!
-            Deleniti vel facere voluptatem provident, eaque voluptas explicabo
-            modi natus?
+            {data.description}
           </p>
           <p className="py-2 text-[18px] leading-8 pb-10 whitespace-pre-line">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-            impedit ullam id accusamus tempore, molestias neque facere iusto
-            minus ea corporis adipisci, quo, excepturi blanditiis similique
-            laborum earum aspernatur beatae odit nostrum. Non quas placeat
-            possimus velit. Neque ipsa aut modi, temporibus culpa nostrum ipsam
-            reprehenderit sit ipsum vitae nisi quisquam quos alias laborum
-            numquam iure dolore est aliquid similique hic ratione quasi
-            exercitationem. Error tenetur id explicabo deleniti possimus. Quia
-            magnam debitis corrupti, cupiditate dicta labore dignissimos
-            accusamus vero iste aut! At deserunt nobis quis, est hic fugiat aut!
-            Deleniti vel facere voluptatem provident, eaque voluptas explicabo
-            modi natus?
+            {data.description}
           </p>
           <p className="py-2 text-[18px] leading-8 pb-10 whitespace-pre-line">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-            impedit ullam id accusamus tempore, molestias neque facere iusto
-            minus ea corporis adipisci, quo, excepturi blanditiis similique
-            laborum earum aspernatur beatae odit nostrum. Non quas placeat
-            possimus velit. Neque ipsa aut modi, temporibus culpa nostrum ipsam
-            reprehenderit sit ipsum vitae nisi quisquam quos alias laborum
-            numquam iure dolore est aliquid similique hic ratione quasi
-            exercitationem. Error tenetur id explicabo deleniti possimus. Quia
-            magnam debitis corrupti, cupiditate dicta labore dignissimos
-            accusamus vero iste aut! At deserunt nobis quis, est hic fugiat aut!
-            Deleniti vel facere voluptatem provident, eaque voluptas explicabo
-            modi natus?
+            {data.description}
           </p>
         </>
       ) : null}
@@ -256,15 +222,13 @@ const ProductDetailsInfo = ({ data }) => {
             <div>
               <div className={`${styles.normalFlex}`}>
                 <img
-                  src={data.shop.shop_avatar.url}
+                  src={data.shop.avatar}
                   alt={data.description}
                   className="w-[55px] h-[55px] rounded-full "
                 />
                 <div className="pl-3">
                   <h3 className={`${styles.shop_name}`}> {data.shop.name}</h3>
-                  <h5 className="pb-3 text-[15px]">
-                    ({data.shop.ratings}) Ratings
-                  </h5>
+                  <h5 className="pb-3 text-[15px]">4.5 /5 Ratings</h5>
                 </div>
               </div>
               <p className="pt-2">
@@ -284,9 +248,12 @@ const ProductDetailsInfo = ({ data }) => {
                 Total Products : <span className="font-[500]">1021</span>
               </h5>
               <h5 className="font-[600] pt-3">
-                Joined on : <span className="font-[500]">5 Feb 2024</span>
+                Joined on :{" "}
+                <span className="font-[500]">
+                  {data.shop.createdAt.slice(0, 10)}
+                </span>
               </h5>
-              <Link to="/">
+              <Link to={`/shopHome/:${data.shop._id}`}>
                 <div
                   className={`${styles.button} !rounded-[4px] !h-[39.5px] mt-3`}>
                   <h4 className="text-white">Visit shop</h4>
