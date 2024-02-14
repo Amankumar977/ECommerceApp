@@ -180,3 +180,31 @@ export async function handleGetShop(req, res) {
     });
   }
 }
+export async function handlePreviewShop(req, res) {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide the id",
+      });
+    }
+    const shop = await shopModel.findById(id);
+    if (!shop) {
+      return res.status(404).json({
+        success: false,
+        message: "The shop is not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      shop: shop,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+}

@@ -6,7 +6,6 @@ const Event = () => {
     <div>
       <Header activeHeading={4} />
       <EventCard />
-      <EventCard />
     </div>
   );
 };

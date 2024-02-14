@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/styles";
-import { productData } from "../../static/data";
 import ProductCard from "../Route/ProductCard/ProductCard";
 import { Link } from "react-router-dom";
 import Button from "../form/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProductsShop } from "../../redux/reducers/products";
-const ShopProfileData = ({ isOwner }) => {
+import { getShopEvents } from "../../redux/reducers/events";
+import CountDown from "../../CountDown/CountDown";
+const ShopProfileData = ({ isOwner, id }) => {
   const [active, setActive] = useState(1);
   const { products } = useSelector((state) => state.products);
+  const { seller } = useSelector((state) => state.seller);
+  const { events } = useSelector((state) => state.events);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getShopEvents(seller?.shop?._id || id));
+  }, []);
+
   return (
     <div className="w-full p-2 font-mono ">
       <div className="flex items-center gap-[20px] justify-between">
@@ -47,6 +54,14 @@ const ShopProfileData = ({ isOwner }) => {
             </h5>
           </div>
         </div>
+        {!isOwner && (
+          <Link to="/products">
+            <Button
+              className={`${styles.button} !bg-black text-white`}
+              text={"Go to All Products"}
+            />
+          </Link>
+        )}
         {isOwner && (
           <Link to="/dashboard">
             <Button
@@ -63,6 +78,42 @@ const ShopProfileData = ({ isOwner }) => {
           products &&
           products.map((data) => (
             <ProductCard data={data} alt={data.name} key={data._id} />
+          ))}
+      </div>
+      <br />
+      <div>
+        {active == 2 &&
+          events &&
+          events.map((data) => (
+            <div key={data._id} className="flex  w-full">
+              <div className="w-[50%]">
+                <img src={data.images[0]} alt={data.description} />
+              </div>
+              <div className="w-[50%]">
+                <h1 className={`${styles.heading} font-mono text-4xl`}>
+                  {data.name}
+                </h1>
+                <article>
+                  <p>{data.description.slice(0, 400)}</p>
+                </article>
+                <div className="flex justify-between items-center pt-3 mb-6">
+                  <div className="flex gap-2">
+                    <h4 className={`${styles.productDiscountPrice}`}>
+                      ₹{data.discountedPrice}
+                    </h4>
+                    <h4 className={`${styles.price}`}>
+                      ₹ {data.originalPrice}
+                    </h4>
+                  </div>
+                  <div>
+                    <h3 className={`text-red-600`}>
+                      ({data.sold_out}) items sold
+                    </h3>
+                  </div>
+                </div>
+                <CountDown startDate={data.startDate} endDate={data.endDate} />
+              </div>
+            </div>
           ))}
       </div>
     </div>

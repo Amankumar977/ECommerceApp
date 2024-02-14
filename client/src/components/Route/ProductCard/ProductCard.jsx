@@ -12,7 +12,6 @@ import {
 } from "react-icons/ai";
 
 const ProductCard = ({ data, alt }) => {
-  console.log(data);
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
   const d = data.name;
@@ -27,7 +26,7 @@ const ProductCard = ({ data, alt }) => {
           className="w-full h-[170px] object-contain"
         />
       </Link>
-      <Link to={`/shopHome/${data._id}`}>
+      <Link to={`/shop/preview/${data.shop._id}`}>
         <h5 className={`${styles.shop_name}`}>{data.shop.name}</h5>
       </Link>
       <Link to={`/products/${product_name}`} onClick={() => alert("hi")}>

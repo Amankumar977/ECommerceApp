@@ -23,7 +23,7 @@ const BestSelling = () => {
         <div className="grid grid-cols-1 gap-[20px] md:grid-col-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] mb-12">
           {data &&
             data.map((data) => (
-              <ProductCard key={data.id} data={data} alt={data.description} />
+              <ProductCard key={data._id} data={data} alt={data.description} />
             ))}
         </div>
         {data && data.length === 0 ? (

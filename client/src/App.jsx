@@ -11,6 +11,7 @@ import {
   FaqPage,
   ProductDetailsPage,
   ProfilePage,
+  ShopPreviewPage,
 } from "./routes/Routes";
 /**Shop Routes */
 import {
@@ -125,9 +126,11 @@ function App() {
             />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/products/:name" element={<ProductDetailsPage />} />
+            <Route path="/shop/preview/:id" element={<ShopPreviewPage />} />
             <Route path="/best-selling" element={<BestSellingPage />} />
             <Route path="/events" element={<EventPage />} />
             <Route path="/faq" element={<FaqPage />} />
+
             <Route
               path="/profile"
               element={

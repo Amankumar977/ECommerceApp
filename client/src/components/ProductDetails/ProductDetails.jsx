@@ -122,21 +122,23 @@ const ProductDetails = ({ data }) => {
                 </div>
                 {/** */}
                 <div className="w-full mt-16 flex justify-between items-center">
-                  <div className="flex">
-                    <img
-                      src={data.shop.avatar}
-                      alt={data.title}
-                      className="w-[55px] h-[55px] rounded-full mr-2"
-                    />
-                    <div>
-                      <h3 className={`${styles.shop_name}`}>
-                        {data.shop.name}
-                      </h3>
-                      <h5 className="pb-3 text-[15px] font-bold">
-                        4.5 / 5.0 Ratings
-                      </h5>
+                  <Link to={`/shop/preview/${data.shop._id}`}>
+                    <div className="flex">
+                      <img
+                        src={data.shop.avatar}
+                        alt={data.title}
+                        className="w-[55px] h-[55px] rounded-full mr-2"
+                      />
+                      <div>
+                        <h3 className={`${styles.shop_name}`}>
+                          {data.shop.name}
+                        </h3>
+                        <h5 className="pb-3 text-[15px] font-bold">
+                          4.5 / 5.0 Ratings
+                        </h5>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                   <div
                     className={`${styles.button} bg-[#000] mt-4 rounded-[4px] h-11 mx-5`}
                     onClick={() => {
@@ -220,17 +222,19 @@ const ProductDetailsInfo = ({ data }) => {
         <div className="w-full block 800px:flex p-5 ">
           <div className="w-full 800px:w-[50%]">
             <div>
-              <div className={`${styles.normalFlex}`}>
-                <img
-                  src={data.shop.avatar}
-                  alt={data.description}
-                  className="w-[55px] h-[55px] rounded-full "
-                />
-                <div className="pl-3">
-                  <h3 className={`${styles.shop_name}`}> {data.shop.name}</h3>
-                  <h5 className="pb-3 text-[15px]">4.5 /5 Ratings</h5>
+              <Link to={`/shop/preview/${data.shop._id}`}>
+                <div className={`${styles.normalFlex}`}>
+                  <img
+                    src={data.shop.avatar}
+                    alt={data.description}
+                    className="w-[55px] h-[55px] rounded-full "
+                  />
+                  <div className="pl-3">
+                    <h3 className={`${styles.shop_name}`}> {data.shop.name}</h3>
+                    <h5 className="pb-3 text-[15px]">4.5 /5 Ratings</h5>
+                  </div>
                 </div>
-              </div>
+              </Link>
               <p className="pt-2">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia
                 dolorum iusto minima consequatur voluptate nam consequuntur

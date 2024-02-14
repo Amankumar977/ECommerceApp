@@ -4,6 +4,7 @@ import {
   handleCreateEvent,
   handleGetShopEvents,
   handleDeleteEvent,
+  handleGetAllEvents,
 } from "../controllers/eventController.js";
 import upload from "../multer.js";
 import isSellerAuth from "../middleware/sellerAuth.js";
@@ -17,9 +18,8 @@ router
     catchAsyncError(handleCreateEvent)
   );
 /**Get request */
-router
-  .route("/getShopEvents/:id")
-  .get(isSellerAuth, catchAsyncError(handleGetShopEvents));
+router.route("/getShopEvents/:id").get(catchAsyncError(handleGetShopEvents));
+router.route("/getAllEvents").get(catchAsyncError(handleGetAllEvents));
 /**Delete rote */
 router.route("/delete-event/:id").delete(catchAsyncError(handleDeleteEvent));
 export default router;

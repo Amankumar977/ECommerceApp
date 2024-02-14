@@ -11,11 +11,15 @@ const router = express.Router();
 /**Post route */
 router
   .route("/create-product")
-  .post(upload.array("images", 5), catchAsyncError(handleCreateProduct));
+  .post(
+    upload.array("images", 5),
+    isSeller,
+    catchAsyncError(handleCreateProduct)
+  );
 export default router;
 /**Get route */
 router.route("/getAllShopProducts/:id").get(catchAsyncError(handleAllProducts));
 /**Delete routes */
 router
   .route("/deleteProduct/:id")
-  .delete(catchAsyncError(handleDeleteProducts));
+  .delete(isSeller, catchAsyncError(handleDeleteProducts));

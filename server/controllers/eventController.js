@@ -177,3 +177,24 @@ export async function handleDeleteEvent(req, res) {
     });
   }
 }
+export async function handleGetAllEvents(req, res) {
+  try {
+    const allEvents = await eventModel.find({});
+    if (!allEvents) {
+      return res.status(404).json({
+        success: false,
+        message: "No events found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      events: allEvents,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+      message: "Internal server error",
+    });
+  }
+}

@@ -31,8 +31,7 @@ export const getShopEvents = (id) => async (dispatch) => {
   dispatch(setIsEventLoading(true));
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_SERVER}/events/getShopEvents/${id}`,
-      { withCredentials: true }
+      `${import.meta.env.VITE_SERVER}/events/getShopEvents/${id}`
     );
     if (response.data.success) {
       dispatch(setGetEventSuccessMessage(response.data.message));
