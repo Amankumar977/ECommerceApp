@@ -30,6 +30,7 @@ const Header = ({ activeHeading }) => {
   const { isProductLoading, allProducts, errorMessage } = useSelector(
     (state) => state.allProducts
   );
+  const { cart } = useSelector((state) => state.cart);
   const handleSearchChange = (data) => {
     setSearchTerm(data);
     if (searchTerm) {
@@ -169,7 +170,7 @@ const Header = ({ activeHeading }) => {
                   color="rgb(255 255 255 / 83%)"
                 />
                 <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                  1
+                  {cart.length}
                 </span>
               </div>
             </div>
@@ -227,7 +228,7 @@ const Header = ({ activeHeading }) => {
                 }}>
                 <AiOutlineShoppingCart size={30} color="rgb(0 0 0 / 83%)" />
                 <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                  1
+                  {cart.length}
                 </span>
               </div>
             </div>

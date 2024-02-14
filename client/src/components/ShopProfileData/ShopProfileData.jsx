@@ -6,7 +6,11 @@ import Button from "../form/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { getShopEvents } from "../../redux/reducers/events";
 import CountDown from "../../CountDown/CountDown";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { toast } from "react-toastify";
+import { addToCart } from "../../redux/reducers/cart";
 const ShopProfileData = ({ isOwner, id }) => {
+  const { cart } = useSelector((state) => state.cart);
   const [active, setActive] = useState(1);
   const { products } = useSelector((state) => state.products);
   const { seller } = useSelector((state) => state.seller);
@@ -15,7 +19,15 @@ const ShopProfileData = ({ isOwner, id }) => {
   useEffect(() => {
     dispatch(getShopEvents(seller?.shop?._id || id));
   }, []);
-
+  let handleAddToCart = (data) => {
+    const doesItemExist = cart && cart.find((item) => item._id === data._id);
+    if (doesItemExist) {
+      return toast.error("The item is alredy in the cart");
+    }
+    const item = { ...data, quantity: 1 };
+    dispatch(addToCart(item));
+    return toast.success("The item is added to the cart");
+  };
   return (
     <div className="w-full p-2 font-mono ">
       <div className="flex items-center gap-[20px] justify-between">
@@ -112,6 +124,17 @@ const ShopProfileData = ({ isOwner, id }) => {
                   </div>
                 </div>
                 <CountDown startDate={data.startDate} endDate={data.endDate} />
+                {!isOwner && (
+                  <div
+                    className={`${styles.button} mt-6 rounded-[4px] h-11 flex items-center`}
+                    onClick={() => {
+                      handleAddToCart(data);
+                    }}>
+                    <span className="text-[#fff] flex items-center justify-center">
+                      Add to cart <AiOutlineShoppingCart className="ml-1" />
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           ))}

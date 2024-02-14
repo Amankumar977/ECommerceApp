@@ -7,11 +7,30 @@ import {
   AiFillHeart,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
+import { toast } from "react-toastify";
+import { addToCart } from "../../../redux/reducers/cart";
+import { useDispatch, useSelector } from "react-redux";
 const ProductDetailsCard = ({ setOpen, data }) => {
-  console.log(data);
+  const { cart } = useSelector((state) => state.cart);
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(false);
+  const dispatch = useDispatch();
+  let handleAddTocart = () => {
+    const isItemExists = cart && cart.find((i) => i._id === data._id);
+    if (isItemExists) {
+      return toast.error("Item is already in cart!");
+    }
+    if (count > data.stock) {
+      return toast.error(
+        `oops the item only has ${data.stock} quantity available`
+      );
+    }
+    const newItem = { ...data, quantity: count };
+    dispatch(addToCart(newItem));
+    setCount(1);
+    toast.success(`${data.name} item added to cart.`);
+  };
   const handleMessageSubmit = () => {};
   return (
     <div className="bg-white">
@@ -111,7 +130,8 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                   </div>
                 </div>
                 <div
-                  className={`${styles.button} mt-6 rounded-[4px] h-11 flex items-center`}>
+                  className={`${styles.button} mt-6 rounded-[4px] h-11 flex items-center`}
+                  onClick={handleAddTocart}>
                   <span className="text-[#fff] flex items-center justify-center">
                     Add to cart <AiOutlineShoppingCart className="ml-1" />
                   </span>

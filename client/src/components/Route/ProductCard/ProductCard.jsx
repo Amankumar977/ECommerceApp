@@ -10,12 +10,27 @@ import {
   AiOutlineShoppingCart,
   AiOutlineStar,
 } from "react-icons/ai";
-
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../../redux/reducers/cart.js";
+import { toast } from "react-toastify";
 const ProductCard = ({ data, alt }) => {
+  const { cart } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
   const d = data.name;
   const product_name = d.replace(/\s+/g, "-");
+  let handleAddToCart = () => {
+    const doesItemExist = cart && cart.find((item) => item._id == data._id);
+    if (doesItemExist) {
+      return toast.error(
+        `The item ${data.name.slice(0, 10)} is already present in the cart`
+      );
+    }
+    const newItem = { ...data, quantity: 1 };
+    dispatch(addToCart(newItem));
+    toast.success(`The item ${data.name.slice(0, 10)} is added to the cart`);
+  };
   return (
     <div className="w-full h-[370px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer">
       <div className="flex justify-end"></div>
@@ -109,6 +124,9 @@ const ProductCard = ({ data, alt }) => {
           className="cursor-pointer absolute right-2 top-20"
           color={"#444"}
           title="Add To Cart"
+          onClick={() => {
+            handleAddToCart();
+          }}
         />
         {open ? <ProductDetailsCard setOpen={setOpen} data={data} /> : null}
       </div>

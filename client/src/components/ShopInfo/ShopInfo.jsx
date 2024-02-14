@@ -5,6 +5,7 @@ import Button from "../form/Button";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const ShopInfo = ({ isOwner, id }) => {
   const { seller } = useSelector((state) => state.seller);
@@ -97,6 +98,14 @@ const ShopInfo = ({ isOwner, id }) => {
               />
             </div>
           </>
+        )}
+        {!isOwner && (
+          <Link to={"/events"}>
+            <Button
+              className={"mt-4 !bg-black text-white"}
+              text={"Go All Events"}
+            />
+          </Link>
         )}
       </div>
     )
