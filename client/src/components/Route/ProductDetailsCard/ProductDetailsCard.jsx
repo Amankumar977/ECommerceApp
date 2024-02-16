@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import styles from "../../../styles/styles";
 import {
@@ -10,8 +10,25 @@ import {
 import { toast } from "react-toastify";
 import { addToCart } from "../../../redux/reducers/cart";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  addToWishList,
+  removeFromWishList,
+} from "../../../redux/reducers/wishList";
+import { Link } from "react-router-dom";
 const ProductDetailsCard = ({ setOpen, data }) => {
+  const productName = data.name.replace(/\s+/g, "-");
   const { cart } = useSelector((state) => state.cart);
+  const { wishList } = useSelector((state) => state.wishList);
+  useEffect(() => {
+    const doesItemExist =
+      wishList && wishList.find((item) => item._id === data._id);
+    if (doesItemExist) {
+      setClick(true);
+    } else {
+      setClick(false);
+    }
+  }, [wishList]);
+
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(false);
@@ -30,6 +47,16 @@ const ProductDetailsCard = ({ setOpen, data }) => {
     dispatch(addToCart(newItem));
     setCount(1);
     toast.success(`${data.name} item added to cart.`);
+  };
+  const handleAddToWishList = () => {
+    setClick(!click);
+    dispatch(addToWishList(data));
+    toast.success("Item added to wishList");
+  };
+  const handleRemoveFromWishList = () => {
+    setClick(!click);
+    dispatch(removeFromWishList(data._id));
+    toast.info("item has been removed from the wishlist");
   };
   const handleMessageSubmit = () => {};
   return (
@@ -72,9 +99,11 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                 </h5>
               </div>
               <div className="w-full 800px:w-[50%] mr-5 mt-4">
-                <h1 className={`${styles.productTitle} text-[20px]`}>
-                  {data.name}
-                </h1>
+                <Link to={`/products/${productName}`}>
+                  <h1 className={`${styles.productTitle} text-[20px]`}>
+                    {data.name}
+                  </h1>
+                </Link>
                 <p>{data.description}</p>
                 <div className="flex pt-6">
                   <h4 className={`${styles.productDiscountPrice}`}>
@@ -110,9 +139,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                       <AiFillHeart
                         size={22}
                         className="cursor-pointer"
-                        onClick={() => {
-                          setClick(!click);
-                        }}
+                        onClick={() => handleRemoveFromWishList()}
                         color={click ? "red" : "#333"}
                         title="Remove from wishlist"
                       />
@@ -121,7 +148,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                         size={22}
                         className="cursor-pointer"
                         onClick={() => {
-                          setClick(!click);
+                          handleAddToWishList();
                         }}
                         color={click ? "red" : "#333"}
                         title="Add to wishlist"

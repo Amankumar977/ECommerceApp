@@ -29,8 +29,8 @@ const CreateProduct = () => {
     setDiscountedPrice(Math.round(originalPrice - discount_price));
   }, [originalPrice, discountPercentage]); // Re-run the effect whenever originalPrice or discountPercentage changes
   let handleImageChange = (e) => {
-    if (images.length === 4) {
-      return toast.error("More than 4 images are not allowed");
+    if (images.length === 3) {
+      return toast.error("More than 3 images of product is not allowed");
     }
     const files = Array.from(e.target.files);
     setImages((prevImages) => [...prevImages, ...files]);

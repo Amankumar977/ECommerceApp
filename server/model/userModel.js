@@ -38,19 +38,19 @@ const userSchema = new mongoose.Schema(
         country: {
           type: String,
         },
+        state: {
+          type: String,
+        },
         city: {
           type: String,
         },
-        address1: {
-          type: String,
-        },
-        address2: {
+        houseAddress: {
           type: String,
         },
         zipCode: {
-          type: String,
+          type: Number,
         },
-        addressTpe: {
+        addressType: {
           type: String,
         },
       },

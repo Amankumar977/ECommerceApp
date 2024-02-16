@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "../../../styles/styles";
 import ProductDetailsCard from "../ProductDetailsCard/ProductDetailsCard.jsx";
@@ -13,8 +13,22 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../../redux/reducers/cart.js";
 import { toast } from "react-toastify";
+import {
+  addToWishList,
+  removeFromWishList,
+} from "../../../redux/reducers/wishList.js";
 const ProductCard = ({ data, alt }) => {
   const { cart } = useSelector((state) => state.cart);
+  const { wishList } = useSelector((state) => state.wishList);
+  useEffect(() => {
+    const doesItemExist =
+      wishList && wishList.find((item) => item._id === data._id);
+    if (doesItemExist) {
+      setClick(true);
+    } else {
+      setClick(false);
+    }
+  }, [wishList]);
   const dispatch = useDispatch();
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
@@ -31,6 +45,16 @@ const ProductCard = ({ data, alt }) => {
     dispatch(addToCart(newItem));
     toast.success(`The item ${data.name.slice(0, 10)} is added to the cart`);
   };
+  let handleAddToWishList = () => {
+    setClick(true);
+    dispatch(addToWishList(data));
+    toast.success("Item added to wishlist");
+  };
+  let handleRemoveFromWishList = () => {
+    setClick(false);
+    dispatch(removeFromWishList(data._id));
+    toast.info("Item removed from wishlist");
+  };
   return (
     <div className="w-full h-[370px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer">
       <div className="flex justify-end"></div>
@@ -44,7 +68,7 @@ const ProductCard = ({ data, alt }) => {
       <Link to={`/shop/preview/${data.shop._id}`}>
         <h5 className={`${styles.shop_name}`}>{data.shop.name}</h5>
       </Link>
-      <Link to={`/products/${product_name}`} onClick={() => alert("hi")}>
+      <Link to={`/products/${product_name}`}>
         <h4 className="pb-3 font-[500]">
           {data.name.length > 40 ? data.name.slice(0, 40) + "..." : data.name}
         </h4>
@@ -94,7 +118,7 @@ const ProductCard = ({ data, alt }) => {
             size={22}
             className="cursor-pointer absolute right-2 top-5"
             onClick={() => {
-              setClick(!click);
+              handleRemoveFromWishList();
             }}
             color={click ? "red" : "#333"}
             title="Remove from wishlist"
@@ -104,7 +128,7 @@ const ProductCard = ({ data, alt }) => {
             size={22}
             className="cursor-pointer absolute right-2 top-5"
             onClick={() => {
-              setClick(!click);
+              handleAddToWishList();
             }}
             color={click ? "red" : "#333"}
             title="Add to wishlist"

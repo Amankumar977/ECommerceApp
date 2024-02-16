@@ -48,7 +48,9 @@ export let handledeleteProduct = (id) => async (dispatch) => {
   dispatch(setIsProductLoading(true));
   try {
     await axios
-      .delete(`${import.meta.env.VITE_SERVER}/products/deleteProduct/${id}`)
+      .delete(`${import.meta.env.VITE_SERVER}/products/deleteProduct/${id}`, {
+        withCredentials: true,
+      })
       .then((res) => {
         dispatch(setMessage(res.data.message));
       })

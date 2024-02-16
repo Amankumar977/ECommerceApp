@@ -4,7 +4,7 @@ import styles from "../../styles/styles";
 import ProfileSidebar from "./ProfileSidebar";
 import ProfileContent from "./ProfileContent";
 const Profile = () => {
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState(6);
   return (
     <div>
       <Header />

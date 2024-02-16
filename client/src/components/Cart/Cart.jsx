@@ -79,7 +79,7 @@ const ShowCartItems = ({ data }) => {
   };
   return (
     <div className="border-b p-4">
-      <div className="w-full flex items-center">
+      <div className="w-full flex items-center justify-between">
         <div>
           {/* Increment item quantity */}
           <div
@@ -119,7 +119,7 @@ const ShowCartItems = ({ data }) => {
         </div>
         {/* Remove item button */}
         <RxCross1
-          className="cursor-pointer text-xl"
+          className="cursor-pointer text-6xl"
           values="Remove the item from the cart"
           onClick={() => {
             dispatch(removeFromCart(data._id));

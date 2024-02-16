@@ -18,12 +18,14 @@ const ProductDetailsPage = () => {
   }, []);
 
   return (
-    <div>
-      <Header />
-      <ProductDetails data={data} />
-      <ReleatedProducts data={data} />
-      <Footer />
-    </div>
+    data && (
+      <div>
+        <Header />
+        <ProductDetails data={data} />
+        <ReleatedProducts data={data} />
+        <Footer />
+      </div>
+    )
   );
 };
 

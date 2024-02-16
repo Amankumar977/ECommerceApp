@@ -6,6 +6,10 @@ import {
   handleGetuser,
   handleLogoutUser,
   handleGetAllProducts,
+  handleUpdateUserDetails,
+  handleAddAddress,
+  handleDeleteAddress,
+  handleChangePassword,
 } from "../controllers/userController.js";
 import catchAsyncError from "../middleware/catchAsyncError.js";
 import isAuthenticated from "../middleware/auth.js"; // Corrected the spelling
@@ -19,10 +23,26 @@ router
   .post(upload.single("avatar"), catchAsyncError(handleRegisterUser)); // Fixed the order of middlewares
 router.route("/activation").post(catchAsyncError(handleActivateUser));
 router.route("/login-user").post(catchAsyncError(handleLoginUser));
-
 // GET request
 router.route("/getAllProducts").get(catchAsyncError(handleGetAllProducts));
 router.route("/getuser").get(isAuthenticated, catchAsyncError(handleGetuser));
 router.route("/logout").get(isAuthenticated, catchAsyncError(handleLogoutUser));
-
+// Patch request
+router
+  .route("/updateUserDeatils")
+  .patch(
+    upload.single("avatar"),
+    isAuthenticated,
+    catchAsyncError(handleUpdateUserDetails)
+  );
+router
+  .route("/addAddress")
+  .patch(isAuthenticated, catchAsyncError(handleAddAddress));
+router
+  .route("/changePassword")
+  .patch(isAuthenticated, catchAsyncError(handleChangePassword));
+/**Delete route */
+router
+  .route("/deleteAddress")
+  .delete(isAuthenticated, catchAsyncError(handleDeleteAddress));
 export default router;

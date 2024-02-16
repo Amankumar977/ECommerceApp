@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../../styles/styles";
 import {
@@ -10,13 +10,27 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/reducers/cart";
 import { toast } from "react-toastify";
+import {
+  addToWishList,
+  removeFromWishList,
+} from "../../redux/reducers/wishList";
 const ProductDetails = ({ data }) => {
   const { cart } = useSelector((state) => state.cart);
+  const { wishList } = useSelector((state) => state.wishList);
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(0);
   const navigate = useNavigate();
+  useEffect(() => {
+    const doesItemExist =
+      wishList && data && wishList.find((item) => item._id === data._id);
+    if (doesItemExist) {
+      setClick(true);
+    } else {
+      setClick(false);
+    }
+  }, [wishList]);
   const handleMessageSubmit = () => {
     navigate("/anything");
   };
@@ -31,6 +45,16 @@ const ProductDetails = ({ data }) => {
     const item = { ...data, quantity: count };
     dispatch(addToCart(item));
     toast.success(`${data.name.slice(0, 10)} is added to the cart`);
+  };
+  let handleAddToWishList = () => {
+    setClick(true);
+    dispatch(addToWishList(data));
+    toast.success("Item added to wishlist");
+  };
+  let handleRemoveFromWishList = () => {
+    setClick(false);
+    dispatch(removeFromWishList(data._id));
+    toast.info("Item has been removed from wishlist");
   };
   return (
     <div className="bg-white">
@@ -113,7 +137,7 @@ const ProductDetails = ({ data }) => {
                         size={22}
                         className="cursor-pointer"
                         onClick={() => {
-                          setClick(!click);
+                          handleRemoveFromWishList();
                         }}
                         color={click ? "red" : "#333"}
                         title="Remove from wishlist"
@@ -123,7 +147,7 @@ const ProductDetails = ({ data }) => {
                         size={22}
                         className="cursor-pointer"
                         onClick={() => {
-                          setClick(!click);
+                          handleAddToWishList();
                         }}
                         color={click ? "red" : "#333"}
                         title="Add to wishlist"

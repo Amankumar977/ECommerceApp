@@ -29,5 +29,7 @@ export async function deleteImagefromCloudinary(imageUrl) {
     }
     const publicId = imageUrl.split("/").pop().split(".")[0];
     await cloudinary.uploader.destroy(publicId);
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error", error.message);
+  }
 }
