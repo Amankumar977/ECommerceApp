@@ -12,6 +12,9 @@ import {
   ProductDetailsPage,
   ProfilePage,
   ShopPreviewPage,
+  CheckOutPage,
+  PaymentPage,
+  OrderSuccess,
 } from "./routes/Routes";
 /**Shop Routes */
 import {
@@ -139,6 +142,23 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/checkout"
+              element={
+                <ProtectedRoute>
+                  <CheckOutPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/payment"
+              element={
+                <ProtectedRoute>
+                  <PaymentPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/orderSuccess" element={<OrderSuccess />} />
             <Route path="/loader" element={<Loader />} />
           </Routes>
 

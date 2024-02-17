@@ -37,7 +37,6 @@ const ProfileContent = ({ active }) => {
     newForm.append("phoneNumber", phoneNumber);
     newForm.append("userId", user._id);
     newForm.append("isImgChanged", isImgChanged);
-    newForm.forEach((item) => console.log(item));
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -578,6 +577,7 @@ const ChangePassword = () => {
               autoComplete={"password"}
               className={"w-full px-2 py-2"}
               required
+              value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
             />
             {showCuPas ? (
@@ -614,6 +614,7 @@ const ChangePassword = () => {
               id={"newPassword"}
               name={"newPassword"}
               autoComplete={"password"}
+              value={newPassword}
               className={"w-full px-2 py-2"}
               required
               onChange={(e) => setNewPassword(e.target.value)}
@@ -635,6 +636,7 @@ const ChangePassword = () => {
               id={"confirmPassword"}
               name={"confirmPassword"}
               autoComplete={"password"}
+              value={confirmPassword}
               className={"w-full px-2 py-2"}
               required
               onChange={(e) => setConfirmPassword(e.target.value)}

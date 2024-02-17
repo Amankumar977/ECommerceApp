@@ -9,6 +9,7 @@ const SingupPage = () => {
     if (isAuthenticated == true) {
       navigate("/");
     }
+    window.scrollTo(0, 0);
   }, []);
   return (
     <div>

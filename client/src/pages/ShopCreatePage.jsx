@@ -12,6 +12,7 @@ const ShopCreatePage = () => {
     if (isSellerAuthenticated) {
       navigate(`/dashboard`);
     }
+    window.scrollTo(0, 0);
   }, [isSellerAuthenticated, seller]);
   return (
     <div>

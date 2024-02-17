@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DashBoardHeader from "../components/DashBoard/DashBoardHeader";
 import DashBoardSideBar from "../components/DashBoard/DashBoardSideBar";
 import styles from "../styles/styles";
 import CreateProduct from "../components/CreateProduct/CreateProduct";
 const CreateProductPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div>
       <DashBoardHeader />

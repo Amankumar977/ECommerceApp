@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
       required: [true, "Please enter the password"],
       match: [
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
-        "Please enter a valid password",
+        "The password validation failed, It should have a uppercase, number and special character",
       ],
       minLength: [4, "Password should be greater than 4 characters"],
       select: false,

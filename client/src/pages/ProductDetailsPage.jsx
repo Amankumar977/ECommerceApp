@@ -12,6 +12,7 @@ const ProductDetailsPage = () => {
   const [data, setData] = useState(null);
   const productName = name.replace(/-/g, " ");
   useEffect(() => {
+    window.scrollTo(0, 0);
     const data =
       allProducts && [...allProducts].find((i) => i.name == productName);
     setData(data);

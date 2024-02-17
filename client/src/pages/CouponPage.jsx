@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashBoardHeader from "../components/DashBoard/DashBoardHeader";
 import DashBoardSideBar from "../components/DashBoard/DashBoardSideBar";
 import Coupon from "../components/coupon/Coupon";
@@ -6,6 +6,9 @@ import { Button } from "@mui/material";
 import CreateCouponBox from "../components/coupon/CreateCouponBox";
 import styles from "../styles/styles.js";
 const CouponPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [openCreateBox, setOpenCreateBox] = useState(false);
   return (
     <div>

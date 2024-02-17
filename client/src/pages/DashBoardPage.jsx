@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashBoardHeader from "../components/DashBoard/DashBoardHeader";
 import DashBoardSideBar from "../components/DashBoard/DashBoardSideBar";
 import styles from "../styles/styles.js";
 const DashBoardPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [active, setActive] = useState(1);
   return (
     <div>

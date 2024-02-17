@@ -37,7 +37,6 @@ export const fetchShop = () => async (dispatch) => {
     dispatch(setIsSellerAuthenticated(true));
   } catch (error) {
     dispatch(setIsSelLoading(false));
-    console.log(error.message);
     dispatch(setIsSellerAuthenticated(false));
   }
 };

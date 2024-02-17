@@ -13,6 +13,7 @@ const ShopPreviewPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
+    window.scrollTo(0, 0);
     dispatch(getAllProductsShop(id));
     let getShop = async () => {
       try {
