@@ -5,7 +5,9 @@ import {
   handleCreateCoupon,
   handlegetShopCoupon,
   handleDeleteCoupon,
+  handleGetCoupon,
 } from "../controllers/couponController.js";
+import isAuthenticated from "../middleware/auth.js";
 let router = express.Router();
 /**Post route */
 router
@@ -15,6 +17,9 @@ router
 router
   .route("/getShopCoupon/:id")
   .get(isSellerAuth, catchAsyncError(handlegetShopCoupon));
+router
+  .route("/getCoupon/:couponCode")
+  .get(isAuthenticated, catchAsyncError(handleGetCoupon));
 /**Delete Route */
 router
   .route("/deleteCoupon/:id")

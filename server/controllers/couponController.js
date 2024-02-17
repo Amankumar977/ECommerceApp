@@ -111,3 +111,31 @@ export async function handleDeleteCoupon(req, res) {
     });
   }
 }
+export async function handleGetCoupon(req, res) {
+  try {
+    const couponCode = req.params.couponCode;
+    if (!couponCode) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide a coupon code",
+      });
+    }
+    const existingCoupon = await couponModel.findOne({ name: couponCode });
+    if (!existingCoupon) {
+      return res.status(404).json({
+        success: false,
+        message: "No Coupon code found with this name, please check the code",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      coupon: existingCoupon,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+      message: error.message,
+    });
+  }
+}
