@@ -117,6 +117,7 @@ const Shipping = () => {
       let discountToBegiven =
         (poductPrice * productCount * discountPercentage) / 100;
       setDiscount(discountToBegiven);
+      toast.success("coupon applied");
     } catch (error) {
       toast.error(error.response.data.message);
     }
