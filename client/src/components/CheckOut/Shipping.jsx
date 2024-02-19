@@ -36,7 +36,7 @@ const Shipping = () => {
   const finalPaymentPrice = totalPrice - discount + shippingCharges;
   const navigate = useNavigate();
   useEffect(() => {
-    // window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     setName(user.name);
     setEmail(user.email);
     setPhoneNumber(user.phoneNumber);
