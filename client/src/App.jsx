@@ -15,6 +15,7 @@ import {
   CheckOutPage,
   PaymentPage,
   OrderSuccess,
+  NotFoundPage,
 } from "./routes/Routes";
 /**Shop Routes */
 import {
@@ -159,7 +160,8 @@ function App() {
               }
             />
             <Route path="/orderSuccess" element={<OrderSuccess />} />
-            <Route path="/loader" element={<Loader />} />
+
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
 
           <ToastContainer

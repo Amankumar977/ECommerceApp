@@ -1,11 +1,17 @@
 import Stripe from "stripe";
 import Razorpay from "razorpay";
 import crypto from "crypto";
+import orderModel from "../model/orderModel.js";
+let newCreatedOrderProductId;
+const createMongooseOrder = async (orderDetails) => {
+  const order = await orderModel.create(orderDetails);
+  newCreatedOrderProductId = order._id;
+};
 export async function handleStripeCheckOut(req, res) {
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-    const { products, discountedPercentage } = req.body;
-
+    const { products, discountedPercentage, orderDetails } = req.body;
+    await createMongooseOrder(orderDetails);
     // Create the coupon
     const coupon = await stripe.coupons.create({
       percent_off: discountedPercentage,
@@ -34,10 +40,11 @@ export async function handleStripeCheckOut(req, res) {
       discounts: [{ coupon: coupon.id }], // Use the coupon ID
       billing_address_collection: "required", // Require customer to provide billing address
     });
-
-    res.status(200).json({
-      id: session.id,
-    });
+    if (session) {
+      res.status(200).json({
+        id: session.id,
+      });
+    }
   } catch (error) {
     console.error("Error creating checkout session:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
@@ -52,7 +59,8 @@ const razorpayInstance = new Razorpay({
 
 export async function handleRazorpayPayment(req, res) {
   try {
-    const { finalPaymentPrice } = req.body;
+    const { finalPaymentPrice, orderDetails } = req.body;
+    await createMongooseOrder(orderDetails);
     const options = {
       amount: finalPaymentPrice * 100, // Convert to paise
       currency: "INR",
@@ -80,6 +88,9 @@ export async function handleRazorpayPaymentVerification(req, res) {
     .digest("hex");
   const isAuthentic = expectedSignature === razorpay_signature;
   if (isAuthentic) {
+    const order = await orderModel.findByIdAndUpdate(newCreatedOrderProductId, {
+      PaymentStatus: "Recieved",
+    });
     res.redirect(`${process.env.FRONTEND_URL}/orderSuccess`);
   } else {
     res.redirect(`${process.env.FRONTEND_URL}/unsucessfullOrder`);

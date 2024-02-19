@@ -3,11 +3,15 @@ import { useLocation, useNavigate } from "react-router-dom"; // Import useLocati
 import { Button, Input, Label } from "../form";
 import CheckOutSteps from "./CheckOutSteps";
 import { loadStripe } from "@stripe/stripe-js";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { handleCreateOrder } from "../../redux/reducers/orders";
+import { emptyCart } from "../../redux/reducers/cart";
 import axios from "axios";
 const Payment = ({ total }) => {
   const { user } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
+  const { orderCreated } = useSelector((state) => state.orders);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -18,46 +22,99 @@ const Payment = ({ total }) => {
       ? JSON.parse(localStorage.getItem("latestOrder"))
       : []
   );
+  const productsId = cart.map((item) => {
+    return item._id;
+  });
 
-  let handleMakePaymentWithStripe = async () => {
-    const stripe = await loadStripe(
-      `${import.meta.env.VITE_STRIPE_PUBLISH_KEY}`
-    );
-
-    const products = {
-      products: cart,
-      discountedPercentage:
-        Math.min(
-          Math.round(
-            (latestOrder.discount / latestOrder.finalPaymentPrice) * 100
-          ),
-          100
-        ) || 0.01,
-    };
-
-    const headers = {
-      "Content-type": "application/json",
+  const handleMakePaymentWithStripe = async () => {
+    let orderDetails = {
+      products: productsId,
+      name: latestOrder.name,
+      email: latestOrder.email,
+      shippingInfo: latestOrder.shippingInfo, // Corrected typo
+      phoneNumber: latestOrder.phoneNumber,
+      finalPaymentPrice: latestOrder.finalPaymentPrice,
+      discount: latestOrder.discount,
+      shippingCharges: latestOrder.shippingCharges,
+      customerId: user._id,
+      PaymentType: "COD",
     };
     try {
+      const stripe = await loadStripe(
+        `${import.meta.env.VITE_STRIPE_PUBLISH_KEY}`
+      );
+      const products = {
+        products: cart,
+        orderDetails: orderDetails,
+        discountedPercentage:
+          Math.min(
+            Math.round(
+              (latestOrder.discount / latestOrder.finalPaymentPrice) * 100
+            ),
+            100
+          ) || 0.01,
+      };
+
+      const headers = {
+        "Content-type": "application/json",
+      };
+
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER}/payment/StripeCheckoutSession`,
-        products, // Pass the body directly, no need for an object wrapper
-        {
-          headers,
-        }
+        products,
+        { headers }
       );
-      const session = response.data; // No need for .json(), axios handles JSON parsing
-      const result = await stripe.redirectToCheckout({
-        sessionId: session.id,
-      });
+
+      const session = response.data;
+      const result = await stripe.redirectToCheckout({ sessionId: session.id });
+
       if (result.error) {
         console.error(result.error);
+        // Handle Stripe error, if any
+        throw new Error("Stripe redirection error");
+      }
+      console.log(result.paymentIntent, result.paymentIntent.status);
+      if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
+        let orderDetails = {
+          products: productsId,
+          name: latestOrder.name,
+          email: latestOrder.email,
+          shippingInfo: latestOrder.shippingInfo, // Corrected typo
+          phoneNumber: latestOrder.phoneNumber,
+          finalPaymentAmount: latestOrder.finalPaymentAmount,
+          discount: latestOrder.discount,
+          shippingCharges: latestOrder.shippingCharges,
+          customerId: user._id,
+          PaymentType: "Credit/ debit card",
+        };
+        dispatch(handleCreateOrder(orderDetails));
+        navigate("/orderSuccess");
+        toast.success("Order successful!");
+        dispatch(emptyCart([]));
+        localStorage.setItem("latestOrder", JSON.stringify([]));
+      } else {
+        console.error("Payment not succeeded or paymentIntent not received");
+        // Handle payment failure or unexpected result
       }
     } catch (error) {
       console.error("Error making payment:", error);
+      // Handle other errors, such as network issues or server errors
     }
   };
+
   let handleMakePaymentWithRazorpay = async () => {
+    let orderDetails = {
+      products: productsId,
+      name: latestOrder.name,
+      email: latestOrder.email,
+      shippingInfo: latestOrder.shippingInfo, // Corrected typo
+      phoneNumber: latestOrder.phoneNumber,
+      finalPaymentPrice: latestOrder.finalPaymentPrice,
+      discount: latestOrder.discount,
+      shippingCharges: latestOrder.shippingCharges,
+      customerId: user._id,
+      PaymentType: "UPI",
+    };
     try {
       const {
         data: { order },
@@ -65,6 +122,7 @@ const Payment = ({ total }) => {
         `${import.meta.env.VITE_SERVER}/payment/razorpayPayment`,
         {
           finalPaymentPrice: latestOrder.finalPaymentPrice,
+          orderDetails: orderDetails,
         }
       );
 
@@ -84,7 +142,7 @@ const Payment = ({ total }) => {
           contact: user.phoneNumber,
         },
         notes: {
-          address: "New Delhi, Delhii rocks, 11100014",
+          address: "New Delhi, Delhi rocks, 11100014",
         },
         theme: {
           color: "#FF837A",
@@ -97,13 +155,17 @@ const Payment = ({ total }) => {
     }
   };
   let handleCashOnDelivery = async () => {
-    navigate("/orderSuccess");
+    await dispatch(handleCreateOrder(orderDetails));
+    console.log(orderCreated);
+    if (orderCreated) {
+      navigate("/orderSuccess");
+    }
   };
   return (
     <div className="flex justify-center items-center w-full mt-24 800px:mt-20 flex-col  ">
       <CheckOutSteps active={2} />
-      <div className="md:flex justify-evenly md:gap-6  my-4 md:w-[100%]">
-        <div className="bg-white px-6 py-3 md:px-10 md:py-4  my-3 mx-2 w-[70%] lg:w-[60%] rounded-lg">
+      <div className="flex justify-center md:gap-6  my-4 w-full">
+        <div className="bg-white px-6 py-3 md:px-10 md:py-4  my-3 mx-2 w-[70%]  rounded-lg">
           <div className="flex gap-4 mb-6 font-[400]">
             <input
               type="radio"

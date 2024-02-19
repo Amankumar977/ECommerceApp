@@ -136,7 +136,7 @@ const Shipping = () => {
     ) {
       return toast.error("Please enter all the required details");
     }
-    let shippinInfo = {
+    let shippingInfo = {
       country,
       state,
       city,
@@ -144,7 +144,7 @@ const Shipping = () => {
       zipCode,
     };
     let orderDetails = {
-      shippinInfo,
+      shippingInfo,
       name,
       email,
       phoneNumber,
