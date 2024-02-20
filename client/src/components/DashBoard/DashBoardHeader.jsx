@@ -11,7 +11,8 @@ const DashBoardHeader = () => {
   const { seller } = useSelector((state) => state.seller);
 
   return (
-    <div className="w-full h-[80px] bg-white shadow sticky top-0 left-0 z-30 flex items-center justify-between px-4">
+    <div
+      className={`${styles.section} w-full h-[80px] bg-white shadow sticky top-0 left-0 z-30 flex items-center justify-between px-14`}>
       <div>
         <Link to="/dashboard">
           <img src={Logo} alt={"peopely"} className="w-16" />

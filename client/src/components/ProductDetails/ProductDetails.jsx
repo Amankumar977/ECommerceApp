@@ -14,6 +14,7 @@ import {
   addToWishList,
   removeFromWishList,
 } from "../../redux/reducers/wishList";
+import { FaStar } from "react-icons/fa6";
 const ProductDetails = ({ data }) => {
   const { cart } = useSelector((state) => state.cart);
   const { wishList } = useSelector((state) => state.wishList);
@@ -208,6 +209,18 @@ const ProductDetails = ({ data }) => {
   );
 };
 const ProductDetailsInfo = ({ data }) => {
+  console.log(data);
+  let renderStars = (ratings) => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+      if (i < ratings) {
+        stars.push(<FaStar key={i} color="#ffc107" />);
+      } else {
+        stars.push(<FaStar key={i} color="#e4e5e9" />);
+      }
+    }
+    return stars;
+  };
   const [active, setActive] = useState(1);
   return (
     <div className="bg-[#f5f6fb] px-3 800px:px-10 py-2 rounded ">
@@ -258,10 +271,31 @@ const ProductDetailsInfo = ({ data }) => {
       ) : null}
 
       {active == 2 ? (
-        <div className="w-full flex justify-center min-h-[40vh] items-center">
-          <p>No reviews yet!</p>
+        <div className="w-full p-2 min-h-[40vh] items-center overflow-y-scroll">
+          {data.reviews &&
+            data.ratings &&
+            data.reviews.map((review, index) => (
+              <div key={index} className="pb-5 mt-2">
+                <div className="flex gap-4 items-center">
+                  <img
+                    src={review.customerAvatar}
+                    alt={review.customerName}
+                    className="w-16"
+                  />
+                  <div>
+                    <p className="mt-2 text-xl">{review.review}</p>
+                    {data.ratings[index] && (
+                      <p className="flex gap-4 mt-2 text-[20px]">
+                        {renderStars(data.ratings[index])}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
         </div>
       ) : null}
+
       {active === 3 && (
         <div className="w-full block 800px:flex p-5 ">
           <div className="w-full 800px:w-[50%]">

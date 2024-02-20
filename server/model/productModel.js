@@ -51,7 +51,7 @@ let productSchema = new mongoose.Schema(
       default: 0,
     },
     images: [{ type: String, required: true }],
-    reviews: [{ type: String }],
+    reviews: [{ type: Object }],
   },
   { timestamps: true }
 );

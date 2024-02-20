@@ -13,6 +13,7 @@ import CheckOutPage from "../pages/CheckOutPage.jsx";
 import PaymentPage from "../pages/PaymentPage.jsx";
 import OrderSuccess from "../pages/OrderSuccess.jsx";
 import NotFoundPage from "../pages/NotFoundPage.jsx";
+import OrderOverviewPage from "../pages/OrderOverviewPage.jsx";
 export {
   LoginPage,
   SingupPage,
@@ -29,4 +30,5 @@ export {
   PaymentPage,
   OrderSuccess,
   NotFoundPage,
+  OrderOverviewPage,
 };

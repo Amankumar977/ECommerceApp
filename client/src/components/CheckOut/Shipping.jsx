@@ -152,6 +152,7 @@ const Shipping = () => {
       discount,
       shippingCharges,
       userId: user._id,
+      avatar: user.avatar,
     };
 
     localStorage.setItem("latestOrder", JSON.stringify(orderDetails));

@@ -16,6 +16,7 @@ import {
   PaymentPage,
   OrderSuccess,
   NotFoundPage,
+  OrderOverviewPage,
 } from "./routes/Routes";
 /**Shop Routes */
 import {
@@ -30,6 +31,7 @@ import {
   EventsPage,
   CouponPage,
   ShopAllOrdersPage,
+  ShopOrderOverview,
 } from "./routes/shop.routes";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -129,6 +131,14 @@ function App() {
                 </SellerProtectedRoute>
               }
             />
+            <Route
+              path="/shop/order/:id"
+              element={
+                <SellerProtectedRoute>
+                  <ShopOrderOverview />
+                </SellerProtectedRoute>
+              }
+            />
             {/* Regular Routes */}
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -169,6 +179,14 @@ function App() {
               }
             />
             <Route path="/orderSuccess" element={<OrderSuccess />} />
+            <Route
+              path="/user/order/:id"
+              element={
+                <ProtectedRoute>
+                  <OrderOverviewPage />
+                </ProtectedRoute>
+              }
+            />
 
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

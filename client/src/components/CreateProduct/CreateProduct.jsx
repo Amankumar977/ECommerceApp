@@ -63,6 +63,7 @@ const CreateProduct = () => {
         .post(
           `${import.meta.env.VITE_SERVER}/products/create-product`,
           formData,
+          { withCredentials: true },
           {
             headers: {
               "Content-Type": "multipart/form-data",

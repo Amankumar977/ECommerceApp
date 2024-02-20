@@ -29,6 +29,7 @@ const createMongooseOrder = async (orderDetails) => {
       shippingCharges: orderDetails.shippingCharges,
       customerId: orderDetails.customerId,
       PaymentType: orderDetails.PaymentType,
+      avatar: orderDetails.avatar,
       products,
     };
     const order = await orderModel.create(finalOrder);

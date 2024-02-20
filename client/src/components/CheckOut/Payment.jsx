@@ -110,6 +110,7 @@ const Payment = ({ total }) => {
       discount: latestOrder.discount,
       shippingCharges: latestOrder.shippingCharges,
       customerId: user._id,
+      avatar: latestOrder.avatar,
       PaymentType: "UPI",
     };
     try {
@@ -162,6 +163,7 @@ const Payment = ({ total }) => {
       discount: latestOrder.discount,
       shippingCharges: latestOrder.shippingCharges,
       customerId: user._id,
+      avatar: latestOrder.avatar,
       PaymentType: "COD",
     };
     try {

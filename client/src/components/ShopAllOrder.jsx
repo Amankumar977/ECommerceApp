@@ -51,7 +51,7 @@ const ShopAllOrder = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/user/order/${params.id}`}>
+            <Link to={`/shop/order/${params.id}`}>
               <button
                 className={
                   "bg-[#ffffff] text-gray-400 w-[50px] px-2 py-2 rounded-lg"

@@ -32,6 +32,10 @@ let orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    avatar: {
+      type: String,
+      required: true,
+    },
     PaymentType: {
       type: String,
       required: true,
@@ -39,6 +43,10 @@ let orderSchema = new mongoose.Schema(
     PaymentStatus: {
       type: String,
       default: "notReceived",
+    },
+    reviewGiven: {
+      type: Boolean,
+      default: false,
     },
     orderStatus: {
       type: String,
