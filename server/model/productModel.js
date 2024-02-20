@@ -45,6 +45,7 @@ let productSchema = new mongoose.Schema(
       type: Object,
       required: true,
     },
+    ratings: [{ type: Number }],
     sold_out: {
       type: Number,
       default: 0,

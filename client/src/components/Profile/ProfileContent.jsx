@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AiOutlineArrowRight,
   AiOutlineCamera,
   AiOutlineDelete,
 } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DataGrid } from "@mui/x-data-grid";
 import Label from "../form/Label";
 import Input from "../form/Input";
@@ -18,8 +18,13 @@ import Loader from "../Layouts/Loader";
 import { RxCross1 } from "react-icons/rx";
 import { Country, State, City } from "country-state-city";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import { handleGetUserOrder } from "../../redux/reducers/orders";
 const ProfileContent = ({ active }) => {
   const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(handleGetUserOrder(user._id));
+  }, []);
   const [avatar, setAvatar] = useState(null);
   const [name, setName] = useState(user ? user.name : " ");
   const [email, setEmail] = useState(user ? user.email : " ");
@@ -27,7 +32,6 @@ const ProfileContent = ({ active }) => {
   const [favorites, setFavorites] = useState("");
   const [updatingDetails, setUpdatingDetails] = useState(false);
   const [isImgChanged, setIsImgChanged] = useState(false);
-
   const handleUpdateUserDetailSubmit = async (e) => {
     e.preventDefault();
     const newForm = new FormData();
@@ -223,27 +227,7 @@ const ProfileContent = ({ active }) => {
   );
 };
 const AllOrders = () => {
-  const orders = [
-    {
-      _id: "avgshjkl85gsu",
-      orderItems: [{ name: "Iphone 14 pro max" }],
-      totalPrice: 120,
-      orderStatus: "Processing",
-    },
-    {
-      _id: "avgshjkl8fgh5gsu",
-      orderItems: [{ name: "Iphone 14 pro max" }],
-      totalPrice: 180,
-      orderStatus: "Processing",
-    },
-    {
-      _id: "avgshjdfghkl85gsu",
-      orderItems: [{ name: "Iphone 14 pro max" }],
-      totalPrice: 160,
-      orderStatus: "Processing",
-    },
-  ];
-
+  const { userOrders } = useSelector((state) => state.orders);
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
 
@@ -275,7 +259,7 @@ const AllOrders = () => {
       field: "Check Details",
       flex: 1,
       minWidth: 150,
-      headerName: "",
+      headerName: "Check Details By Clicking below",
       type: "number",
       sortable: false,
       renderCell: (params) => {
@@ -297,12 +281,12 @@ const AllOrders = () => {
 
   const row = [];
 
-  orders &&
-    orders.forEach((item) => {
+  userOrders &&
+    userOrders.forEach((item) => {
       row.push({
         id: item._id,
-        itemsQty: item.orderItems.length,
-        total: "₹ " + item.totalPrice,
+        itemsQty: item.products.length,
+        total: "₹ " + item.finalPaymentPrice,
         status: item.orderStatus,
       });
     });

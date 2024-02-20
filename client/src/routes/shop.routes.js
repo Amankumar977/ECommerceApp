@@ -8,6 +8,7 @@ import AllProductsPage from "../pages/AllProductsPage.jsx";
 import CreateEventPage from "../pages/CreateEventPage.jsx";
 import EventsPage from "../pages/EventsPage.jsx";
 import CouponPage from "../pages/CouponPage.jsx";
+import ShopAllOrdersPage from "../pages/ShopAllOrdersPage.jsx";
 export {
   ShopCreatePage,
   ShopActivationPage,
@@ -19,4 +20,5 @@ export {
   CreateEventPage,
   EventsPage,
   CouponPage,
+  ShopAllOrdersPage,
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DashBoardHeader from "../components/DashBoard/DashBoardHeader";
 import DashBoardSideBar from "../components/DashBoard/DashBoardSideBar";
 import styles from "../styles/styles.js";
+import { useDispatch } from "react-redux";
 const DashBoardPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);

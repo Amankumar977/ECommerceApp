@@ -38,13 +38,14 @@ let orderSchema = new mongoose.Schema(
     },
     PaymentStatus: {
       type: String,
-      default: "notRecieved",
+      default: "notReceived",
     },
     orderStatus: {
       type: String,
       default: "Ordered",
     },
-    products: [{ type: String, required: true }],
+
+    products: [{ type: Object, required: true }],
   },
   { timestamps: true }
 );

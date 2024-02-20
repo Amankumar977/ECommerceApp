@@ -16,7 +16,7 @@ let isSellerAuthenticated = (req, res, next) => {
         // Handle JWT verification errors
         return res.status(401).json({
           success: false,
-          message: "Invalid Token",
+          message: "Please login to continue",
         });
       } else {
         // Set sellerId on the request object

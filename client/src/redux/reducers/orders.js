@@ -4,7 +4,6 @@ let initialState = {
   userOrders: null,
   shopOrders: null,
   isOrderLoading: true,
-  orderCreated: false,
 };
 let orderReducer = createSlice({
   name: "orders",
@@ -19,25 +18,31 @@ let orderReducer = createSlice({
     setIsOrderLoading: (state, action) => {
       state.isOrderLoading = action.payload;
     },
-    setOrderCreated: (state, action) => {
-      state.orderCreated = action.payload;
-    },
   },
 });
 
-export const handleCreateOrder = (orderDetails) => async (dispatch) => {
+export const handleGetUserOrder = (id) => async (dispatch) => {
   try {
-    await axios
-      .post(`${import.meta.env.VITE_SERVER}/orders/createOrder`, orderDetails)
-      .then((response) => {
-        console.log(response.data.message);
-        dispatch(setOrderCreated(true));
-      });
+    let response = await axios.get(
+      `${import.meta.env.VITE_SERVER}/orders/getUserOrder/${id}`,
+      { withCredentials: true }
+    );
+    dispatch(setUserOrders(response.data.orders));
   } catch (error) {
     console.log(error.response.data.message);
   }
 };
-
+export const handleGetShopOrder = (id) => async (dispatch) => {
+  try {
+    let response = await axios.get(
+      `${import.meta.env.VITE_SERVER}/orders/getShopOrders/${id}`,
+      { withCredentials: true }
+    );
+    dispatch(setShopOrders(response.data.orders));
+  } catch (error) {
+    console.log(error.response.data.message);
+  }
+};
 export const {
   setIsOrderLoading,
   setShopOrders,

@@ -2,10 +2,38 @@ import Stripe from "stripe";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 import orderModel from "../model/orderModel.js";
-let newCreatedOrderProductId;
+let newCreatedOrderProductsId = [];
 const createMongooseOrder = async (orderDetails) => {
-  const order = await orderModel.create(orderDetails);
-  newCreatedOrderProductId = order._id;
+  let products = orderDetails.products;
+  let orderMap = new Map();
+  for (let item of products) {
+    let shopId = item.shopId;
+    if (!orderMap.has(shopId)) {
+      orderMap.set(shopId, [item]);
+    } else {
+      orderMap.get(shopId).push(item);
+    }
+  }
+  for (let [shopId, products] of orderMap.entries()) {
+    const finalPaymentPrice = products.reduce(
+      (total, item) => total + item.discountedPrice,
+      0
+    );
+    let finalOrder = {
+      name: orderDetails.name,
+      email: orderDetails.email,
+      shippingInfo: orderDetails.shippingInfo,
+      phoneNumber: orderDetails.phoneNumber,
+      finalPaymentPrice: finalPaymentPrice,
+      discount: orderDetails.discount,
+      shippingCharges: orderDetails.shippingCharges,
+      customerId: orderDetails.customerId,
+      PaymentType: orderDetails.PaymentType,
+      products,
+    };
+    const order = await orderModel.create(finalOrder);
+    newCreatedOrderProductsId.push(order._id);
+  }
 };
 export async function handleStripeCheckOut(req, res) {
   try {
@@ -88,9 +116,11 @@ export async function handleRazorpayPaymentVerification(req, res) {
     .digest("hex");
   const isAuthentic = expectedSignature === razorpay_signature;
   if (isAuthentic) {
-    const order = await orderModel.findByIdAndUpdate(newCreatedOrderProductId, {
-      PaymentStatus: "Recieved",
-    });
+    for (let id of newCreatedOrderProductsId) {
+      await orderModel.findByIdAndUpdate(id, {
+        PaymentStatus: "Received",
+      });
+    }
     res.redirect(`${process.env.FRONTEND_URL}/orderSuccess`);
   } else {
     res.redirect(`${process.env.FRONTEND_URL}/unsucessfullOrder`);

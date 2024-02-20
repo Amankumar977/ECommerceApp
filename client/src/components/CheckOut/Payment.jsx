@@ -4,13 +4,11 @@ import { Button, Input, Label } from "../form";
 import CheckOutSteps from "./CheckOutSteps";
 import { loadStripe } from "@stripe/stripe-js";
 import { useDispatch, useSelector } from "react-redux";
-import { handleCreateOrder } from "../../redux/reducers/orders";
 import { emptyCart } from "../../redux/reducers/cart";
 import axios from "axios";
 const Payment = ({ total }) => {
   const { user } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
-  const { orderCreated } = useSelector((state) => state.orders);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
@@ -73,7 +71,6 @@ const Payment = ({ total }) => {
         // Handle Stripe error, if any
         throw new Error("Stripe redirection error");
       }
-      console.log(result.paymentIntent, result.paymentIntent.status);
       if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
         let orderDetails = {
           products: productsId,
@@ -104,7 +101,7 @@ const Payment = ({ total }) => {
 
   let handleMakePaymentWithRazorpay = async () => {
     let orderDetails = {
-      products: productsId,
+      products: cart,
       name: latestOrder.name,
       email: latestOrder.email,
       shippingInfo: latestOrder.shippingInfo, // Corrected typo
@@ -155,10 +152,27 @@ const Payment = ({ total }) => {
     }
   };
   let handleCashOnDelivery = async () => {
-    await dispatch(handleCreateOrder(orderDetails));
-    console.log(orderCreated);
-    if (orderCreated) {
-      navigate("/orderSuccess");
+    let orderDetails = {
+      products: cart,
+      name: latestOrder.name,
+      email: latestOrder.email,
+      shippingInfo: latestOrder.shippingInfo, // Corrected typo
+      phoneNumber: latestOrder.phoneNumber,
+      finalPaymentPrice: latestOrder.finalPaymentPrice,
+      discount: latestOrder.discount,
+      shippingCharges: latestOrder.shippingCharges,
+      customerId: user._id,
+      PaymentType: "COD",
+    };
+    try {
+      await axios
+        .post(`${import.meta.env.VITE_SERVER}/orders/createOrder`, orderDetails)
+        .then((response) => {
+          console.log(response.data.message);
+          navigate("/orderSuccess");
+        });
+    } catch (error) {
+      console.log(error.response.data.message);
     }
   };
   return (
