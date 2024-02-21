@@ -11,6 +11,8 @@ import eventRoute from "./routes/eventRoute.js";
 import couponRoute from "./routes/couponRoute.js";
 import paymentRoute from "./routes/paymentRoute.js";
 import orderRoute from "./routes/orderRoute.js";
+import conversationRoute from "./routes/conversationRoute.js";
+import messageRoute from "./routes/messageRoute.js";
 const app = express();
 // App Middlewares
 app.use(express.json());
@@ -48,4 +50,6 @@ app.use("/api/v1/events", eventRoute);
 app.use("/api/v1/coupon", couponRoute);
 app.use("/api/v1/payment", paymentRoute);
 app.use("/api/v1/orders", orderRoute);
+app.use("/api/v1/conversation", conversationRoute);
+app.use("/api/v1/messages", messageRoute);
 export default app;

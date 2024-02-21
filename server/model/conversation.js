@@ -10,6 +10,9 @@ const conversationSchema = new mongoose.Schema(
     lastMessageId: {
       type: String,
     },
+    groupTitle: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

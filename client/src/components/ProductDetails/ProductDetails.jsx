@@ -15,9 +15,11 @@ import {
   removeFromWishList,
 } from "../../redux/reducers/wishList";
 import { FaStar } from "react-icons/fa6";
+import axios from "axios";
 const ProductDetails = ({ data }) => {
   const { cart } = useSelector((state) => state.cart);
   const { wishList } = useSelector((state) => state.wishList);
+  const { user, isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
@@ -32,9 +34,28 @@ const ProductDetails = ({ data }) => {
       setClick(false);
     }
   }, [wishList]);
-  const handleMessageSubmit = () => {
-    navigate("/anything");
+  const handleMessageSubmit = async () => {
+    if (!isAuthenticated) {
+      return toast.error("Please login to send a message to the shop");
+    }
+    try {
+      await axios
+        .post(
+          `${import.meta.env.VITE_SERVER}/conversation/createNewConversation`,
+          {
+            groupTitle: data.shopId + user._id,
+            userId: user._id,
+            sellerId: data.shopId,
+          }
+        )
+        .then((res) => {
+          navigate(`/conversation/${res.data.conversation._id}`);
+        });
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
+
   let handleAddToCart = () => {
     if (data.stock < count) {
       return toast.error(`Oops the item only has ${data.stock} quantity`);
@@ -187,7 +208,7 @@ const ProductDetails = ({ data }) => {
                   <div
                     className={`${styles.button} bg-[#000] mt-4 rounded-[4px] h-11 mx-5`}
                     onClick={() => {
-                      handleMessageSubmit;
+                      handleMessageSubmit();
                     }}>
                     <span className="text-white flex items-center w-[20rem]  px-5">
                       Send Message <AiOutlineMessage className="ml-1" />
@@ -209,7 +230,6 @@ const ProductDetails = ({ data }) => {
   );
 };
 const ProductDetailsInfo = ({ data }) => {
-  console.log(data);
   let renderStars = (ratings) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
