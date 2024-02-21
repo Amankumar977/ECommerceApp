@@ -2,6 +2,7 @@ import Stripe from "stripe";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 import orderModel from "../model/orderModel.js";
+import productModel from "../model/productModel.js";
 let newCreatedOrderProductsId = [];
 const createMongooseOrder = async (orderDetails) => {
   let products = orderDetails.products;
@@ -19,6 +20,12 @@ const createMongooseOrder = async (orderDetails) => {
       (total, item) => total + item.discountedPrice,
       0
     );
+    for (let product of products) {
+      let item = await productModel.findById(product._id);
+      item.sold_out += 1;
+      item.stock -= 1;
+      item.save();
+    }
     let finalOrder = {
       name: orderDetails.name,
       email: orderDetails.email,

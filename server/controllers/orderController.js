@@ -25,7 +25,13 @@ export async function handleCreateOrder(req, res) {
         (total, item) => total + item.discountedPrice,
         0
       );
-      console.log(orderDetails);
+
+      for (let product of products) {
+        let item = await productModel.findById(product._id);
+        item.sold_out += 1;
+        item.stock -= 1;
+        item.save();
+      }
       let finalOrder = {
         name: orderDetails.name,
         email: orderDetails.email,

@@ -17,7 +17,6 @@ import Navbar from "./Navbar.jsx";
 import { useSelector } from "react-redux";
 import Cart from "../../components/Cart/Cart";
 import Wishlist from "../../components/Wishlist/Wishlist";
-import HeaderSidebar from "../Layouts/HeaderSidebar.jsx";
 const Header = ({ activeHeading }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState(null);
@@ -27,11 +26,10 @@ const Header = ({ activeHeading }) => {
   const [openSidebar, setOpenSideBar] = useState(false);
   const [openWishlist, setOpenWishList] = useState(false);
   const { isAuthenticated, user } = useSelector((state) => state.user);
-  const { isProductLoading, allProducts, errorMessage } = useSelector(
-    (state) => state.allProducts
-  );
+  const { allProducts } = useSelector((state) => state.allProducts);
   const { cart } = useSelector((state) => state.cart);
   const { wishList } = useSelector((state) => state.wishList);
+  const { isSellerAuthenticated } = useSelector((state) => state.seller);
   const handleSearchChange = (data) => {
     setSearchTerm(data);
     if (searchTerm) {
@@ -107,7 +105,9 @@ const Header = ({ activeHeading }) => {
           <div className={`${styles.button}`}>
             <Link to="/shop-create">
               <h1 className="text-white  flex items-center justify-center px-3  ">
-                Become a seller
+                {isSellerAuthenticated
+                  ? "Go to shop dashboard"
+                  : "Become a seller"}
                 <IoIosArrowForward className="ml-2" />
               </h1>
             </Link>

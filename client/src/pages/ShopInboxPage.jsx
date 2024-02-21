@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import DashBoardHeader from "../components/DashBoard/DashBoardHeader";
 import DashBoardSideBar from "../components/DashBoard/DashBoardSideBar";
-import styles from "../styles/styles.js";
-import DashboardMain from "../components/DashboardMain/DashboardMain";
-const DashBoardPage = () => {
+import DashBoardMessages from "../components/DashBoardMessages/DashBoardMessages";
+const ShopInboxPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState(8);
   return (
     <div>
       <DashBoardHeader />
@@ -16,11 +15,11 @@ const DashBoardPage = () => {
           <DashBoardSideBar active={active} setActive={setActive} />
         </div>
         <div className="w-full">
-          <DashboardMain />
+          <DashBoardMessages />
         </div>
       </div>
     </div>
   );
 };
 
-export default DashBoardPage;
+export default ShopInboxPage;

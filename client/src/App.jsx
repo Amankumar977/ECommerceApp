@@ -33,6 +33,7 @@ import {
   CouponPage,
   ShopAllOrdersPage,
   ShopOrderOverview,
+  ShopInboxPage,
 } from "./routes/shop.routes";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -137,6 +138,14 @@ function App() {
               element={
                 <SellerProtectedRoute>
                   <ShopOrderOverview />
+                </SellerProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/messages"
+              element={
+                <SellerProtectedRoute>
+                  <ShopInboxPage />
                 </SellerProtectedRoute>
               }
             />
