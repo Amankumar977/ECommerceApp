@@ -401,26 +401,8 @@ const AllRefundOrder = () => {
   );
 };
 const TrackOrder = () => {
-  let orders = [
-    {
-      _id: "avgshjkl85gsu",
-      orderItems: [{ name: "Iphone 14 pro max" }],
-      totalPrice: 120,
-      orderStatus: "Processing",
-    },
-    {
-      _id: "avgshjkl8fgh5gsu",
-      orderItems: [{ name: "Iphone 14 pro max" }],
-      totalPrice: 180,
-      orderStatus: "Processing",
-    },
-    {
-      _id: "avgshjdfghkl85gsu",
-      orderItems: [{ name: "Iphone 14 pro max" }],
-      totalPrice: 160,
-      orderStatus: "Processing",
-    },
-  ];
+  const { userOrders } = useSelector((state) => state.orders);
+
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
 
@@ -449,16 +431,16 @@ const TrackOrder = () => {
       flex: 0.8,
     },
     {
-      field: " ",
+      field: "trackOrder",
       flex: 1,
       minWidth: 150,
-      headerName: "",
+      headerName: "Track Order",
       type: "number",
       sortable: false,
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/user/order/${params.id}`}>
+            <Link to={`/user/trackOrder/${params.id}`}>
               <button
                 className={
                   "bg-[#ffffff] text-gray-400 w-[50px] px-2 py-2 rounded-lg"
@@ -472,12 +454,12 @@ const TrackOrder = () => {
     },
   ];
   const row = [];
-  orders &&
-    orders.map((items) => {
+  userOrders &&
+    userOrders.map((items) => {
       row.push({
         id: items._id,
-        itemsOty: items.orderItems.length,
-        total: items.totalPrice,
+        itemsQty: items.products.length,
+        total: items.finalPaymentPrice,
         status: items.orderStatus,
       });
     });
