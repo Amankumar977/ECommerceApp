@@ -10,6 +10,7 @@ import {
   handleAddAddress,
   handleDeleteAddress,
   handleChangePassword,
+  handleGetChatUser,
 } from "../controllers/userController.js";
 import catchAsyncError from "../middleware/catchAsyncError.js";
 import isAuthenticated from "../middleware/auth.js"; // Corrected the spelling
@@ -26,6 +27,7 @@ router.route("/login-user").post(catchAsyncError(handleLoginUser));
 // GET request
 router.route("/getAllProducts").get(catchAsyncError(handleGetAllProducts));
 router.route("/getuser").get(isAuthenticated, catchAsyncError(handleGetuser));
+router.route("/getChatUser/:id").get(catchAsyncError(handleGetChatUser));
 router.route("/logout").get(isAuthenticated, catchAsyncError(handleLogoutUser));
 // Patch request
 router

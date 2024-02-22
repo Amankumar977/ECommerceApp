@@ -7,7 +7,7 @@ import { Input, Label } from "../form";
 import { AiOutlineSend } from "react-icons/ai";
 import { TfiGallery } from "react-icons/tfi";
 import SocketIO from "socket.io-client";
-
+import { format } from "timeago.js";
 const socketId = SocketIO(import.meta.env.VITE_END_POINT, {
   transports: ["websocket"],
 });
@@ -16,9 +16,12 @@ const DashBoardMessages = () => {
   const [conversations, setConversations] = useState([]);
   const [open, setOpen] = useState(false);
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [newMessage, setNewMessage] = useState("");
+  const [user, setUser] = useState("");
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  const [online, setOnline] = useState(false);
   useEffect(() => {
     socketId.on("getMessage", (data) => {
       setArrivalMessage({
@@ -49,10 +52,94 @@ const DashBoardMessages = () => {
     };
     getAllShopConversation();
   }, [seller]);
-  console.log(conversations);
-  const sendMessageHandler = (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (seller) {
+      const sellerId = seller.shop._id;
+      socketId.emit("addUser", sellerId);
+      socketId.on("getUsers", (data) => {
+        setOnlineUsers(data);
+      });
+    }
+  }, [seller]);
+  let onlineCheck = (chat) => {
+    const chatMembers = chat.members.find(
+      (member) => member !== seller.shop._id
+    );
+    const online = onlineUsers.find((user) => user.userId === chatMembers);
+    // setOnline(online ? true : false);
+    return online ? true : false;
   };
+  //Get Messages
+  useEffect(() => {
+    let getAllMessages = async () => {
+      await axios
+        .get(
+          `${import.meta.env.VITE_SERVER}/messages/getAllMessages/${
+            currentChat?._id
+          }`
+        )
+        .then((res) => {
+          setMessages(res.data.allMessages);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    };
+    getAllMessages();
+  }, [currentChat]);
+
+  // create new message
+  const sendMessageHandler = async (e) => {
+    e.preventDefault();
+    const message = {
+      sender: seller.shop._id,
+      text: newMessage,
+      conversationId: currentChat._id,
+    };
+    const receiverId = currentChat.members.find(
+      (member) => member.id !== seller.shop._id
+    );
+    socketId.emit("sendMessage", {
+      senderId: seller.shop._id,
+      receiverId,
+      text: newMessage,
+    });
+    try {
+      if (newMessage !== "") {
+        await axios
+          .post(
+            `${import.meta.env.VITE_SERVER}/messages/create-new-message`,
+            message
+          )
+          .then((res) => {
+            setMessages([...messages, res.data.message]);
+            updateLastMessage();
+          });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  let updateLastMessage = async () => {
+    let lastMessageObject = {
+      lastMessage: newMessage,
+      lastMessageId: seller.shop._id,
+    };
+    socketId.emit("updateLastMessage", lastMessageObject);
+    await axios
+      .patch(
+        `${import.meta.env.VITE_SERVER}/conversation/updateLastMessage/${
+          currentChat._id
+        }`,
+        lastMessageObject
+      )
+      .then((res) => {
+        setNewMessage("");
+      })
+      .catch((error) => console.log(error.message));
+  };
+
   return (
     <div className=" h-[86vh] bg-white my-5 mx-2  rounded">
       {/**All Messages list */}
@@ -66,6 +153,12 @@ const DashBoardMessages = () => {
                 key={conversation.groupTitle}
                 index={index}
                 setOpen={setOpen}
+                setCurrentChat={setCurrentChat}
+                seller={seller.shop._id}
+                user={user}
+                setUser={setUser}
+                online={onlineCheck(conversation)}
+                setOnline={setOnline}
               />
             ))}
         </>
@@ -75,18 +168,49 @@ const DashBoardMessages = () => {
           setOpen={setOpen}
           newMessage={newMessage}
           setNewMessage={setNewMessage}
+          sendMessageHandler={sendMessageHandler}
+          messages={messages}
+          user={user}
+          online={online}
         />
       )}
     </div>
   );
 };
-const MessageList = ({ conversation, index, open, setOpen }) => {
+const MessageList = ({
+  conversation,
+  index,
+  setOpen,
+  setCurrentChat,
+  seller,
+  setUser,
+  user,
+  online,
+  setOnline,
+}) => {
+  setOnline(online);
+  useEffect(() => {
+    const userId = conversation.members.find((id) => id !== seller);
+    const getUser = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER}/user/getChatUser/${userId}`
+        );
+        setUser(response.data.user);
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    };
+    getUser();
+  }, [conversation, seller]);
+
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
   const handleGoToConversation = (id) => {
     setActive(index);
     navigate(`?${id}`);
     setOpen(true);
+    setCurrentChat(conversation);
   };
   return (
     <div
@@ -96,36 +220,62 @@ const MessageList = ({ conversation, index, open, setOpen }) => {
       onClick={() => handleGoToConversation(conversation._id)}>
       <div className="relative">
         <img
-          src="https://images.unsplash.com/photo-1526509569184-2fe126e71cd3?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bGVzYmlhbnxlbnwwfHwwfHx8MA%3D%3Dhttps://images.unsplash.com/photo-1526509569184-2fe126e71cd3?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bGVzYmlhbnxlbnwwfHwwfHx8MA%3D%3D"
-          alt="Profile image"
+          src={user.avatar}
+          alt={user.name}
           className="w-14 h-14 rounded-full"
         />
-        <div className="w-[15px] h-[15px] bg-green-500 rounded-full top-1 left-[40px] absolute"></div>
+        {online ? (
+          <div className="w-[15px] h-[15px] bg-green-500 rounded-full top-1 left-[40px] absolute"></div>
+        ) : (
+          <div className="w-[15px] h-[15px] bg-[#b5a9a9eb] rounded-full top-1 left-[40px] absolute"></div>
+        )}
       </div>
       <div className="pl-5 space-y-1">
-        <h1 className=" text-[18px]">Sarah Ali Khan</h1>
-        <p className="text-[16px] text-[#000c]">You : Yeah, I'm good!</p>
+        <h1 className=" text-[18px]">{user.name}</h1>
+        <p className="text-[16px] text-[#000c]">
+          {conversation.lastMessageId === seller
+            ? "You"
+            : user.name.split(" ")[0] + ": "}
+          : {conversation.lastMessage}
+        </p>
       </div>
     </div>
   );
 };
-const SellerInbox = ({ setOpen, newMessage, setNewMessage }) => {
+const SellerInbox = ({
+  setOpen,
+  newMessage,
+  setNewMessage,
+  sendMessageHandler,
+  messages,
+  user,
+  online,
+}) => {
+  const { seller } = useSelector((state) => state.seller);
   let handleGoBacktoMessage = () => {
     setOpen(false);
   };
+
   return (
     <div className="w-full min-h-full flex flex-col justify-between ">
       {/**Message header */}
-      <div className="w-full flex p-3  bg-slate-300 text-white justify-between font-mono">
+      <div className="w-full flex p-3  bg-slate-300 text-white justify-between ">
         <div className="flex ">
           <img
-            src="https://images.unsplash.com/photo-1526509569184-2fe126e71cd3?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bGVzYmlhbnxlbnwwfHwwfHx8MA%3D%3Dhttps://images.unsplash.com/photo-1526509569184-2fe126e71cd3?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bGVzYmlhbnxlbnwwfHwwfHx8MA%3D%3D"
-            alt="Profile image"
+            src={user.avatar}
+            alt={user.name}
             className="w-[64px] h-[64px] rounded-full"
           />
           <div className="pl-5 ">
-            <h1 className="text-[18px] font-[600]">Aman Kumar</h1>
-            <p className="text-green-400">Active now</p>
+            <h1
+              className={`${
+                online
+                  ? "text-[18px] font-[600]"
+                  : "text-[18px] font-[600] pt-4"
+              }`}>
+              {user.name}
+            </h1>
+            <p className="text-green-400">{online ? "Active Now" : null}</p>
           </div>
         </div>
         <div
@@ -137,25 +287,47 @@ const SellerInbox = ({ setOpen, newMessage, setNewMessage }) => {
         </div>
       </div>
       {/** Messages*/}
-      <div className="px-3 h-[65vh] py-2 overflow-y-scroll">
-        <div className="w-full flex my-2">
-          <img
-            src="https://images.unsplash.com/photo-1526509569184-2fe126e71cd3?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bGVzYmlhbnxlbnwwfHwwfHx8MA%3D%3Dhttps://images.unsplash.com/photo-1526509569184-2fe126e71cd3?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bGVzYmlhbnxlbnwwfHwwfHx8MA%3D%3D"
-            alt="Profile image"
-            className="w-[50px] h-[50px] rounded-full mr-3"
-          />
-          <div className="w-max p-2 rounded-[4px] bg-[#38c776] text-white h-min">
-            <p>Hello There</p>
-          </div>
-        </div>
-        <div className="w-full flex my-2 justify-end">
-          <div className="w-max p-2 rounded-[4px] bg-[#38c776] text-white h-min">
-            <p>Hi! </p>
-          </div>
-        </div>
+      <div className="w-full px-3 h-[65vh] py-2 overflow-y-scroll ">
+        {messages &&
+          messages.map((message, index) => (
+            <div
+              className={`w-full flex my-2 ${
+                message.sender === seller.shop._id
+                  ? "justify-end"
+                  : "justify-start"
+              }`}
+              key={message._id}>
+              {message.sender !== seller.shop._id ? (
+                <img
+                  src="https://images.unsplash.com/photo-1526509569184-2fe126e71cd3?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bGVzYmlhbnxlbnwwfHwwfHx8MA%3D%3Dhttps://images.unsplash.com/photo-1526509569184-2fe126e71cd3?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bGVzYmlhbnxlbnwwfHwwfHx8MA%3D%3D"
+                  alt="Profile image"
+                  className="w-[50px] h-[50px] rounded-full mr-3"
+                />
+              ) : null}
+              {message.text !== "" && (
+                <div>
+                  <div className={`flex justify-end w-96 `}>
+                    <div
+                      className={`flex justify-end items-center p-2 rounded-[4px] bg-[#38c776] text-white h-min `}>
+                      <p>{message.text}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end">
+                    <p className="mt-[4px] text-[12px] text-[#272727d2]">
+                      {format(message.createdAt)}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
       </div>
       {/**send message input */}
-      <form aria-required={true} className="p-3 relative w-full">
+      <form
+        aria-required={true}
+        className="p-3 relative w-full"
+        onSubmit={sendMessageHandler}>
         <Input
           placeholder={"Enter your message...."}
           className={"font-mono px-9 "}

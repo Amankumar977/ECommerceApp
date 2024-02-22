@@ -62,3 +62,38 @@ export async function handleGetAllSellerConversation(req, res) {
     });
   }
 }
+export async function handleUpdateLastMessage(req, res) {
+  try {
+    const { lastMessage, lastMessageId } = req.body;
+    if (!lastMessage || !lastMessageId) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide lastMessage && lastMessageId ",
+      });
+    }
+
+    const conversation = await conversationModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        lastMessage,
+        lastMessageId,
+      }
+    );
+
+    if (!conversation) {
+      return res.status(500).json({
+        success: false,
+        message: "Error in updating ",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Last message updated",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
