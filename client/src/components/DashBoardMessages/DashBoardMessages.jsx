@@ -6,11 +6,33 @@ import { FaArrowLeft } from "react-icons/fa";
 import { Input, Label } from "../form";
 import { AiOutlineSend } from "react-icons/ai";
 import { TfiGallery } from "react-icons/tfi";
+import SocketIO from "socket.io-client";
 
+const socketId = SocketIO(import.meta.env.VITE_END_POINT, {
+  transports: ["websocket"],
+});
 const DashBoardMessages = () => {
   const { seller } = useSelector((state) => state.seller);
   const [conversations, setConversations] = useState([]);
   const [open, setOpen] = useState(false);
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [messages, setMessages] = useState(null);
+  const [currentChat, setCurrentChat] = useState(null);
+  const [newMessage, setNewMessage] = useState("");
+  useEffect(() => {
+    socketId.on("getMessage", (data) => {
+      setArrivalMessage({
+        sender: data.senderId,
+        text: data.text,
+        createdAt: Date.now(),
+      });
+    });
+  }, []);
+  useEffect(() => {
+    arrivalMessage &&
+      currentChat?.members.includes(arrivalMessage.sender) &&
+      setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage, currentChat]);
   useEffect(() => {
     let getAllShopConversation = async () => {
       try {
@@ -27,7 +49,10 @@ const DashBoardMessages = () => {
     };
     getAllShopConversation();
   }, [seller]);
-
+  console.log(conversations);
+  const sendMessageHandler = (e) => {
+    e.preventDefault();
+  };
   return (
     <div className=" h-[86vh] bg-white my-5 mx-2  rounded">
       {/**All Messages list */}
@@ -45,7 +70,13 @@ const DashBoardMessages = () => {
             ))}
         </>
       )}
-      {open && <SellerInbox setOpen={setOpen} />}
+      {open && (
+        <SellerInbox
+          setOpen={setOpen}
+          newMessage={newMessage}
+          setNewMessage={setNewMessage}
+        />
+      )}
     </div>
   );
 };
@@ -78,7 +109,7 @@ const MessageList = ({ conversation, index, open, setOpen }) => {
     </div>
   );
 };
-const SellerInbox = ({ setOpen }) => {
+const SellerInbox = ({ setOpen, newMessage, setNewMessage }) => {
   let handleGoBacktoMessage = () => {
     setOpen(false);
   };
@@ -128,6 +159,8 @@ const SellerInbox = ({ setOpen }) => {
         <Input
           placeholder={"Enter your message...."}
           className={"font-mono px-9 "}
+          value={newMessage}
+          handleChange={(newValue) => setNewMessage(newValue)}
         />
         <Label
           htmlFor={"sendMessage"}
