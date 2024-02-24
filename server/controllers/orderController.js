@@ -70,7 +70,9 @@ export async function handleGetUserOrder(req, res) {
         message: `Please provide the id`,
       });
     }
-    const order = await orderModel.find({ customerId: id });
+    const order = await orderModel
+      .find({ customerId: id })
+      .sort({ createdAt: -1 });
     if (!order) {
       return res.status(404).json({
         success: false,

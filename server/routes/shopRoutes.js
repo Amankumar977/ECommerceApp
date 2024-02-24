@@ -5,6 +5,7 @@ import {
   handleActivateShop,
   handleGetShop,
   handlePreviewShop,
+  handleGetChatSeller,
 } from "../controllers/shopController.js";
 import upload from "../multer.js";
 import catchAsyncError from "../middleware/catchAsyncError.js";
@@ -21,4 +22,5 @@ router
   .route("/getShop")
   .get(isSellerAuthenticated, catchAsyncError(handleGetShop));
 router.route("/shopPreview/:id").get(catchAsyncError(handlePreviewShop));
+router.route("/getChatSeller/:id").get(catchAsyncError(handleGetChatSeller));
 export default router;

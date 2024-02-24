@@ -97,3 +97,36 @@ export async function handleUpdateLastMessage(req, res) {
     });
   }
 }
+export async function handleGetAllUserConversation(req, res) {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide the to go further",
+      });
+    }
+    const conversations = await conversationModel
+      .find({
+        members: {
+          $in: [id],
+        },
+      })
+      .sort({ updatedAt: -1, createdAt: -1 });
+    if (!conversations || conversations.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No Conversation found for the user.",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      conversations,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}

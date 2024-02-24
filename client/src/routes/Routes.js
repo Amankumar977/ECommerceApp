@@ -15,6 +15,7 @@ import OrderSuccess from "../pages/OrderSuccess.jsx";
 import NotFoundPage from "../pages/NotFoundPage.jsx";
 import OrderOverviewPage from "../pages/OrderOverviewPage.jsx";
 import TrackOrderPage from "../pages/TrackOrderPage.jsx";
+import UserInboxPage from "../pages/UserInboxPage.jsx";
 export {
   LoginPage,
   SingupPage,
@@ -33,4 +34,5 @@ export {
   NotFoundPage,
   OrderOverviewPage,
   TrackOrderPage,
+  UserInboxPage,
 };

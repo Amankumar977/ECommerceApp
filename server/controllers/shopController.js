@@ -208,3 +208,33 @@ export async function handlePreviewShop(req, res) {
     });
   }
 }
+export async function handleGetChatSeller(req, res) {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(401).json({
+        success: false,
+        message: "Internal server error",
+      });
+    }
+    let shop = await shopModel.findById(id);
+    if (!shop) {
+      return res.status(400).json({
+        success: false,
+        error: error.message,
+        message: "Shop Not Found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      shop,
+      message: "Shop Found",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+      message: "Internal server error here",
+    });
+  }
+}

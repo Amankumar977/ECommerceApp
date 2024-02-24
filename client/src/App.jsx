@@ -18,6 +18,7 @@ import {
   NotFoundPage,
   OrderOverviewPage,
   TrackOrderPage,
+  UserInboxPage,
 } from "./routes/Routes";
 /**Shop Routes */
 import {
@@ -202,6 +203,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <TrackOrderPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/inbox"
+              element={
+                <ProtectedRoute>
+                  <UserInboxPage />
                 </ProtectedRoute>
               }
             />

@@ -55,6 +55,7 @@ const ProductCard = ({ data, alt }) => {
     dispatch(removeFromWishList(data._id));
     toast.info("Item removed from wishlist");
   };
+
   return (
     <div className="w-full h-[370px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer">
       <div className="flex justify-end"></div>
@@ -106,9 +107,15 @@ const ProductCard = ({ data, alt }) => {
               {data.originalPrice ? data.originalPrice + " ₹" : null}
             </h4>
           </div>
-          <span className="font-400 text-[17px] text-[#68d284]">
-            {data.sold_out} sold
-          </span>
+          {data.stock < 1 ? (
+            <span className="font-400 text-[10px] text-[#68d284]">
+              Out of stock
+            </span>
+          ) : (
+            <span className="font-400 text-[17px] text-[#68d284]">
+              {data.sold_out} sold
+            </span>
+          )}
         </div>
       </Link>
       {/**Side Options */}
@@ -145,7 +152,9 @@ const ProductCard = ({ data, alt }) => {
         />
         <AiOutlineShoppingCart
           size={25}
-          className="cursor-pointer absolute right-2 top-20"
+          className={`${
+            data.stock < 1 ? "hidden" : "block"
+          } cursor-pointer absolute right-2 top-20`}
           color={"#444"}
           title="Add To Cart"
           onClick={() => {

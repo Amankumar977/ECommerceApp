@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Input, Label } from "../form";
 import Payment from "../CheckOut/Payment";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import CheckOutSteps from "./CheckOutSteps";
 import { Country, State, City } from "country-state-city";
@@ -309,17 +309,27 @@ const Shipping = () => {
                 Choose From the saved address
               </div>
               {showSaved && (
-                <select
-                  className="w-full bg-gray-200 rounded-lg px-1 py-1 mt-4"
-                  onChange={handleChooseAddress}>
-                  <option value="select">select Address</option>
-                  {user &&
-                    user.address.map((address, i) => (
-                      <option key={i} value={address.addressType}>
-                        {address.addressType}
-                      </option>
-                    ))}
-                </select>
+                <>
+                  {user.address.length > 0 ? (
+                    <select
+                      className="w-full bg-gray-200 rounded-lg px-1 py-1 mt-4"
+                      onChange={handleChooseAddress}>
+                      <option value="select">select Address</option>
+                      {user.address.map((address, i) => (
+                        <option key={i} value={address.addressType}>
+                          {address.addressType}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <div className="space-y-4">
+                      <p className="mt-3 mb-2">No Saved Address Found</p>
+                      <Link to={"/profile"}>
+                        <Button text={"Add A new address"} className={"w-60"} />
+                      </Link>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </form>

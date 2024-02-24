@@ -113,8 +113,9 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                     {data.originalPrice ? data.originalPrice + " ₹" : null}
                   </h3>
                 </div>
-                <div className="flex items-center mt-12 justify-between pr-3">
-                  <div>
+                <div
+                  className={` flex items-center mt-12 justify-between pr-3`}>
+                  <div className={`${data.stock < 1 ? "hidden" : "block"} `}>
                     <button
                       disabled={count === 1}
                       className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l hover:opacity-75 transition px-4 py-2 shadow-lg duration-300 ease-in-out"
@@ -137,7 +138,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                   <div>
                     {click ? (
                       <AiFillHeart
-                        size={22}
+                        size={data.stock < 1 ? 45 : 22}
                         className="cursor-pointer"
                         onClick={() => handleRemoveFromWishList()}
                         color={click ? "red" : "#333"}
@@ -145,7 +146,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                       />
                     ) : (
                       <AiOutlineHeart
-                        size={22}
+                        size={data.stock < 1 ? 45 : 22}
                         className="cursor-pointer"
                         onClick={() => {
                           handleAddToWishList();
@@ -156,13 +157,22 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                     )}
                   </div>
                 </div>
+
                 <div
-                  className={`${styles.button} mt-6 rounded-[4px] h-11 flex items-center`}
+                  className={`${styles.button} ${
+                    data.stock < 1 ? "hidden" : "flex"
+                  } mt-6 rounded-[4px] h-11 flex items-center`}
                   onClick={handleAddTocart}>
                   <span className="text-[#fff] flex items-center justify-center">
                     Add to cart <AiOutlineShoppingCart className="ml-1" />
                   </span>
                 </div>
+                {data.stock < 1 && (
+                  <p className="mt-6 text-2xl text-green-700">
+                    Item is out stock, please add to wishlist for the stock
+                    update.
+                  </p>
+                )}
               </div>
             </div>
           </div>

@@ -4,8 +4,10 @@ import {
   handleCreateConversation,
   handleGetAllSellerConversation,
   handleUpdateLastMessage,
+  handleGetAllUserConversation,
 } from "../controllers/conversationController.js";
 import isSeller from "../middleware/sellerAuth.js";
+import isAuthenticated from "../middleware/auth.js";
 const router = express.Router();
 /**POST ROUTE */
 router
@@ -15,6 +17,9 @@ router
 router
   .route("/getAllSellerConversation/:id")
   .get(isSeller, catchAsyncError(handleGetAllSellerConversation));
+router
+  .route("/getAllUserConversation/:id")
+  .get(isAuthenticated, catchAsyncError(handleGetAllUserConversation));
 /**Patch Request */
 router
   .route("/updateLastMessage/:id")

@@ -228,6 +228,7 @@ const ProfileContent = ({ active }) => {
 };
 const AllOrders = () => {
   const { userOrders } = useSelector((state) => state.orders);
+
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
 
@@ -241,8 +242,8 @@ const AllOrders = () => {
       },
     },
     {
-      field: "itemsQty",
-      headerName: "Items Qty",
+      field: "orderOn",
+      headerName: "Orderd on",
       type: "number",
       minWidth: 130,
       flex: 0.7,
@@ -285,7 +286,7 @@ const AllOrders = () => {
     userOrders.forEach((item) => {
       row.push({
         id: item._id,
-        itemsQty: item.products.length,
+        orderOn: item.createdAt.slice(0, 10),
         total: "₹ " + item.finalPaymentPrice,
         status: item.orderStatus,
       });

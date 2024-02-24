@@ -1,27 +1,31 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Header from "../components/Layouts/Header";
+import Footer from "../components/Layouts/Footer/Footer";
 import { useSelector } from "react-redux";
+import { format } from "timeago.js";
+import SocketIO from "socket.io-client";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
-import { Input, Label } from "../form";
 import { AiOutlineSend } from "react-icons/ai";
 import { TfiGallery } from "react-icons/tfi";
-import SocketIO from "socket.io-client";
-import { format } from "timeago.js";
+import { FaArrowLeft } from "react-icons/fa";
+import { Input, Label } from "../components/form";
+import styles from "../styles/styles";
 const socketId = SocketIO(import.meta.env.VITE_END_POINT, {
   transports: ["websocket"],
 });
-const DashBoardMessages = () => {
-  const { seller } = useSelector((state) => state.seller);
+
+const UserInboxPage = () => {
+  const { user } = useSelector((state) => state.user);
   const [conversations, setConversations] = useState([]);
   const [open, setOpen] = useState(false);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [messages, setMessages] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [newMessage, setNewMessage] = useState("");
-  const [user, setUser] = useState("");
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [online, setOnline] = useState(false);
+  const [seller, setSeller] = useState(null);
   useEffect(() => {
     socketId.on("getMessage", (data) => {
       setArrivalMessage({
@@ -37,12 +41,12 @@ const DashBoardMessages = () => {
       setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage, currentChat]);
   useEffect(() => {
-    let getAllShopConversation = async () => {
+    let getAllUserConversation = async () => {
       try {
         const response = await axios.get(
-          `${
-            import.meta.env.VITE_SERVER
-          }/conversation/getAllSellerConversation/${seller.shop._id}`,
+          `${import.meta.env.VITE_SERVER}/conversation/getAllUserConversation/${
+            user._id
+          }`,
           { withCredentials: true }
         );
         response && setConversations(response.data.conversations);
@@ -50,21 +54,19 @@ const DashBoardMessages = () => {
         console.log(error.response.message);
       }
     };
-    getAllShopConversation();
-  }, [seller, messages]);
+    getAllUserConversation();
+  }, [user]);
   useEffect(() => {
-    if (seller) {
-      const sellerId = seller.shop._id;
-      socketId.emit("addUser", sellerId);
+    if (user) {
+      const userId = user._id;
+      socketId.emit("addUser", userId);
       socketId.on("getUsers", (data) => {
         setOnlineUsers(data);
       });
     }
-  }, [seller]);
+  }, [user]);
   let onlineCheck = (chat) => {
-    const chatMembers = chat.members.find(
-      (member) => member !== seller.shop._id
-    );
+    const chatMembers = chat.members.find((member) => member !== user._id);
     const online = onlineUsers.find((user) => user.userId === chatMembers);
     // setOnline(online ? true : false);
     return online ? true : false;
@@ -87,20 +89,19 @@ const DashBoardMessages = () => {
     };
     getAllMessages();
   }, [currentChat]);
-
   // create new message
   const sendMessageHandler = async (e) => {
     e.preventDefault();
     const message = {
-      sender: seller.shop._id,
+      sender: user._id,
       text: newMessage,
       conversationId: currentChat._id,
     };
     const receiverId = currentChat.members.find(
-      (member) => member !== seller.shop._id
+      (member) => member !== user._id
     );
     socketId.emit("sendMessage", {
-      senderId: seller.shop._id,
+      senderId: user._id,
       receiverId,
       text: newMessage,
     });
@@ -124,7 +125,7 @@ const DashBoardMessages = () => {
   let updateLastMessage = async () => {
     let lastMessageObject = {
       lastMessage: newMessage,
-      lastMessageId: seller.shop._id,
+      lastMessageId: user._id,
     };
     socketId.emit("updateLastMessage", lastMessageObject);
     await axios
@@ -141,8 +142,8 @@ const DashBoardMessages = () => {
   };
 
   return (
-    <div className=" h-[86vh] bg-white my-5 mx-2  rounded">
-      {/**All Messages list */}
+    <div className="w-full">
+      <Header />
       {!open && (
         <>
           <h1 className="text-center text-[35px]  my-2">All Messages</h1>
@@ -154,11 +155,11 @@ const DashBoardMessages = () => {
                 index={index}
                 setOpen={setOpen}
                 setCurrentChat={setCurrentChat}
-                seller={seller.shop._id}
-                user={user}
-                setUser={setUser}
+                user={user._id}
                 online={onlineCheck(conversation)}
                 setOnline={setOnline}
+                setSeller={setSeller}
+                seller={seller}
               />
             ))}
         </>
@@ -170,6 +171,7 @@ const DashBoardMessages = () => {
           setNewMessage={setNewMessage}
           sendMessageHandler={sendMessageHandler}
           messages={messages}
+          seller={seller}
           user={user}
           online={online}
         />
@@ -182,80 +184,79 @@ const MessageList = ({
   index,
   setOpen,
   setCurrentChat,
-  seller,
-  setUser,
   user,
   online,
   setOnline,
+  setSeller,
+  seller,
 }) => {
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
-  const [userInfo, setUserInfo] = useState(null);
+  const [sellerInfo, setSellerInfo] = useState([]);
   useEffect(() => {
-    const userId = conversation.members.find((id) => id !== seller);
-    const getUser = async () => {
+    const getSeller = async () => {
+      const sellerId = conversation.members.find((id) => id !== user);
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_SERVER}/user/getChatUser/${userId}`
+          `${import.meta.env.VITE_SERVER}/shop/getChatSeller/${sellerId}`
         );
-        setUserInfo(response.data.user);
-        setUser(response.data.user);
+        setSellerInfo(response.data.shop);
+        setSeller(response.data.shop);
       } catch (error) {
-        console.log(error.response.data.message);
+        console.log(error.message);
       }
     };
-    getUser();
-  }, [conversation, seller]);
+    getSeller();
+  }, [conversation, user]);
 
   const handleGoToConversation = (id) => {
     setActive(index);
     navigate(`?${id}`);
     setOpen(true);
     setCurrentChat(conversation);
-    setOnline(online);
   };
+
   return (
-    userInfo && (
-      <div
-        className={`w-full flex my-3 px-4 py-2 ${
-          active === index ? "bg-[#d2cccc77]" : "bg-transparent"
-        } cursor-pointer`}
-        onClick={() => handleGoToConversation(conversation._id)}>
-        <div className="relative">
-          <img
-            src={userInfo.avatar}
-            alt={userInfo.name}
-            className="w-14 h-14 rounded-full"
-          />
-          {online ? (
-            <div className="w-[15px] h-[15px] bg-green-500 rounded-full top-1 left-[40px] absolute"></div>
-          ) : (
-            <div className="w-[15px] h-[15px] bg-[#b5a9a9eb] rounded-full top-1 left-[40px] absolute"></div>
-          )}
-        </div>
-        <div className="pl-5 space-y-1">
-          <h1 className=" text-[18px]">{userInfo.name}</h1>
-          <p className="text-[16px] text-[#000c]">
-            {conversation.lastMessageId === seller
-              ? "You"
-              : userInfo?.name?.split(" ")[0] + ": "}
-            : {conversation.lastMessage}
-          </p>
-        </div>
+    <div
+      className={` ${styles.section} flex my-3 px-4 py-2 ${
+        active === index ? "bg-[#d2cccc77]" : "bg-transparent"
+      } cursor-pointer`}
+      onClick={() => handleGoToConversation(conversation._id)}>
+      <div className="relative">
+        <img
+          src={sellerInfo?.avatar}
+          alt={sellerInfo?.name}
+          className="w-14 h-14 rounded-full"
+        />
+        {online ? (
+          <div className="w-[15px] h-[15px] bg-green-500 rounded-full top-1 left-[40px] absolute"></div>
+        ) : (
+          <div className="w-[15px] h-[15px] bg-[#b5a9a9eb] rounded-full top-1 left-[40px] absolute"></div>
+        )}
       </div>
-    )
+      <div className="pl-5 space-y-1">
+        <h1 className=" text-[18px]">{sellerInfo?.name}</h1>
+        <p className="text-[16px] text-[#000c]">
+          {conversation.lastMessageId === sellerInfo?.shop?._id
+            ? "You"
+            : sellerInfo?.name?.split(" ")[0] + ": "}
+          : {conversation.lastMessage}
+        </p>
+      </div>
+    </div>
   );
 };
+
 const SellerInbox = ({
   setOpen,
   newMessage,
   setNewMessage,
   sendMessageHandler,
   messages,
-  user,
+  seller,
   online,
+  user,
 }) => {
-  const { seller } = useSelector((state) => state.seller);
   let handleGoBacktoMessage = () => {
     setOpen(false);
   };
@@ -263,85 +264,91 @@ const SellerInbox = ({
   return (
     <div className="w-full min-h-full flex flex-col justify-between ">
       {/**Message header */}
-      <div className="w-full flex p-3  bg-slate-300 text-white justify-between ">
-        <div className="flex ">
-          <img
-            src={user.avatar}
-            alt={user.name}
-            className="w-[64px] h-[64px] rounded-full"
-          />
-          <div className="pl-5 ">
-            <h1
-              className={`${
-                online
-                  ? "text-[18px] font-[600]"
-                  : "text-[18px] font-[600] pt-4"
-              }`}>
-              {user.name}
-            </h1>
-            <p className="text-green-400">{online ? "Active Now" : null}</p>
+
+      <div
+        className={`w-full flex p-3  bg-slate-300 text-white justify-between`}>
+        <div className={`${styles.section} flex justify-between`}>
+          <div className="flex ">
+            <img
+              src={seller.avatar}
+              alt={seller.name}
+              className="w-[64px] h-[64px] rounded-full"
+            />
+            <div className="pl-5 ">
+              <h1
+                className={`${
+                  online
+                    ? "text-[18px] font-[600]"
+                    : "text-[18px] font-[600] pt-4"
+                }`}>
+                {seller.name}
+              </h1>
+              <p className="text-green-400">{online ? "Active Now" : null}</p>
+            </div>
           </div>
-        </div>
-        <div
-          className="bg-gray-500 px-4 py-3 mt-3 cursor-pointer text-white  rounded-md  text-center"
-          onClick={() => handleGoBacktoMessage()}>
-          <div>
-            <FaArrowLeft size={30} />
+          <div
+            className="bg-gray-500 px-4 py-3 mt-3 cursor-pointer text-white  rounded-md  text-center"
+            onClick={() => handleGoBacktoMessage()}>
+            <div>
+              <FaArrowLeft size={30} />
+            </div>
           </div>
         </div>
       </div>
       {/** Messages*/}
-      <div className="w-full px-3 h-[65vh] py-2 overflow-y-scroll ">
+      <div
+        className={`${styles.section}  px-3 h-[65vh] py-2 overflow-y-scroll`}>
         {messages &&
           messages.map((message, index) =>
-            message.sender === seller.shop._id ? (
+            message.sender === user._id ? (
               <div
-                className={`w-full flex my-2 ${"justify-end"}`}
+                className={`w-full flex my-2 justify-end
+                `}
                 key={message._id}>
-                <div>
-                  {message.text !== "" && (
-                    <div>
-                      <div className={`flex justify-end w-96 `}>
-                        <div
-                          className={`flex justify-end items-center p-2 rounded-[4px] bg-[#181717f1] text-white h-min `}>
-                          <p>{message.text}</p>
-                        </div>
-                      </div>
-                      <div className="flex justify-end">
-                        <p className="mt-[4px] text-[12px] text-[#272727d2]">
-                          {format(message.createdAt)}
-                        </p>
+                {message.text !== "" && (
+                  <div>
+                    <div className={`flex justify-end w-96 `}>
+                      <div
+                        className={`flex justify-end items-center p-2 rounded-[4px] bg-[#000] text-white h-min `}>
+                        <p>{message.text}</p>
                       </div>
                     </div>
-                  )}
-                </div>
+
+                    <div className="flex justify-end">
+                      <p className="mt-[4px] text-[12px] text-[#272727d2]">
+                        {format(message.createdAt)}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <div
-                className={`w-full flex my-2 ${"justify-start"}`}
+                className={`w-full flex my-2 "justify-start`}
                 key={message._id}>
-                <div className="flex">
+                {message.sender === seller._id ? (
                   <img
-                    src={user.avatar}
+                    src={seller.avatar}
                     alt="Profile image"
                     className="w-[50px] h-[50px] rounded-full mr-3"
                   />
-                  {message.text !== "" && (
-                    <div>
-                      <div className={`flex justify-start ml-4 w-96 `}>
-                        <div
-                          className={`flex justify-end items-center p-2 rounded-[4px] bg-[#38c776] text-white h-min `}>
-                          <p>{message.text}</p>
-                        </div>
-                      </div>
-                      <div className="flex justify-start ml-4 mt-2 ">
-                        <p className="mt-[4px] text-[12px] text-[#272727d2]">
-                          {format(message.createdAt)}
-                        </p>
+                ) : null}
+                {message.text !== "" && (
+                  <div>
+                    <div className={`flex justify-start ml-4 w-96 `}>
+                      <div
+                        className={`flex justify-start items-center p-2 rounded-[4px] bg-[#38c776] text-white h-min `}>
+                        <p>{message.text}</p>
                       </div>
                     </div>
-                  )}
-                </div>
+
+                    <div className="flex justify-start ml-4 mt-2">
+                      <p className="mt-[4px] text-[12px] text-[#272727d2]">
+                        {format(message.createdAt)}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
             )
           )}
@@ -349,7 +356,7 @@ const SellerInbox = ({
       {/**send message input */}
       <form
         aria-required={true}
-        className="p-3 relative w-full"
+        className={`${styles.section} p-3 relative`}
         onSubmit={sendMessageHandler}>
         <Input
           placeholder={"Enter your message...."}
@@ -378,4 +385,4 @@ const SellerInbox = ({
     </div>
   );
 };
-export default DashBoardMessages;
+export default UserInboxPage;
