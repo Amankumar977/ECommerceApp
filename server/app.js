@@ -13,6 +13,7 @@ import paymentRoute from "./routes/paymentRoute.js";
 import orderRoute from "./routes/orderRoute.js";
 import conversationRoute from "./routes/conversationRoute.js";
 import messageRoute from "./routes/messageRoute.js";
+import adminRoute from "./routes/adminRoute.js";
 const app = express();
 // App Middlewares
 app.use(express.json());
@@ -52,4 +53,5 @@ app.use("/api/v1/payment", paymentRoute);
 app.use("/api/v1/orders", orderRoute);
 app.use("/api/v1/conversation", conversationRoute);
 app.use("/api/v1/messages", messageRoute);
+app.use("/api/v1/admin", adminRoute);
 export default app;

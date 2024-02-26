@@ -2,8 +2,10 @@ import React from "react";
 import styles from "../../styles/styles";
 import { navItems } from "../../static/data";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Navbar = ({ active }) => {
+  const { user } = useSelector((state) => state.user);
   return (
     <div className={`${styles.normalFlex}`}>
       {navItems &&
@@ -20,6 +22,11 @@ const Navbar = ({ active }) => {
             </Link>
           </div>
         ))}
+      {user && user.role == "admin" && (
+        <Link className="text-white" to={"/adminDashboard"}>
+          Admin Dasboard
+        </Link>
+      )}
     </div>
   );
 };

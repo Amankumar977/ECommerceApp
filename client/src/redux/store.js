@@ -7,6 +7,7 @@ import allProductsReducer from "./reducers/allProducts";
 import cartReducer from "../redux/reducers/cart";
 import wishListReducer from "./reducers/wishList";
 import ordersReducer from "./reducers/orders";
+import adminReducer from "./reducers/adminData";
 const Store = configureStore({
   reducer: {
     user: userReducer,
@@ -17,6 +18,7 @@ const Store = configureStore({
     cart: cartReducer,
     wishList: wishListReducer,
     orders: ordersReducer,
+    admin: adminReducer,
   },
 });
 export default Store;

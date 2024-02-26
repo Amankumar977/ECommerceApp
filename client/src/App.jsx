@@ -36,6 +36,7 @@ import {
   ShopOrderOverview,
   ShopInboxPage,
 } from "./routes/shop.routes";
+import { AdminDashboard } from "./routes/admin.routes.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
@@ -43,7 +44,11 @@ import Store from "./redux/store";
 import { loadUser } from "./redux/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchShop } from "./redux/reducers/seller";
-import { ProtectedRoute, SellerProtectedRoute } from "./ProtectedRoutes/index";
+import {
+  ProtectedRoute,
+  SellerProtectedRoute,
+  AdminProtectedRoute,
+} from "./ProtectedRoutes";
 import Loader from "./components/Layouts/Loader";
 import { getAllProducts } from "./redux/reducers/allProducts";
 function App() {
@@ -63,6 +68,15 @@ function App() {
       ) : (
         <BrowserRouter>
           <Routes>
+            {/**Admin Routes */}
+            <Route
+              path={"/adminDashboard"}
+              element={
+                <AdminProtectedRoute>
+                  <AdminDashboard />
+                </AdminProtectedRoute>
+              }
+            />
             {/* Seller Routes */}
             <Route path="/shop-create" element={<ShopCreatePage />} />
             <Route
