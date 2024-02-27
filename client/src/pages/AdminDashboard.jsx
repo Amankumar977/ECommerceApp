@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Layouts/Header";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { FiShoppingBag } from "react-icons/fi";
@@ -6,13 +6,24 @@ import { CiShop } from "react-icons/ci";
 import { MdPeople } from "react-icons/md";
 import { SiEventstore } from "react-icons/si";
 import { RiCoupon3Line } from "react-icons/ri";
-
 import { IoIosPhonePortrait } from "react-icons/io";
-
 import AdminDashboardMain from "../components/AdminDashboardMain/AdminDashboardMain.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../components/Layouts/Loader";
+import { getAllData } from "../redux/reducers/adminData.js";
+
 const AdminDashboard = () => {
-  const [openAdminbar, setOpenAdminbar] = useState(false);
-  const [active, setActive] = useState(1);
+  const [openAdminbar, setOpenAdminbar] = useState(true);
+  const { user } = useSelector((state) => state.user);
+  const { adminDataloading } = useSelector((state) => state.admin);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllData(user?._id));
+  }, []);
+  const [active, setActive] = useState(3);
+  if (adminDataloading) {
+    return <Loader />;
+  }
   return (
     <div>
       <Header
@@ -20,10 +31,10 @@ const AdminDashboard = () => {
         setOpenAdminbar={setOpenAdminbar}
         openAdminbar={openAdminbar}
       />
-      <div className="flex w-full h-screen">
+      <div className="flex w-full h-[100%]">
         {/* Apply dynamic width and visibility to the sidebar based on the 'openAdminbar' state */}
         <div
-          className={`bg-white shadow-lg px-1 space-y-5 ${
+          className={`bg-white shadow-lg px-3 space-y-5 ${
             openAdminbar
               ? "w-[35%] 800px:w-[15%] transform translate-x-0 ease-out duration-500"
               : "w-[0] transform -translate-x-full ease-in duration-500"
@@ -80,8 +91,8 @@ const AdminDashboard = () => {
           </div>
         </div>
         {/* Expand to fill remaining width when sidebar is closed */}
-        <div className={`${openAdminbar ? "flex-1" : "w-full"}`}>
-          <AdminDashboardMain active={active} />
+        <div className="w-full">
+          {!adminDataloading && <AdminDashboardMain active={active} />}
         </div>
       </div>
     </div>

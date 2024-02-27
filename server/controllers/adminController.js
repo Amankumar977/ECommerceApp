@@ -4,6 +4,7 @@ import couponModel from "../model/couponCode.js";
 import productModel from "../model/productModel.js";
 import eventsModel from "../model/eventModel.js";
 import shopModel from "../model/shopModel.js";
+
 export async function handleGetAllAdminData(req, res) {
   try {
     const id = req.params.id;
@@ -13,6 +14,7 @@ export async function handleGetAllAdminData(req, res) {
         message: "Please provide the id",
       });
     }
+
     const user = await userModel.findById(id);
     if (!user) {
       return res.status(404).json({
@@ -20,27 +22,40 @@ export async function handleGetAllAdminData(req, res) {
         message: "No user found with this id",
       });
     }
+
     if (user.role !== "admin") {
       return res.status(404).json({
         success: false,
-        message: "The user is not a admin",
+        message: "The user is not an admin",
       });
     }
-    const allOrders = await orderModel.find({});
-    const allCustomers = await userModel.find({});
-    const allCoupons = await couponModel.find({});
-    const allEvents = await eventsModel.find({});
-    const allShops = await shopModel.find({});
-    const allProducts = await productModel.find({});
+
+    const [
+      allOrders,
+      allCustomers,
+      allCoupons,
+      allEvents,
+      allShops,
+      allProducts,
+    ] = await Promise.all([
+      orderModel.find({}).lean(),
+      userModel.find({}).lean(),
+      couponModel.find({}).lean(),
+      eventsModel.find({}).lean(),
+      shopModel.find({}).lean(),
+      productModel.find({}).lean(),
+    ]);
+
     const allData = {
       allOrders,
-      allCoupons,
       allCustomers,
+      allCoupons,
       allEvents,
-      allProducts,
       allShops,
+      allProducts,
     };
-    res.status(200).json({
+
+    return res.status(200).json({
       success: true,
       allData,
       message: "Fetched all the data",
