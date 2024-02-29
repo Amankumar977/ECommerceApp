@@ -23,7 +23,7 @@ const Navbar = ({ active }) => {
           </div>
         ))}
       {user && user.role == "admin" && (
-        <Link className="text-white" to={"/adminDashboard"}>
+        <Link className="text-white px-6" to={"/adminDashboard"}>
           Admin Dasboard
         </Link>
       )}

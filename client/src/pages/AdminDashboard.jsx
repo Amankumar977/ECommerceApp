@@ -20,7 +20,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     dispatch(getAllData(user?._id));
   }, []);
-  const [active, setActive] = useState(3);
+  const [active, setActive] = useState(7);
   if (adminDataloading) {
     return <Loader />;
   }
@@ -34,7 +34,7 @@ const AdminDashboard = () => {
       <div className="flex w-full h-[100%]">
         {/* Apply dynamic width and visibility to the sidebar based on the 'openAdminbar' state */}
         <div
-          className={`bg-white shadow-lg px-3 space-y-5 ${
+          className={`bg-white shadow-lg px-3 space-y-14 ${
             openAdminbar
               ? "w-[35%] 800px:w-[15%] transform translate-x-0 ease-out duration-500"
               : "w-[0] transform -translate-x-full ease-in duration-500"

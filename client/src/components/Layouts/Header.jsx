@@ -100,7 +100,10 @@ const Header = ({ activeHeading, isAdmin, setOpenAdminbar, openAdminbar }) => {
                       const d = i.name;
                       const product_name = d.replace(/\s+/g, "-");
                       return (
-                        <Link to={`/products/${product_name}`} key={i._id}>
+                        <Link
+                          to={`/products/${product_name}`}
+                          key={i._id}
+                          onClick={() => setSearchTerm("")}>
                           <div className="w-full flex items-start py-2 hover:bg-gray-200">
                             <img
                               src={i.images[0]}

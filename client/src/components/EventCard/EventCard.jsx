@@ -6,10 +6,13 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/reducers/cart.js";
 import { toast } from "react-toastify";
+
 const EventCard = () => {
   const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
+  const [isTimeUp, setIsTimeUp] = useState(false);
+
   useEffect(() => {
     try {
       let getAllEvents = async () => {
@@ -23,6 +26,7 @@ const EventCard = () => {
       console.log(error.response.data.message);
     }
   }, []);
+
   let handleAddToCart = (data) => {
     const doesItemExist = cart && cart.find((item) => item._id === data._id);
     if (doesItemExist) {
@@ -34,40 +38,47 @@ const EventCard = () => {
     dispatch(addToCart(item));
     toast.success(`${data.name.slice(0, 10)} added to the cart`);
   };
+
   return (
     <>
       {data.length > 0 &&
-        data.map((data) => (
+        data.map((event) => (
           <div
-            className={`w-full block bg-white rounded-lg lg:flex p-2 `}
-            key={data._id}>
+            className={`w-full  bg-white rounded-lg lg:flex p-2 ${
+              isTimeUp ? "hidden" : "block"
+            } `}
+            key={event._id}>
             <div className="w-full lg:w-[50%] m-auto">
-              <img src={data.images[0]} alt={data.description} />
+              <img src={event.images[0]} alt={event.description} />
             </div>
             <div className="w-full lg:w-[50%] flex flex-col justify-center">
-              <h2 className={`${styles.productTitle}`}>{data.name}</h2>
-              <p className="mt-2">{data.description}</p>
+              <h2 className={`${styles.productTitle}`}>{event.name}</h2>
+              <p className="mt-2">{event.description}</p>
               <div className="flex py-2 justify-between ">
                 <div className="flex">
                   <h5 className="font-[500] text-[18px]  pr-3 ">
-                    {data.originalPrice
-                      ? data.originalPrice
-                      : data.discountedPrice}{" "}
+                    {event.originalPrice
+                      ? event.originalPrice
+                      : event.discountedPrice}{" "}
                     ₹
                   </h5>
                   <h5 className="font-[500] text-[18px] text-[#d55b45] pr-3 line-through">
-                    {data.originalPrice ? data.discountedPrice : null} ₹
+                    {event.originalPrice ? event.discountedPrice : null} ₹
                   </h5>
                 </div>
                 <span className="text-green-600 pr-4 font-[400] text-[17px]">
-                  {data.sold_out} sold
+                  {event.sold_out} sold
                 </span>
               </div>
-              <CountDown startDate={data.startDate} endDate={data.endDate} />
+              <CountDown
+                startDate={event.startDate}
+                endDate={event.endDate}
+                setIsTimeUp={setIsTimeUp}
+              />
               <div
                 className={`${styles.button} mt-6 rounded-[4px] h-11 flex items-center`}
                 onClick={() => {
-                  handleAddToCart(data);
+                  handleAddToCart(event);
                 }}>
                 <span className="text-[#fff] flex items-center justify-center">
                   Add to cart <AiOutlineShoppingCart className="ml-1" />

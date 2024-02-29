@@ -5,8 +5,12 @@ import Loader from "../Layouts/Loader.jsx";
 import { CiHome } from "react-icons/ci";
 import { TbChartSankey } from "react-icons/tb";
 import Chart from "react-apexcharts";
-import AllOrdersReport from "./AllOrdersReport.jsx";
-import AllShopReport from "./AllShopReport.jsx";
+import AllOrdersReport from "./AllOrdersReport";
+import AllShopReport from "./AllShopReport";
+import AllCustomersReport from "./AllCustomersReport";
+import AllProductsReport from "./AllProductsReport";
+import AllEventsReport from "./AllEventsReport";
+import AllCouponsReport from "./AllCouponsReport";
 const AdminDashboardMain = ({ active }) => {
   const {
     todayOrders,
@@ -56,6 +60,26 @@ const AdminDashboardMain = ({ active }) => {
       {active === 3 && (
         <>
           <AllShopReport />
+        </>
+      )}
+      {active === 4 && (
+        <>
+          <AllCustomersReport />
+        </>
+      )}
+      {active === 5 && (
+        <>
+          <AllProductsReport />
+        </>
+      )}
+      {active === 6 && (
+        <>
+          <AllEventsReport />
+        </>
+      )}
+      {active === 7 && (
+        <>
+          <AllCouponsReport />
         </>
       )}
     </div>
