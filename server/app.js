@@ -25,7 +25,7 @@ app.use("/", express.static("uploads"));
 /**Cors Setup */
 app.use(
   cors({
-    origin: ["https://e-commerce-app-nine-blush.vercel.app/"],
+    origin: ["https://e-commerce-app-nine-blush.vercel.app"],
     httpOnly: true,
     credentials: true,
   })
