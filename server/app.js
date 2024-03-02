@@ -43,6 +43,9 @@ app.use((err, req, res, next) => {
     });
   }
 });
+app.get("/", (req, res) => {
+  res.send("<h1>Hello<h1/>");
+});
 /**routes */
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/shop", shopRoute);
