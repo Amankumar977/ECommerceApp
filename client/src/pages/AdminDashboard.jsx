@@ -20,7 +20,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     dispatch(getAllData(user?._id));
   }, []);
-  const [active, setActive] = useState(7);
+  const [active, setActive] = useState(1);
   if (adminDataloading) {
     return <Loader />;
   }
