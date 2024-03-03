@@ -126,7 +126,7 @@ export async function handleLoginUser(req, res) {
     if (!email || !password) {
       return res.status(400).json({
         success: false,
-        message: "Please Enter the required field",
+        message: "Please Enter the required field here",
       });
     }
 

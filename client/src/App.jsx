@@ -57,10 +57,10 @@ function App() {
   const { isSelLoading } = useSelector((state) => state.seller);
   const { isProductLoading } = useSelector((state) => state.allProducts);
   useEffect(() => {
-    Store.dispatch(loadUser());
+    dispatch(loadUser());
     dispatch(fetchShop());
     dispatch(getAllProducts());
-  }, []);
+  }, [dispatch]);
   return (
     <div className="font-Poppins">
       {loading || isSelLoading || isProductLoading ? (
