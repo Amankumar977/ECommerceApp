@@ -31,7 +31,7 @@ const ProfileSidebar = ({ active, setActive }) => {
       );
       toast.success(response.data.message);
       window.location.reload(true);
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       toast.error(error.response.data.message);
     }
