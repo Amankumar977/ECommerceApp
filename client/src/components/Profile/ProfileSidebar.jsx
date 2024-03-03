@@ -30,7 +30,6 @@ const ProfileSidebar = ({ active, setActive }) => {
         { withCredentials: true }
       );
       toast.success(response.data.message);
-      window.location.reload(true);
       navigate("/");
     } catch (error) {
       toast.error(error.response.data.message);
