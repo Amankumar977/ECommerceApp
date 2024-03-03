@@ -135,7 +135,6 @@ export async function handleLoginShop(req, res) {
           message: "Password is not correct, please enter the correct password",
         });
       }
-      console.log("here i'm", shop._id);
       sendShopToken(shop, 200, res);
     } catch (error) {
       return res.status(500).json({
