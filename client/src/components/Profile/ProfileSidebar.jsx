@@ -31,6 +31,7 @@ const ProfileSidebar = ({ active, setActive }) => {
       );
       toast.success(response.data.message);
       navigate("/");
+      window.location.reload(true);
     } catch (error) {
       toast.error(error.response.data.message);
     }
