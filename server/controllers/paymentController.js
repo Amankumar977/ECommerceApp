@@ -46,7 +46,7 @@ const createMongooseOrder = async (orderDetails) => {
 export async function handleStripeCheckOut(req, res) {
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-    const { products, discountedPercentage, orderDetails } = req.body;
+    const { discountedPercentage, orderDetails } = req.body;
 
     // Create the coupon
     const coupon = await stripe.coupons.create({
@@ -79,42 +79,52 @@ export async function handleStripeCheckOut(req, res) {
     });
 
     if (session) {
-      // Loop through products to update stock and create orders
-      for (let product of products) {
-        const item = await productModel.findById(product._id);
-        if (!item) {
-          throw new Error(`Product not found: ${product._id}`);
+      let products = orderDetails.products;
+      let orderMap = new Map();
+      for (let item of products) {
+        let shopId = item.shopId;
+        if (!orderMap.has(shopId)) {
+          orderMap.set(shopId, [item]);
+        } else {
+          orderMap.get(shopId).push(item);
         }
-        item.sold_out += 1;
-        item.stock -= 1;
-        await item.save();
       }
+      for (let [shopId, products] of orderMap.entries()) {
+        for (let product of products) {
+          const item = await productModel.findById(product._id);
+          if (!item) {
+            throw new Error(`Product not found: ${product._id}`);
+          }
+          item.sold_out += 1;
+          item.stock -= 1;
+          await item.save();
+        }
 
-      // Calculate final payment price
-      const finalPaymentPrice = products.reduce(
-        (total, item) => total + item.discountedPrice * item.quantity,
-        0
-      );
+        // Calculate final payment price
+        const finalPaymentPrice = products.reduce(
+          (total, item) => total + item.discountedPrice * item.quantity,
+          0
+        );
 
-      // Create the final order
-      const finalOrder = {
-        name: orderDetails.name,
-        email: orderDetails.email,
-        shippingInfo: orderDetails.shippingInfo,
-        phoneNumber: orderDetails.phoneNumber,
-        finalPaymentPrice: finalPaymentPrice,
-        discount: orderDetails.discount,
-        shippingCharges: orderDetails.shippingCharges,
-        customerId: orderDetails.customerId,
-        PaymentType: orderDetails.PaymentType,
-        products: products,
-        avatar: orderDetails.avatar,
-        PaymentStatus: "Received",
-      };
+        // Create the final order
+        const finalOrder = {
+          name: orderDetails.name,
+          email: orderDetails.email,
+          shippingInfo: orderDetails.shippingInfo,
+          phoneNumber: orderDetails.phoneNumber,
+          finalPaymentPrice: finalPaymentPrice,
+          discount: orderDetails.discount,
+          shippingCharges: orderDetails.shippingCharges,
+          customerId: orderDetails.customerId,
+          PaymentType: orderDetails.PaymentType,
+          products,
+          avatar: orderDetails.avatar,
+          PaymentStatus: "Received",
+        };
 
-      // Save the order
-      const order = await orderModel.create(finalOrder);
-      newCreatedOrderProductsId.push(order._id);
+        // Save the order
+        await orderModel.create(finalOrder);
+      }
 
       // Return the session ID to the frontend
       res.status(200).json({

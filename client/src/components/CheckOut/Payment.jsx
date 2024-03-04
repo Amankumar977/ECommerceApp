@@ -43,7 +43,6 @@ const Payment = ({ total }) => {
         `${import.meta.env.VITE_STRIPE_PUBLISH_KEY}`
       );
       const products = {
-        products: cart,
         orderDetails: orderDetails,
         discountedPercentage:
           Math.min(
