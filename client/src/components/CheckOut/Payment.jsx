@@ -35,7 +35,8 @@ const Payment = ({ total }) => {
       discount: latestOrder.discount,
       shippingCharges: latestOrder.shippingCharges,
       customerId: user._id,
-      PaymentType: "COD",
+      avatar: latestOrder.avatar,
+      PaymentType: "Credit/Debit Card",
     };
     try {
       const stripe = await loadStripe(
