@@ -108,6 +108,7 @@ export async function handleStripeCheckOut(req, res) {
         customerId: orderDetails.customerId,
         PaymentType: orderDetails.PaymentType,
         products: products,
+        avatar: orderDetails.avatar,
         PaymentStatus: "Received",
       };
 
