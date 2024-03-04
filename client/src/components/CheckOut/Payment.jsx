@@ -26,7 +26,7 @@ const Payment = ({ total }) => {
 
   const handleMakePaymentWithStripe = async () => {
     let orderDetails = {
-      products: productsId,
+      products: cart,
       name: latestOrder.name,
       email: latestOrder.email,
       shippingInfo: latestOrder.shippingInfo, // Corrected typo
