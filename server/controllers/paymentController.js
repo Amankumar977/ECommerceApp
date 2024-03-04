@@ -122,7 +122,7 @@ export async function handleStripeCheckOut(req, res) {
     }
   } catch (error) {
     console.error("Error creating checkout session:", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: `Internal Server Error ${error.message}` });
   }
 }
 
