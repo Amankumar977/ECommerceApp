@@ -8,7 +8,7 @@ import { AiOutlineSend } from "react-icons/ai";
 import { TfiGallery } from "react-icons/tfi";
 import SocketIO from "socket.io-client";
 import { format } from "timeago.js";
-const socketId = SocketIO(import.meta.env.VITE_END_POINT, {
+const socketId = SocketIO("https://peopelysocket-production.up.railway.app/", {
   transports: ["websocket"],
 });
 const DashBoardMessages = () => {

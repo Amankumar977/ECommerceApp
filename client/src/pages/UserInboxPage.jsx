@@ -11,7 +11,7 @@ import { TfiGallery } from "react-icons/tfi";
 import { FaArrowLeft } from "react-icons/fa";
 import { Input, Label } from "../components/form";
 import styles from "../styles/styles";
-const socketId = SocketIO(import.meta.env.VITE_END_POINT, {
+const socketId = SocketIO("https://peopelysocket-production.up.railway.app/", {
   transports: ["websocket"],
 });
 
