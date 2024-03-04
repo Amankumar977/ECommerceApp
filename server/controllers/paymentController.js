@@ -53,7 +53,7 @@ export async function handleStripeCheckOut(req, res) {
       percent_off: discountedPercentage,
       duration: "once",
     });
-
+    const products = orderDetails.products;
     // Map products to line items
     const lineItems = products.map((product) => ({
       price_data: {
