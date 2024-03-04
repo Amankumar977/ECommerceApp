@@ -85,7 +85,7 @@ function App() {
             />
             <Route path="/shop-login" element={<ShopLoginPage />} />
             <Route
-              path="/dashboard"
+              path="dashboard"
               element={
                 <SellerProtectedRoute>
                   <DashBoardPage />
@@ -172,7 +172,7 @@ function App() {
               path="/activation/:activation_Token"
               element={<ActivationPage />}
             />
-            <Route path="/products" element={<ProductsPage />} />
+            <Route path="products" element={<ProductsPage />} />
             <Route path="/products/:name" element={<ProductDetailsPage />} />
             <Route path="/shop/preview/:id" element={<ShopPreviewPage />} />
             <Route path="/best-selling" element={<BestSellingPage />} />
