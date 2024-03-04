@@ -68,34 +68,10 @@ const Payment = ({ total }) => {
 
       if (result.error) {
         console.error(result.error);
-        // Handle Stripe error, if any
         throw new Error("Stripe redirection error");
       }
-      if (result.paymentIntent && result.paymentIntent.status === "succeeded") {
-        let orderDetails = {
-          products: productsId,
-          name: latestOrder.name,
-          email: latestOrder.email,
-          shippingInfo: latestOrder.shippingInfo, // Corrected typo
-          phoneNumber: latestOrder.phoneNumber,
-          finalPaymentAmount: latestOrder.finalPaymentAmount,
-          discount: latestOrder.discount,
-          shippingCharges: latestOrder.shippingCharges,
-          customerId: user._id,
-          PaymentType: "Credit/ debit card",
-        };
-        dispatch(handleCreateOrder(orderDetails));
-        navigate("/orderSuccess");
-        toast.success("Order successful!");
-        dispatch(emptyCart([]));
-        localStorage.setItem("latestOrder", JSON.stringify([]));
-      } else {
-        console.error("Payment not succeeded or paymentIntent not received");
-        // Handle payment failure or unexpected result
-      }
     } catch (error) {
-      console.error("Error making payment:", error);
-      // Handle other errors, such as network issues or server errors
+      console.error("Error making payment:", error.message);
     }
   };
 

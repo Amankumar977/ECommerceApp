@@ -47,16 +47,17 @@ export async function handleStripeCheckOut(req, res) {
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const { products, discountedPercentage, orderDetails } = req.body;
-    await createMongooseOrder(orderDetails);
+
     // Create the coupon
     const coupon = await stripe.coupons.create({
       percent_off: discountedPercentage,
       duration: "once",
     });
+
     // Map products to line items
     const lineItems = products.map((product) => ({
       price_data: {
-        currency: "INR", // Ensure the currency is set to INR
+        currency: "INR",
         product_data: {
           name: product.name,
           images: [product.images[0]],
@@ -74,9 +75,47 @@ export async function handleStripeCheckOut(req, res) {
       success_url: `${process.env.FRONTEND_URL}/orderSuccess`,
       cancel_url: `${process.env.FRONTEND_URL}/unsucessfullOrder`,
       discounts: [{ coupon: coupon.id }], // Use the coupon ID
-      billing_address_collection: "required", // Require customer to provide billing address
+      billing_address_collection: "required",
     });
+
     if (session) {
+      // Loop through products to update stock and create orders
+      for (let product of products) {
+        const item = await productModel.findById(product._id);
+        if (!item) {
+          throw new Error(`Product not found: ${product._id}`);
+        }
+        item.sold_out += 1;
+        item.stock -= 1;
+        await item.save();
+      }
+
+      // Calculate final payment price
+      const finalPaymentPrice = products.reduce(
+        (total, item) => total + item.discountedPrice * item.quantity,
+        0
+      );
+
+      // Create the final order
+      const finalOrder = {
+        name: orderDetails.name,
+        email: orderDetails.email,
+        shippingInfo: orderDetails.shippingInfo,
+        phoneNumber: orderDetails.phoneNumber,
+        finalPaymentPrice: finalPaymentPrice,
+        discount: orderDetails.discount,
+        shippingCharges: orderDetails.shippingCharges,
+        customerId: orderDetails.customerId,
+        PaymentType: orderDetails.PaymentType,
+        products: products,
+        PaymentStatus: "Received",
+      };
+
+      // Save the order
+      const order = await orderModel.create(finalOrder);
+      newCreatedOrderProductsId.push(order._id);
+
+      // Return the session ID to the frontend
       res.status(200).json({
         id: session.id,
       });
@@ -87,6 +126,7 @@ export async function handleStripeCheckOut(req, res) {
   }
 }
 
+/**Razorpay start */
 const razorpayInstance = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
