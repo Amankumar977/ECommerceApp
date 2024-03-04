@@ -21,7 +21,7 @@ app.use(urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("tiny"));
 app.disable("x-powered-by");
-app.get("/ping", (req, res) => {
+app.get("/", (req, res) => {
   res.send("<h1>Hello From Socket IO</h1>");
 });
 // creating the users
