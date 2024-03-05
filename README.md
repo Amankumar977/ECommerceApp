@@ -23,9 +23,13 @@ The Live customer is implemented with tawk.to
 Utilized React for building interactive user interfaces.
 Employed Redux for efficient state management.
 Enhanced styling and design with TailwindCSS.
+
+
 **Server:**
 Leveraged Node.js for server-side JavaScript execution.
 Utilized Express.js to streamline backend development and API routing.
+
+
 **Real-Time Chat:**
 Implemented real-time communication functionality using Socket.IO, facilitating seamless interaction between clients.
 
