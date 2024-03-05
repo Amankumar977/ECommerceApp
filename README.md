@@ -11,6 +11,7 @@ The real-time chat feature is implemented using the WebSocket library Socket.IO,
 ## How 
 
 https://drive.google.com/file/d/1CvF4atr7Cim4pgP7vwsWcnvGzWluJujh/view?usp=sharing
+![Peopely-ezgif com-optimize](https://github.com/Amankumar977/ECommerceApp/assets/108085304/c0039346-4ae1-41fa-9d08-80b6bde48e39)
 
 
 ## Appendix
