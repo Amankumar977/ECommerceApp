@@ -9,9 +9,9 @@ On the backend, Node.js and Express.js form the foundation, while JWT (JSON Web 
 
 The real-time chat feature is implemented using the WebSocket library Socket.IO, ensuring smooth and instantaneous communication between users.
 ## Demo GIFs
-<img src="https://github.com/Amankumar977/ECommerceApp/assets/108085304/c0039346-4ae1-41fa-9d08-80b6bde48e39" width="450" height="300">
+<img src="https://github.com/Amankumar977/ECommerceApp/assets/108085304/c0039346-4ae1-41fa-9d08-80b6bde48e39" width="300" height="300">
 
-<img src="https://github.com/Amankumar977/ECommerceApp/assets/108085304/c91dcc37-b573-40b6-a917-53aa2e19a367" width="450" height="300">
+<img src="https://github.com/Amankumar977/ECommerceApp/assets/108085304/c91dcc37-b573-40b6-a917-53aa2e19a367" width="300" height="300">
 
 ## Appendix
 
