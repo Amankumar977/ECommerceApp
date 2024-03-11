@@ -1,4 +1,3 @@
-
 # Peopely- A full stack MERN Project
 
 This is a comprehensive MERN (MongoDB, Express.js, React, Node.js) project featuring full responsiveness and dynamic elements like a real-time admin dashboard and chat functionality using Socket.IO.
@@ -8,15 +7,14 @@ For the frontend, I utilized React along with Redux Toolkit for efficient state 
 On the backend, Node.js and Express.js form the foundation, while JWT (JSON Web Tokens) and Bcrypt bolster security and authentication. Nodemailer facilitates seamless email communication.
 
 The real-time chat feature is implemented using the WebSocket library Socket.IO, ensuring smooth and instantaneous communication between users.
-## How 
 
-https://drive.google.com/file/d/1CvF4atr7Cim4pgP7vwsWcnvGzWluJujh/view?usp=sharing
+## How
 
+![Alt Text](https://drive.google.com/uc?export=download&id=15_pAI6AlUDZo8qPVa7bTvpwoEoZIBxUm)
 
 ## Appendix
 
 Any additional information goes here
-
 
 ## Tech Stack
 
@@ -25,4 +23,3 @@ Any additional information goes here
 **Server:** Node, Express
 
 **Real Time chat:** SOCKET IO
-

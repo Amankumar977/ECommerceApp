@@ -10,7 +10,7 @@ async function sendMail(options) {
   };
   let transpoter = nodemailer.createTransport(config);
   let mailGenerator = new Mailgen({
-    theme: "Default",
+    theme: "default",
     product: {
       name: "Peopely",
       link: `${process.env.FRONTEND_URL}/sing-up`,

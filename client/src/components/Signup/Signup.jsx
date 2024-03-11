@@ -29,13 +29,11 @@ const Singup = () => {
         Accept: "application/json",
       },
     };
-    // Fix: change "Headers" to "headers"
     const newForm = new FormData();
     newForm.append("avatar", avatar);
     newForm.append("name", fullName);
     newForm.append("email", email);
     newForm.append("password", password);
-
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_SERVER}/user/create-user`,
@@ -50,6 +48,7 @@ const Singup = () => {
       setPassword("");
     } catch (error) {
       if (error.response && error.response.data) {
+        console.log(error.response);
         toast.error(error.response.data.message);
       } else {
         toast.error("An error occurred while processing your request");
